@@ -1,7 +1,7 @@
 # CLAUDE.md
 
 ## What this is
-Static marketing site for **levy-platform.com** (Levy Platform — custom business platforms), hosted on GitHub Pages from `main` of https://github.com/Matan2502/levy-platform-site. Backup URL: https://matan2502.github.io/levy-platform-site/.
+Static marketing site for **levy-platform.com** (Levy Platform — custom business platforms), hosted on GitHub Pages from `main` of https://github.com/levy-platform/levy-platform-site. Backup URL: https://matan2502.github.io/levy-platform-site/.
 
 ## Structure
 - `index.html` — the main site markup: Hebrew, `lang="he" dir="rtl"`, Heebo font. All graphics are inline `<svg>` icons (no base64 images). Styles and behavior are split out (below).
@@ -10,6 +10,10 @@ Static marketing site for **levy-platform.com** (Levy Platform — custom busine
 - `learn-api/index.html` — standalone Hebrew/RTL API practice page (live requests to `https://api.frankfurter.dev/v1/latest`), styled to match the main site. Deliberately self-contained (its own inline CSS/JS) as a single teaching file.
 - `email-signature.html` — HTML email signature; intentionally keeps CSS inline (mail clients strip external styles). Do not split it.
 - `CNAME` — contains `levy-platform.com`; connects the custom domain to GitHub Pages.
+- `amirnet/` — Amirnet (English placement test) prep app, live at levy-platform.com/amirnet/. `index.html` is GENERATED — edit `_amirnet_src/page.html` and run `python3 -I _amirnet_src/build.py`. The JSON files are the content (vocab, questions, lessons, past-exam keys, updates).
+- `_amirnet_src/` — not served (Jekyll skips `_` folders): `page.html` (single source, also published as the claude.ai artifact https://claude.ai/artifact/FzAoZE5YbUduteKbLLbJj7), `build.py`, `nite_snapshot.json` (facts for the weekly NITE check), `plan.html` (original study plan).
+- `_firebase/` — Firebase project `amirnet-levy` config: Firestore rules (each user reads/writes only `users/{uid}/...`), email/password auth. Deploy with `firebase deploy --only firestore --project amirnet-levy` from that folder.
+- A weekly scheduled task ("עדכון שבועי לאתר מכינת אמירנט") checks NITE's site, updates `amirnet/updates.json`/`lessons.json`, rebuilds, pushes to main and republishes the artifact.
 - `deploy.sh` — publish script (see below).
 - `edit.command` / `publish.command` — double-click helpers for the owner; gitignored (local-only) along with `.vscode/`, `dbg*.html`, `*.tmp`.
 

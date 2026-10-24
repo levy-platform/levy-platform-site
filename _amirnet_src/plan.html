@@ -1,0 +1,303 @@
+<title>תוכנית אמירנט 134</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Assistant:wght@400;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: a single reading column styled like a NITE answer booklet — graphite ink, answer-sheet bubbles as checkboxes, one highlighter accent. */
+:root{
+  --paper:#f7f8f5; --sheet:#ffffff; --ink:#1d2430; --muted:#5b6472; --rule:#d9ddd6;
+  --accent:#1f5fa8; --mark:#ffe66b; --good:#2f7d4f; --warn:#b5651d;
+  --display:"Frank Ruhl Libre", "David", Georgia, serif;
+  --body:"Assistant", "Arial Hebrew", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#14181e; --sheet:#1b2028; --ink:#e6e9ee; --muted:#9aa3b0; --rule:#2e3540;
+  --accent:#7fb2ee; --mark:#6b5a12; --good:#6cc58f; --warn:#e3a35c; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --paper:#14181e; --sheet:#1b2028; --ink:#e6e9ee; --muted:#9aa3b0; --rule:#2e3540;
+  --accent:#7fb2ee; --mark:#6b5a12; --good:#6cc58f; --warn:#e3a35c; color-scheme:dark }
+html{direction:rtl}
+body{background:var(--paper);color:var(--ink);font:17px/1.65 var(--body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 64px}
+.wrap{max-width:820px;margin:0 auto;display:flex;flex-direction:column;gap:40px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;line-height:1.2;margin:0}
+h1{font-size:clamp(2rem,6vw,3rem);font-weight:900}
+h2{font-size:1.6rem;font-weight:700;padding-bottom:6px;border-bottom:2px solid var(--ink)}
+h3{font-size:1.15rem;font-weight:700}
+p{margin:0}
+section{display:flex;flex-direction:column;gap:16px}
+.eyebrow{font:500 .8rem var(--mono);letter-spacing:.08em;color:var(--muted);text-transform:uppercase}
+.lede{font-size:1.1rem;color:var(--muted);max-width:62ch}
+mark{background:var(--mark);color:inherit;padding:0 .15em}
+a{color:var(--accent);text-underline-offset:3px}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+.en{direction:ltr;unicode-bidi:isolate;font-family:var(--body)}
+ul{margin:0;padding-inline-start:1.2em;display:flex;flex-direction:column;gap:6px}
+
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.facts div{background:var(--sheet);padding:14px 16px;display:flex;flex-direction:column;gap:2px}
+.facts b{font:500 1.5rem var(--mono);font-variant-numeric:tabular-nums}
+.facts span{color:var(--muted);font-size:.92rem}
+
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.95rem;background:var(--sheet)}
+th,td{border:1px solid var(--rule);padding:8px 10px;text-align:right;vertical-align:top}
+th{font-weight:700;background:var(--paper)}
+td.num,th.num{text-align:center}
+
+/* calculator */
+.calc{background:var(--sheet);border:1px solid var(--rule);padding:20px;display:flex;flex-direction:column;gap:14px}
+.calc-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.calc input{font:500 1.4rem var(--mono);width:5.5em;padding:6px 10px;border:2px solid var(--ink);background:var(--paper);color:var(--ink);direction:ltr;text-align:center}
+.out{font-size:1.1rem}
+.out strong{font:500 2rem var(--mono)}
+.pill{display:inline-block;padding:2px 10px;border:1.5px solid currentColor;border-radius:99px;font-weight:700;font-size:.9rem}
+.bar{direction:ltr;position:relative;height:14px;background:var(--paper);border:1px solid var(--rule)}
+.bar i{position:absolute;inset-block:0;inset-inline-start:0;background:var(--accent);transition:width .25s}
+.bar s{position:absolute;inset-block:-4px;width:2px;background:var(--ink)}
+.ticks{display:flex;justify-content:space-between;font:500 .75rem var(--mono);color:var(--muted);direction:ltr}
+
+/* weeks */
+.week{background:var(--sheet);border:1px solid var(--rule);display:flex;flex-direction:column}
+.week header{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;align-items:baseline;padding:14px 18px;border-bottom:1px solid var(--rule)}
+.week header p{color:var(--muted);font-size:.95rem}
+.prog{font:500 .85rem var(--mono);color:var(--muted)}
+.task{display:flex;gap:12px;align-items:flex-start;padding:10px 18px;border-bottom:1px solid var(--rule);cursor:pointer}
+.task:last-child{border-bottom:0}
+.task input{appearance:none;flex:none;width:20px;height:20px;margin-top:4px;border:2px solid var(--ink);border-radius:50%;cursor:pointer;background:transparent}
+.task input:checked{background:var(--ink);box-shadow:inset 0 0 0 3px var(--sheet)}
+.task input:checked + span{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--muted)}
+.task small{display:block;color:var(--muted);font-size:.88rem}
+
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.cols > div{min-width:0;display:flex;flex-direction:column;gap:8px}
+.note{border-inline-start:4px solid var(--warn);padding:10px 14px;background:var(--sheet)}
+.pdfs{display:flex;flex-wrap:wrap;gap:8px}
+.pdfs a{font:500 .85rem var(--mono);padding:4px 10px;border:1px solid var(--rule);background:var(--sheet);text-decoration:none}
+.pdfs a.late{border-color:var(--accent)}
+footer{color:var(--muted);font-size:.9rem;display:flex;flex-direction:column;gap:6px}
+button.reset{font:inherit;font-size:.9rem;background:none;border:1px solid var(--rule);color:var(--muted);padding:4px 12px;cursor:pointer;align-self:flex-start}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+</style>
+
+<div class="wrap">
+
+<header style="display:flex;flex-direction:column;gap:12px">
+  <span class="eyebrow">אמירנט · מאל"ו · מעודכן אוקטובר 2026</span>
+  <h1>מ־0 לפטור: תוכנית 6 שבועות לאמירנט</h1>
+  <p class="lede">היעד הוא ציון <span class="num">134</span>, שבמרבית המוסדות נותן פטור מאנגלית. התוכנית בנויה על חומר רשמי של מאל"ו בלבד: <mark>880 שאלות אנגלית אמיתיות</mark> מ־20 מבחנים פסיכומטריים שפורסמו, 5 מבחני אמי"ר ו־3 סימולציות אמירנט. כ־90 דקות ביום.</p>
+</header>
+
+<section>
+  <h2>המבחן במספרים</h2>
+  <div class="facts">
+    <div><b class="num">23</b><span>שאלות קובעות ציון, ב־6 פרקים</span></div>
+    <div><b class="num">~50</b><span>דקות בסך הכול, זמן נפרד לכל פרק</span></div>
+    <div><b class="num">50–150</b><span>סולם הציון, זהה לאנגלית בפסיכומטרי</span></div>
+    <div><b class="num">12/23</b><span>שאלות הן השלמת משפטים, כלומר אוצר מילים</span></div>
+  </div>
+  <div class="scroll"><table>
+    <tr><th>פרק</th><th>סוג</th><th class="num">שאלות</th><th class="num">זמן</th><th class="num">לשאלה</th></tr>
+    <tr><td class="num">1, 2, 6</td><td>השלמת משפטים <span class="en">(Sentence Completion)</span></td><td class="num">4</td><td class="num">4′</td><td class="num">60″</td></tr>
+    <tr><td class="num">3</td><td>הבנת הנקרא, קטע עם 5 שאלות</td><td class="num">5</td><td class="num">15′</td><td class="num">~3′</td></tr>
+    <tr><td class="num">4, 5</td><td>ניסוח מחדש <span class="en">(Restatements)</span></td><td class="num">3</td><td class="num">6′</td><td class="num">2′</td></tr>
+    <tr><td class="num">7–8</td><td>ניסיוני: דקדוק בהקשר, יצירת מילה, האזנה, או מטלת כתיבה (12′)</td><td class="num">4–5</td><td class="num">3–7′</td><td>עד +2 נק׳, אין הורדה</td></tr>
+  </table></div>
+  <ul>
+    <li><b>המבחן אדפטיבי.</b> פרק 1 בקושי בינוני, וכל פרק נבחר לפי הביצועים עד אליו. דיוק בפרקים הראשונים פותח את הפרקים הקשים, ורק הם מובילים לציונים הגבוהים.</li>
+    <li><b>שאלה ריקה נחשבת טעות.</b> תמיד מנחשים. חוזרים אחורה רק בתוך אותו פרק, וזמן שנשאר לא עובר לפרק הבא.</li>
+    <li><b>ההבדל מהפסיכומטרי:</b> סוגי השאלות ורמת הקושי זהים, ולכן מבחני העבר של הפסיכומטרי הם מאגר התרגול הטוב ביותר שיש.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>מחשבון: כמה אני צריך לפתור נכון?</h2>
+  <p>פותרים את שני פרקי האנגלית ממבחן פסיכומטרי (44 שאלות, 2×20 דקות) ומזינים כמה תשובות נכונות היו. ההמרה לקוחה מטבלת מאל"ו של מועד קיץ 2025. הטבלה משתנה מעט בין מועדים, בדרך כלל בנקודה או שתיים.</p>
+  <div class="calc">
+    <div class="calc-row">
+      <label for="raw">תשובות נכונות מתוך <span class="num">44</span>:</label>
+      <input id="raw" type="number" min="0" max="44" value="30" inputmode="numeric">
+      <div class="out">ציון משוער <strong id="scale" class="num">113</strong></div>
+      <span id="lvl" class="pill">מתקדמים א'</span>
+    </div>
+    <div class="bar" aria-hidden="true"><i id="fill"></i><s style="inset-inline-start:calc(84%)"></s></div>
+    <div class="ticks"><span>50</span><span>100</span><span>150</span></div><p style="font-size:.85rem;color:var(--muted)">הקו השחור מסמן את <span class="num">134</span>.</p>
+    <p id="gap" style="color:var(--muted)"></p>
+  </div>
+  <div class="scroll"><table>
+    <tr><th>רמה (לפי דוגמת הטכניון)</th><th class="num">ציון</th><th class="num">נכונות מתוך 44 בערך</th><th class="num">אחוז הצלחה</th></tr>
+    <tr><td><b>פטור</b></td><td class="num">134+</td><td class="num">39</td><td class="num">89%</td></tr>
+    <tr><td>מתקדמים ב'</td><td class="num">120–133</td><td class="num">33–38</td><td class="num">75%</td></tr>
+    <tr><td>מתקדמים א'</td><td class="num">104–119</td><td class="num">27–32</td><td class="num">61%</td></tr>
+    <tr><td>בסיסי</td><td class="num">88–103</td><td class="num">20–26</td><td class="num">45%</td></tr>
+  </table></div>
+  <p class="note">הספים נקבעים בכל מוסד בנפרד. הטבלה מבוססת על הטכניון. לפני שקובעים יעד, כדאי לבדוק את הספים של המוסד שלך. המסקנה העיקרית: לפטור צריך כ־<b>5 טעויות לכל היותר מתוך 44</b>, ולכן כמעט כל שאלת השלמה חייבת להיות נכונה.</p>
+</section>
+
+<section>
+  <h2>ארבעה עקרונות שמקצרים את הדרך</h2>
+  <div class="cols">
+    <div><h3>1. מילים קודם</h3><p>הדרך המהירה ביותר להעלות ציון. כל יום 30 מילים חדשות וחזרה בשיטת חזרה מרווחת (<span class="en">Anki</span> חינמי). כל מילה שלא הכרת במבחן עבר נכנסת לחפיסה. מילים שמאל"ו כבר שאל הן המילים שהוא ישאל שוב.</p></div>
+    <div><h3>2. יומן טעויות</h3><p>כל טעות מסווגת לאחת מארבע קטגוריות: <b>מילה לא מוכרת</b>, <b>מלכודת</b> (שלילה, כמת, זמן), <b>קריאה רשלנית</b>, <b>זמן</b>. אחרי שבוע רואים מה באמת מוריד ניקוד ומטפלים רק בזה.</p></div>
+    <div><h3>3. סוג, אחר כך זמן, אחר כך מבחן</h3><p>שבועות 1–2: תרגול לפי סוג שאלה בלי שעון. שבועות 3–4: פרקים עם שעון. שבועות 5–6: מבחנים מלאים. המבחנים האחרונים (2025–2026) נשמרים לסוף כסימולציות "נקיות".</p></div>
+    <div><h3>4. ממשק אמיתי</h3><p>הסימולציות של אמירנט רצות בממשק של המבחן עצמו. שלוש הן מעט, ולכן לא משתמשים בהן לאבחון ראשוני: אחת לבדיקה ביום 1, ושתיים בשבוע האחרון.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>טכניקה לפי סוג שאלה</h2>
+  <div class="cols">
+    <div>
+      <h3>השלמת משפטים · <span class="num">60″</span></h3>
+      <ul>
+        <li>קוראים את המשפט ומנחשים את המילה <b>לפני</b> שמסתכלים על התשובות.</li>
+        <li>מחפשים מילות כיוון: <span class="en">although, despite, however</span> מסמנות ניגוד, ו־<span class="en">therefore, thus, because</span> מסמנות המשך.</li>
+        <li>כשלא מכירים מילה, פוסלים את המילים שמכירים ולא מתאימות.</li>
+        <li>השאלות מסודרות מהקלה לקשה, ולכן לא נתקעים בשאלה 4.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>ניסוח מחדש · <span class="num">2′</span></h3>
+      <ul>
+        <li>מפרקים את המשפט המקורי לרעיון מרכזי ולמגבלות שלו.</li>
+        <li>פוסלים תשובה שמשנה <b>שלילה</b> (<span class="en">hardly, rarely</span>), <b>כמת</b> (<span class="en">some → all</span>), <b>זמן</b>, או <b>כיוון סיבה ותוצאה</b>.</li>
+        <li>תשובה שמוסיפה מידע או מסקנה שאין במקור נפסלת.</li>
+        <li>התשובה הנכונה בדרך כלל זהירה ו"משעממת".</li>
+      </ul>
+    </div>
+    <div>
+      <h3>הבנת הנקרא · <span class="num">~3′</span></h3>
+      <ul>
+        <li>קריאה ראשונה מהירה: נושא, ומה התפקיד של כל פסקה.</li>
+        <li>השאלות מסודרות לפי סדר הקטע. מחפשים את המקום המתאים וקוראים אותו לעומק.</li>
+        <li>כל תשובה צריכה משפט בטקסט שמבסס אותה. "נשמע הגיוני" לא מספיק.</li>
+        <li>שאלת "מטרת הכותב" או "כותרת" פותרים בסוף.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>התוכנית, שבוע אחרי שבוע</h2>
+  <p>מסמנים כל משימה שהושלמה. הסימונים נשמרים בדפדפן הזה בלבד.</p>
+  <div id="weeks" style="display:flex;flex-direction:column;gap:20px"></div>
+  <button class="reset" id="reset" type="button">ניקוי כל הסימונים</button>
+</section>
+
+<section>
+  <h2>מאגר החומר הרשמי</h2>
+  <h3>1. סימולציות אמירנט: 3 מבחנים בממשק האמיתי</h3>
+  <p><a href="https://amirnet-practice.nite.org.il/amirnet.html" target="_blank" rel="noopener">כניסה לסימולציה</a> (דפדפן <span class="en">Chrome</span>, רזולוציה <span class="num">1920×1080</span>) · מפתחות תשובות:
+    <a href="https://www.nite.org.il/wp-content/uploads/2024/11/amirnet-answer-key-test-1.pdf" target="_blank" rel="noopener">1</a> ·
+    <a href="https://www.nite.org.il/wp-content/uploads/2024/11/amirnet-answer-key-test-2.pdf" target="_blank" rel="noopener">2</a> ·
+    <a href="https://www.nite.org.il/wp-content/uploads/2026/03/amirnet-answer-key-test-3.pdf" target="_blank" rel="noopener">3</a></p>
+  <h3>2. 20 מבחנים פסיכומטריים עם פרקי אנגלית: 880 שאלות</h3>
+  <p>בכל מבחן יש שני פרקי אנגלית של 22 שאלות ו־20 דקות, מפתח תשובות וטבלת המרה לציון. המבחנים המסומנים בכחול (2025–2026) נשמרים לשבועות 5–6.</p>
+  <div class="pdfs" id="pdfs"></div>
+  <h3>3. חוברת אמי"ר: הסברים, דוגמאות ו־5 מבחנים</h3>
+  <p><a href="https://www.nite.org.il/files/amir/amir_guide.pdf" target="_blank" rel="noopener">חוברת ההדרכה לבחינת אמי"ר</a>. כוללת שאלות לדוגמה עם הסברים וטבלאות אומדן. לפי מאל"ו, הציונים בבחינות ההתנסות בחוברת תואמים מאוד את הציונים בבחינה האמיתית. ציון אמי"ר שווה ערך לסולם של אמירנט, בהפרש של 100 (234 באמי"ר שווה 134).</p>
+  <h3>4. מידע רשמי</h3>
+  <p><a href="https://www.nite.org.il/other-tests/amirnet/tips" target="_blank" rel="noopener">טיפים לנבחנים</a> · <a href="https://www.nite.org.il/other-tests/amirnet/faq" target="_blank" rel="noopener">שאלות נפוצות</a> · <a href="https://nite.org.il/wp-content/uploads/2024/12/amirnet-presentation.pdf" target="_blank" rel="noopener">מצגת הסבר על אמירנט</a> · <a href="https://www.nite.org.il/other-tests/amirnet/" target="_blank" rel="noopener">הרשמה</a> (<span class="num">315</span> ₪)</p>
+</section>
+
+<section>
+  <h2>לוגיסטיקה שכדאי לתכנן</h2>
+  <ul>
+    <li><b>לקבוע תאריך מבחן כבר עכשיו</b>, כ־6 שבועות קדימה. מבחן מתוכנן מוסיף משמעת.</li>
+    <li><b>מועד שני:</b> בין מבחן למבחן צריך לחכות לפחות 35 יום. אם לא מגיעים ליעד בפעם הראשונה, ממשיכים בשבועות 5–6 ונבחנים שוב.</li>
+    <li>הציון מתפרסם בתוך כ־10 ימי עבודה, באזור האישי באתר מאל"ו.</li>
+    <li>במבחן: מגיעים 20 דקות לפני הזמן, מביאים עיפרון ומחק (מותר דף טיוטה אחד), ובקבוק סגור מותר.</li>
+    <li class="note" style="list-style:none;margin-inline-start:-1.2em">החל מ־2027 יתווספו בהדרגה חלקי האזנה וכתיבה. אם המבחן שלך ב־2027, כדאי להוסיף 15 דקות ביום של האזנה, למשל פודקאסט או הרצאה אקדמית באנגלית, ופסקת כתיבה אחת בשבוע.</li>
+  </ul>
+</section>
+
+<footer>
+  <p>מקורות: אתר מאל"ו (nite.org.il): דף אמירנט, טיפים, שאלות נפוצות, מצגת אמירנט, חוברת אמי"ר, ועמוד מבחני תרגול תלת־תחומיים. טבלת ההמרה: "חישוב אומדן ציוני הבחינה", מועד קיץ 2025. ספי הרמות: פורטל הסטודנטים של הטכניון.</p>
+</footer>
+</div>
+
+<script>
+// English raw (of 44) -> uniform scale, from NITE summer 2025 conversion table; values below 20 interpolated toward 50
+const T={20:88,21:91,22:93,23:96,24:98,25:101,26:103,27:106,28:108,29:111,30:113,31:115,32:118,33:120,34:123,35:125,36:127,37:130,38:132,39:135,40:138,41:141,42:144,43:147,44:150};
+function toScale(r){ if(r>=20) return T[r]; return Math.round(50+(88-50)*r/20); }
+function level(s){
+  if(s>=134) return ["פטור","var(--good)"];
+  if(s>=120) return ["מתקדמים ב'","var(--accent)"];
+  if(s>=104) return ["מתקדמים א'","var(--accent)"];
+  if(s>=88) return ["בסיסי","var(--warn)"];
+  return ["טרום בסיסי","var(--warn)"];
+}
+const raw=document.getElementById('raw');
+function calc(){
+  let r=Math.max(0,Math.min(44,parseInt(raw.value,10)||0));
+  const s=toScale(r), [l,c]=level(s);
+  document.getElementById('scale').textContent=s;
+  const lv=document.getElementById('lvl'); lv.textContent=l; lv.style.color=c;
+  document.getElementById('fill').style.width=((s-50)/100*100)+'%';
+  const need=Math.max(0,39-r);
+  document.getElementById('gap').textContent= need? `עוד ${need} תשובות נכונות מתוך 44, ואתה בטווח הפטור.` : 'אתה בטווח הפטור. עכשיו המטרה היא יציבות: לחזור על התוצאה בשלושה מבחנים ברצף.';
+}
+raw.addEventListener('input',calc); calc();
+
+// past exams with English (three-domain)
+const seasons=[["winter",2021],["spring",2022],["summer",2022],["autumn",2022],["winter",2022],["spring",2023],["summer",2023],["autumn",2023],["winter",2023],["spring",2024],["summer",2024],["autumn",2024],["winter",2024],["spring",2025],["summer",2025],["autumn",2025],["winter",2025],["spring",2026],["summer",2026],["autumn",2026]];
+const he={winter:"חורף",spring:"אביב",summer:"קיץ",autumn:"סתיו"};
+document.getElementById('pdfs').innerHTML=seasons.map(([s,y])=>`<a class="${y>=2025?'late':''}" target="_blank" rel="noopener" href="https://www.nite.org.il/wp-content/uploads/2026/10/psychometric_${s}_${y}_td.pdf">${he[s]} ${y}</a>`).join('');
+
+// weekly plan
+const W=[
+ {t:"שבוע 1 · אבחון ובסיס",d:"להבין איפה אתה עומד ולהקים את מנוע המילים",k:[
+  ["יום 1: סימולציית אמירנט 1 בממשק האמיתי","להכיר את הממשק ואת לחץ הזמן. לא לנתח לעומק."],
+  ["יום 2: אבחון. שני פרקי אנגלית מחורף 2021, עם שעון (2×20′)","להזין את התוצאה במחשבון למעלה. זו נקודת הפתיחה."],
+  ["להקים חפיסת Anki ולהכניס אליה כל מילה לא מוכרת מהאבחון",""],
+  ["כל יום: 30 מילים חדשות וחזרה (כ־25 דקות)","הרגל קבוע מכאן ועד יום המבחן."],
+  ["לקרוא בחוברת אמי\"ר את פרק הדוגמאות וההסברים לשלושת סוגי השאלות",""],
+  ["השלמת משפטים בלי שעון: שאלות 1–8 מ־4 פרקים (אביב–סתיו 2022)","32 שאלות. לכל טעות: למה, ומה הייתה המילה."],
+ ]},
+ {t:"שבוע 2 · טכניקה לפי סוג",d:"לבנות שיטה קבועה לכל סוג שאלה",k:[
+  ["ניסוח מחדש בלי שעון: שאלות 9–12 מ־8 פרקים (2022)","32 שאלות. לסמן איזו מלכודת הייתה בכל תשובה שגויה."],
+  ["הבנת הנקרא: 4 קטעים מ־2022, ובכל תשובה לסמן את המשפט שמבסס אותה",""],
+  ["השלמת משפטים: עוד 6 פרקים מחורף 2022 עד אביב 2023",""],
+  ["יומן טעויות: לסכם את הקטגוריה השכיחה ביותר שלך",""],
+  ["סוף שבוע: מבחן אמי\"ר 1 מהחוברת, בתנאי מבחן","להשוות לאבחון."],
+ ]},
+ {t:"שבוע 3 · עבודה עם שעון",d:"פרקים שלמים בזמן אמת",k:[
+  ["4 פרקי אנגלית עם שעון (קיץ 2023 עד חורף 2023)","20′ לפרק. ניתוח טעויות באותו יום."],
+  ["תרגול מהירות: 8 שאלות השלמה ב־8 דקות, 3 פעמים בשבוע","מכינים את הקצב של אמירנט: 4 שאלות ב־4 דקות."],
+  ["חזרה ממוקדת על הקטגוריה החלשה מיומן הטעויות",""],
+  ["מבחן אמי\"ר 2 מהחוברת",""],
+ ]},
+ {t:"שבוע 4 · עבודה עם שעון ומבחנים",d:"להפוך דיוק להרגל תחת לחץ",k:[
+  ["6 פרקי אנגלית עם שעון (אביב 2024 עד חורף 2024)",""],
+  ["מבחן אמי\"ר 3 מהחוברת",""],
+  ["חזרה על כל המילים שסומנו כקשות ב־Anki",""],
+  ["בדיקת התקדמות: שני פרקים מחורף 2024, ציון במחשבון","היעד באמצע הדרך: 33 נכונות ומעלה (מתקדמים ב')."],
+ ]},
+ {t:"שבוע 5 · סימולציות נקיות",d:"מבחנים שלא ראית, בתנאים מלאים",k:[
+  ["סימולציה: אביב 2025, שני פרקים ברצף",""],
+  ["סימולציה: קיץ 2025",""],
+  ["סימולציה: סתיו 2025",""],
+  ["מבחן אמי\"ר 4 מהחוברת",""],
+  ["אחרי כל סימולציה: ניתוח טעויות והכנסת מילים לחפיסה",""],
+ ]},
+ {t:"שבוע 6 · ממשק אמיתי וחידוד",d:"להגיע ליום המבחן חד ורגוע",k:[
+  ["סימולציית אמירנט 2 בממשק האמיתי",""],
+  ["סימולציה: חורף 2025 ואביב 2026",""],
+  ["סימולציית אמירנט 3, 3–4 ימים לפני המבחן",""],
+  ["מבחן אמי\"ר 5 מהחוברת",""],
+  ["קיץ וסתיו 2026: לשמור כגיבוי למועד שני, או לפתור אם יש זמן",""],
+  ["יומיים אחרונים: רק חזרה על המילים ועל יומן הטעויות, בלי חומר חדש",""],
+ ]},
+];
+let st={}; try{st=JSON.parse(localStorage.getItem('amirnet-plan')||'{}')}catch(e){}
+function save(){try{localStorage.setItem('amirnet-plan',JSON.stringify(st))}catch(e){}}
+const box=document.getElementById('weeks');
+box.innerHTML=W.map((w,i)=>`<article class="week"><header><div><h3>${w.t}</h3><p>${w.d}</p></div><span class="prog" id="p${i}"></span></header>${
+  w.k.map(([a,b],j)=>`<label class="task"><input type="checkbox" id="t${i}_${j}" ${st[`t${i}_${j}`]?'checked':''}><span>${a}${b?`<small>${b}</small>`:''}</span></label>`).join('')}</article>`).join('');
+function prog(){W.forEach((w,i)=>{const n=w.k.filter((_,j)=>st[`t${i}_${j}`]).length;document.getElementById('p'+i).textContent=`${n}/${w.k.length}`;});}
+box.addEventListener('change',e=>{if(e.target.type==='checkbox'){st[e.target.id]=e.target.checked;save();prog();}});
+document.getElementById('reset').addEventListener('click',()=>{st={};save();box.querySelectorAll('input').forEach(x=>x.checked=false);prog();});
+prog();
+</script>
