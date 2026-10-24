@@ -1,0 +1,1255 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="מכינת אמירנט: שיעורים, 3,900 מילים, מאות שאלות בפורמט המבחן, סימולציה בממשק המבחן ו-20 מבחני עבר רשמיים. מתכוננים לפטור באנגלית.">
+<meta name="theme-color" content="#1c2330">
+<meta property="og:title" content="מכינת אמירנט">
+<meta property="og:description" content="כל מה שצריך כדי להגיע לפטור באנגלית במבחן אמירנט.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231c2330'/%3E%3Ctext x='32' y='43' font-size='30' font-family='Georgia' text-anchor='middle' fill='%23ffe46b'%3EA%3C/text%3E%3C/svg%3E">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
+<script>window.FIREBASE_CONFIG={apiKey:"AIzaSyCLQ-OzqUBfLFhmlJVChS9BmhvnzFnEyyQ",authDomain:"amirnet-levy.firebaseapp.com",projectId:"amirnet-levy",storageBucket:"amirnet-levy.firebasestorage.app",messagingSenderId:"587503276267",appId:"1:587503276267:web:85100ac0ba0f3eda13eeae"};</script>
+</head>
+<body>
+<title>מכינת אמירנט</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Assistant:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: answer-booklet workspace — sticky tab bar, one working column, graphite ink + bubble controls, one highlighter accent. */
+:root{
+  --paper:#f6f7f4; --sheet:#ffffff; --ink:#1c2330; --muted:#5d6676; --rule:#d8dcd5; --soft:#eef0eb;
+  --accent:#1f5fa8; --accent-ink:#ffffff; --mark:#ffe46b; --good:#2b7a4b; --good-bg:#e3f2e8; --bad:#b33a2e; --bad-bg:#f8e4e1; --warn:#a85f17;
+  --display:"Frank Ruhl Libre","David",Georgia,serif;
+  --body:"Assistant","Arial Hebrew",system-ui,sans-serif;
+  --en:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#13171d; --sheet:#1a1f27; --ink:#e7eaef; --muted:#9aa3b1; --rule:#2d3440; --soft:#222833;
+  --accent:#7db0ee; --accent-ink:#0e1520; --mark:#6a5911; --good:#6cc590; --good-bg:#16301f; --bad:#ef8a7e; --bad-bg:#3a1c19; --warn:#e3a35c; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --paper:#13171d; --sheet:#1a1f27; --ink:#e7eaef; --muted:#9aa3b1; --rule:#2d3440; --soft:#222833;
+  --accent:#7db0ee; --accent-ink:#0e1520; --mark:#6a5911; --good:#6cc590; --good-bg:#16301f; --bad:#ef8a7e; --bad-bg:#3a1c19; --warn:#e3a35c; color-scheme:dark }
+html{direction:rtl}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:17px/1.6 var(--body)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--sheet)}
+h1,h2,h3{font-family:var(--display);line-height:1.2;margin:0;text-wrap:balance}
+h1{font-size:clamp(1.7rem,5vw,2.4rem);font-weight:900}
+h2{font-size:1.45rem;font-weight:700}
+h3{font-size:1.1rem;font-weight:700}
+p{margin:0}
+a{color:var(--accent);text-underline-offset:3px}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+.en{direction:ltr;unicode-bidi:isolate;font-family:var(--en);text-align:left}
+.muted{color:var(--muted)}
+.small{font-size:.9rem}
+
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--sheet);border-bottom:1px solid var(--rule)}
+.top-in{max-width:980px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;align-items:center;gap:16px;min-height:56px}
+.brand{font:900 1.2rem var(--display);white-space:nowrap}
+.brand b{background:var(--mark);padding:0 .2em}
+nav{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0}
+nav::-webkit-scrollbar{display:none}
+nav button{background:none;border:0;padding:16px 12px 14px;white-space:nowrap;cursor:pointer;color:var(--muted);font-weight:600;border-bottom:3px solid transparent}
+nav button[aria-current="page"]{color:var(--ink);border-bottom-color:var(--ink)}
+.sync{font:500 .72rem var(--mono);color:var(--muted);white-space:nowrap}
+
+main{max-width:980px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 80px;display:flex;flex-direction:column;gap:28px}
+.stack{display:flex;flex-direction:column;gap:16px}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.grid > *{min-width:0}
+.card{background:var(--sheet);border:1px solid var(--rule);padding:18px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.tile b{font:500 1.9rem var(--mono);font-variant-numeric:tabular-nums;line-height:1.1}
+.tile span{color:var(--muted);font-size:.92rem}
+.head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px;padding-bottom:8px;border-bottom:2px solid var(--ink)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:9px 18px;border:2px solid var(--ink);background:var(--ink);color:var(--paper);font-weight:700;cursor:pointer;text-decoration:none;min-height:44px}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.accent{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.sm{padding:4px 12px;min-height:34px;font-size:.92rem}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.chip{border:1.5px solid var(--rule);background:var(--sheet);padding:5px 12px;border-radius:99px;cursor:pointer;font-size:.92rem}
+.chip[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:var(--paper)}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+label.f{display:flex;flex-direction:column;gap:4px;font-weight:600;font-size:.95rem}
+input[type=date],input[type=number],input[type=search],select,textarea{border:1.5px solid var(--rule);background:var(--paper);padding:8px 10px;min-height:42px}
+textarea{min-height:70px;width:100%}
+
+/* question */
+.q{background:var(--sheet);border:1px solid var(--rule);padding:22px;display:flex;flex-direction:column;gap:18px}
+.q-meta{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center;font-size:.9rem;color:var(--muted)}
+.stem{font:400 1.18rem/1.6 var(--en);direction:ltr;text-align:left}
+.stem .blank{display:inline-block;min-width:4.5em;border-bottom:2px solid var(--ink)}
+.opts{display:flex;flex-direction:column;gap:8px;direction:ltr}
+.opt{display:flex;gap:12px;align-items:flex-start;text-align:left;padding:10px 14px;border:1.5px solid var(--rule);background:var(--paper);cursor:pointer;font:1.05rem/1.5 var(--en);min-height:46px}
+.opt:hover:not(:disabled){border-color:var(--ink)}
+.opt .bub{flex:none;width:26px;height:26px;border:2px solid var(--ink);border-radius:50%;display:grid;place-items:center;font:500 .8rem var(--mono);margin-top:1px}
+.opt.sel .bub{background:var(--ink);color:var(--paper)}
+.opt.ok{border-color:var(--good);background:var(--good-bg)}
+.opt.ok .bub{background:var(--good);border-color:var(--good);color:var(--sheet)}
+.opt.no{border-color:var(--bad);background:var(--bad-bg)}
+.opt.no .bub{background:var(--bad);border-color:var(--bad);color:var(--sheet)}
+.opt:disabled{cursor:default}
+.explain{border-inline-start:4px solid var(--accent);padding:10px 14px;background:var(--soft);display:flex;flex-direction:column;gap:8px}
+.ai{white-space:pre-wrap}
+.passage{background:var(--sheet);border:1px solid var(--rule);padding:20px;font:1.02rem/1.7 var(--en);direction:ltr;text-align:left;display:flex;flex-direction:column;gap:10px;max-height:46vh;overflow:auto}
+.passage h3{font-family:var(--en)}
+.passage p b{font:500 .75rem var(--mono);color:var(--muted);margin-right:6px}
+.timer{font:500 1.3rem var(--mono);font-variant-numeric:tabular-nums;padding:2px 12px;border:2px solid var(--ink)}
+.timer.low{border-color:var(--bad);color:var(--bad)}
+.qbar{display:flex;flex-wrap:wrap;gap:6px;direction:ltr}
+.qbar button{width:38px;height:38px;border:1.5px solid var(--rule);background:var(--sheet);font:500 .9rem var(--mono);cursor:pointer}
+.qbar button.done{background:var(--soft);border-color:var(--muted)}
+.qbar button.cur{border:2px solid var(--ink)}
+.cat{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+
+/* flashcard */
+.flash{background:var(--sheet);border:1px solid var(--rule);min-height:260px;padding:28px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center}
+.flash .w{font:600 clamp(2rem,7vw,3rem) var(--en);direction:ltr}
+.flash .he{font:700 1.5rem var(--display)}
+.flash .ex{font:italic 1.05rem var(--en);direction:ltr;color:var(--muted);max-width:52ch}
+.boxes{display:flex;gap:4px;direction:ltr}
+.boxes i{width:22px;height:8px;background:var(--soft);border:1px solid var(--rule)}
+.boxes i.on{background:var(--accent);border-color:var(--accent)}
+
+/* tables & bars */
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;background:var(--sheet);font-size:.95rem}
+th,td{border:1px solid var(--rule);padding:8px 10px;text-align:right;vertical-align:top}
+th{background:var(--soft);font-weight:700}
+.meter{height:10px;background:var(--soft);border:1px solid var(--rule);direction:ltr;position:relative}
+.meter i{position:absolute;inset-block:0;left:0;background:var(--accent)}
+.pill{display:inline-block;padding:1px 10px;border:1.5px solid currentColor;border-radius:99px;font-weight:700;font-size:.85rem;white-space:nowrap}
+.ok-t{color:var(--good)} .no-t{color:var(--bad)} .warn-t{color:var(--warn)}
+
+/* answer sheet */
+.sheet{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px 14px;direction:ltr}
+.srow{display:flex;align-items:center;gap:6px;padding:3px 4px}
+.srow .n{font:500 .85rem var(--mono);width:22px;text-align:right;color:var(--muted)}
+.srow button{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--ink);background:transparent;font:500 .75rem var(--mono);cursor:pointer}
+.srow button.on{background:var(--ink);color:var(--paper)}
+.srow button.key{box-shadow:0 0 0 3px var(--good)}
+.srow.wrong{background:var(--bad-bg)} .srow.right{background:var(--good-bg)}
+
+/* plan */
+.week{background:var(--sheet);border:1px solid var(--rule)}
+.week > header{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:14px 18px;border-bottom:1px solid var(--rule)}
+.week.now{border:2px solid var(--ink)}
+.task{display:flex;gap:12px;align-items:flex-start;padding:10px 18px;border-bottom:1px solid var(--rule)}
+.task:last-child{border-bottom:0}
+.task input{appearance:none;flex:none;width:22px;height:22px;margin-top:3px;border:2px solid var(--ink);border-radius:50%;cursor:pointer}
+.task input:checked{background:var(--ink);box-shadow:inset 0 0 0 3px var(--sheet)}
+.task input:checked ~ div .tt{text-decoration:line-through;color:var(--muted)}
+.task .go{margin-inline-start:auto}
+svg text{fill:var(--muted);font:500 11px var(--mono)}
+.empty{border:1.5px dashed var(--rule);padding:22px;text-align:center;color:var(--muted)}
+.toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:10px 18px;z-index:20;font-weight:600}
+/* lessons */
+.lesson{display:flex;flex-direction:column;gap:14px;max-width:72ch}
+.lesson p,.lesson li{line-height:1.75}
+.lesson ul,.lesson ol{margin:0;padding-inline-start:1.3em;display:flex;flex-direction:column;gap:6px}
+.lesson .tip{border-inline-start:4px solid var(--good);background:var(--good-bg);padding:10px 14px}
+.lesson .warn{border-inline-start:4px solid var(--bad);background:var(--bad-bg);padding:10px 14px}
+.lesson .exb{border:1px solid var(--rule);background:var(--sheet);display:flex;flex-direction:column}
+.lesson .exb .en{padding:12px 16px;white-space:pre-wrap;border-bottom:1px solid var(--rule);font-size:1.02rem}
+.lesson .exb .he{padding:10px 16px}
+.lesson table{font-size:.92rem}
+
+/* ===== exam mode: mirrors the official computerized interface (English, LTR) ===== */
+:root{--x-bar:#e9eef5;--x-blue:#3f6fb5;--x-orange:#e8a23a;--x-row:#f1f3f5;--x-row2:#e6eaed;--x-ink:#1b1f24}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--x-bar:#1f2833;--x-blue:#7aa6e6;--x-orange:#e8a23a;--x-row:#20262e;--x-row2:#262d36;--x-ink:#e8ebef}}
+:root[data-theme="dark"]{--x-bar:#1f2833;--x-blue:#7aa6e6;--x-orange:#e8a23a;--x-row:#20262e;--x-row2:#262d36;--x-ink:#e8ebef}
+.xm{position:fixed;inset:0;z-index:30;background:var(--sheet);color:var(--x-ink);direction:ltr;display:flex;flex-direction:column;font-family:Arial,Helvetica,sans-serif;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.xm-crumbs{display:flex;overflow-x:auto;background:var(--x-bar);font-size:.85rem;scrollbar-width:none;padding-left:env(safe-area-inset-left,0px)}
+.xm-crumbs span{padding:6px 18px 6px 22px;white-space:nowrap;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 50%,calc(100% - 10px) 100%,0 100%,10px 50%);background:var(--x-row2);margin-right:-6px;color:var(--muted)}
+.xm-crumbs span.on{background:var(--x-orange);color:#1b1f24;font-weight:700}
+.xm-crumbs span.done{opacity:.6}
+.xm-bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;padding:8px max(16px,env(safe-area-inset-right,0px)) 8px max(16px,env(safe-area-inset-left,0px));border-bottom:1px solid var(--rule)}
+.xm-logo{font:700 1.15rem Arial,sans-serif;color:var(--x-blue);letter-spacing:.02em}
+.xm-logo i{color:var(--x-orange);font-style:italic;font-weight:400}
+.xm-pill{border:1.5px solid var(--x-blue);color:var(--x-blue);background:transparent;border-radius:99px;padding:5px 14px;cursor:pointer;font:600 .9rem Arial,sans-serif;min-height:34px}
+.xm-nums{display:flex;gap:8px;flex-wrap:wrap}
+.xm-nums button{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--x-ink);background:transparent;color:var(--x-ink);font:600 .85rem Arial,sans-serif;cursor:pointer;position:relative}
+.xm-nums button.ans{background:var(--x-orange);border-color:var(--x-orange);color:#1b1f24}
+.xm-nums button.cur::after{content:"";position:absolute;left:6px;right:6px;bottom:-7px;height:3px;background:var(--x-ink)}
+.xm-nums button.flag::before{content:"📌";position:absolute;top:-10px;right:-8px;font-size:.7rem}
+.xm-flag{background:none;border:0;color:var(--x-blue);font:700 .9rem Arial,sans-serif;cursor:pointer;min-height:34px}
+.xm-flag[aria-pressed="true"]{color:var(--x-orange)}
+.xm-clock{display:flex;align-items:center;gap:6px;background:none;border:0;color:var(--x-ink);font:700 1.15rem Arial,sans-serif;cursor:pointer;font-variant-numeric:tabular-nums;min-height:34px}
+.xm-clock b{width:26px;height:26px;border-radius:50%;border:2px solid var(--x-blue);display:inline-block}
+.xm-clock.low{color:var(--bad)}
+.xm-next{margin-left:auto;background:var(--x-blue);color:#fff;border:0;border-radius:99px;padding:8px 18px;font:700 .95rem Arial,sans-serif;cursor:pointer;min-height:38px}
+.xm-next:disabled{opacity:.45;cursor:not-allowed}
+.xm-body{flex:1;overflow:auto;padding:24px max(16px,env(safe-area-inset-right,0px)) 40px max(16px,env(safe-area-inset-left,0px))}
+.xm-split{display:grid;grid-template-columns:1fr 1fr;gap:28px;max-width:1200px;margin:0 auto;align-items:start}
+.xm-split > *{min-width:0}
+.xm-one{max-width:820px;margin:0 auto}
+.xm-left{background:var(--x-row);padding:20px;font-size:1.02rem;line-height:1.7;max-height:calc(100vh - 190px);overflow:auto;position:sticky;top:0}
+.xm-left h4{margin:0 0 10px;font:700 1.05rem Arial,sans-serif}
+.xm-left p{margin:0 0 12px}
+.xm-q h3{font:700 1.5rem Arial,sans-serif;color:var(--x-blue);margin:0 0 16px}
+.xm-stem{font-size:1.12rem;line-height:1.65;margin-bottom:22px;white-space:pre-wrap}
+.xm-opts{display:flex;flex-direction:column;gap:6px}
+.xm-opt{display:grid;grid-template-columns:62px 1fr;align-items:stretch;border:0;padding:0;background:none;cursor:pointer;text-align:left;color:var(--x-ink);font:1.05rem/1.5 Arial,sans-serif}
+.xm-opt > span{background:var(--x-row);padding:14px 16px;display:flex;align-items:center}
+.xm-opt > span:first-child{justify-content:center;background:var(--x-row2);margin-right:2px}
+.xm-opt:nth-child(even) > span{background:var(--x-row2)}
+.xm-opt i{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--x-ink);display:inline-block;background:var(--sheet)}
+.xm-opt.sel i{border:6px solid var(--x-blue)}
+.xm-opt.sel > span:last-child{outline:2px solid var(--x-blue);outline-offset:-2px}
+.xm-arrows{display:flex;justify-content:space-between;margin-top:22px}
+.xm-arrows button{border:1.5px solid var(--x-blue);color:var(--x-blue);background:none;border-radius:99px;padding:6px 16px;cursor:pointer;font:600 .9rem Arial,sans-serif;min-height:36px}
+.xm-arrows button:disabled{opacity:.35}
+.xm-instr{max-width:820px;margin:0 auto;font-size:1.12rem;line-height:1.7}
+.xm-wf{font:inherit;border:0;border-bottom:2px solid var(--x-ink);background:transparent;color:var(--x-ink);width:11em;padding:2px 4px;font-size:1.1rem}
+.xm-ta{width:100%;min-height:320px;font:1.05rem/1.6 Arial,sans-serif;padding:12px;border:1.5px solid var(--rule);background:var(--sheet);color:var(--x-ink)}
+.xm-count{font:700 .95rem Arial,sans-serif;padding:3px 10px;border-radius:99px;color:#fff}
+.xm-audio{display:flex;flex-direction:column;gap:12px}
+.xm-play{width:56px;height:56px;border-radius:50%;border:0;background:var(--x-blue);color:#fff;font-size:1.4rem;cursor:pointer}
+.xm-play:disabled{opacity:.4}
+.xm-prog{height:8px;background:var(--x-row2);position:relative}
+.xm-prog i{position:absolute;inset-block:0;left:0;background:var(--x-orange)}
+.xm-tts{position:fixed;right:max(12px,env(safe-area-inset-right,0px));bottom:calc(12px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:6px;z-index:31}
+.xm-tts button{width:44px;height:44px;border:1.5px solid var(--x-ink);background:var(--sheet);color:var(--x-ink);cursor:pointer;font-size:1rem}
+.xm-modal{position:fixed;inset:0;z-index:40;background:rgba(0,0,0,.45);display:grid;place-items:center;padding:16px}
+.xm-modal > div{background:var(--sheet);color:var(--x-ink);max-width:460px;width:100%;padding:24px;display:flex;flex-direction:column;gap:16px;font-family:Arial,sans-serif}
+.xm-tabs{display:none;gap:0;margin:-8px 0 14px;border:1.5px solid var(--x-blue);border-radius:99px;overflow:hidden}
+.xm-tabs button{flex:1;border:0;background:transparent;color:var(--x-blue);font:700 .95rem Arial,sans-serif;padding:8px;cursor:pointer;min-height:40px}
+.xm-tabs button.on{background:var(--x-blue);color:#fff}
+@media (max-width:820px){ .xm-split{grid-template-columns:1fr} .xm-left{position:static;max-height:none} .xm-q h3{font-size:1.25rem}
+  .xm-tabs{display:flex} .xm-split.show-q > .xm-left{display:none} .xm-split.show-t > .xm-q{display:none} }
+@media (max-width:560px){ .xm-logo{display:none} .xm-bar{gap:8px 10px;padding-block:6px} .xm-pill{padding:3px 10px;font-size:.8rem;min-height:30px}
+  .xm-nums{gap:6px} .xm-nums button{width:30px;height:30px} .xm-flag{font-size:.82rem} .xm-clock{font-size:1rem} .xm-next{padding:6px 12px;font-size:.85rem;min-height:34px}
+  .xm-body{padding-top:16px} .xm-stem{font-size:1.05rem} .xm-opt{grid-template-columns:44px 1fr} .xm-opt > span{padding:12px}
+  .xm-tts button{width:36px;height:36px;opacity:.8} .xm-crumbs span{padding:5px 14px 5px 18px;font-size:.78rem} }
+@media (max-width:560px){ .q{padding:16px} .stem{font-size:1.08rem} .sync{display:none} }
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<header class="top"><div class="top-in">
+  <div class="brand">אמירנט <b>134</b></div>
+  <nav id="nav" aria-label="ניווט ראשי"></nav>
+  <span class="sync" id="sync">שמור במכשיר</span>
+</div></header>
+<main id="app"><div class="empty">טוען את חומרי הלימוד…</div></main>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+"use strict";
+/* ---------- constants ---------- */
+const VIEWS=[["home","בית"],["learn","למידה"],["plan","תוכנית"],["words","מילים"],["practice","תרגול"],["sim","סימולציה"],["past","מבחני עבר"],["log","יומן טעויות"]];
+const TYPE_HE={sc:"השלמת משפטים",rs:"ניסוח מחדש",rc:"הבנת הנקרא",gc:"דקדוק בהקשר",wf:"יצירת מילה",ct:"השלמת קטע שמע",lc:"הרצאה/שיחה",wr:"מטלת כתיבה"};
+const TYPE_EN={sc:"Sentence Completion",rs:"Restatement",rc:"Text and Questions",gc:"Grammar in Context",wf:"Word Formation",ct:"Listening Text Continuation",lc:"Lecture + Questions",wr:"Essay"};
+// paraphrased section instructions (shown via Show Instructions, as in the real interface)
+const INSTR={
+ sc:"This section consists of sentences with a word or words missing. For each question, choose the answer that <b>best completes the sentence</b>.",
+ rs:"Each question in this section presents a sentence followed by four possible ways of restating it. Choose the answer that <b>best restates the meaning</b> of the original sentence.",
+ rc:"Read the text and answer the questions that follow. For each question, choose the <b>most appropriate answer</b> according to the text.",
+ gc:"Each question contains a short text with a missing part. Choose the answer that is <b>grammatically correct</b> and fits the context.",
+ wf:"Each sentence has a missing word. Click in the blank and <b>type the correct form</b> of the word in brackets. Use letters only.",
+ ct:"You will hear the beginning of a short talk. Press play to listen, then choose the <b>most suitable continuation</b>.",
+ lc:"You will hear several recordings. Press play to listen to each recording, then answer the questions about it.",
+ wr:"Read the task and type your response in the box. The word counter turns <b>green</b> when your response is within the required length."};
+// official per-chapter sizes and times (NITE presentation)
+const CH_SPEC={sc:[4,240],rs:[3,360],rc:[5,900],gc:[4,240],wf:[4,180],ct:[4,240],lc:[5,420],wr:[1,720]};
+const CATS=[["word","מילה לא מוכרת"],["trap","מלכודת"],["careless","קריאה רשלנית"],["time","זמן"]];
+const CAT_HE=Object.fromEntries(CATS);
+const BOX_DAYS=[0,1,2,4,8,16,32];
+const SEASON_HE={winter:"חורף",spring:"אביב",summer:"קיץ",autumn:"סתיו"};
+// English raw/44 → scale, NITE summer 2025 table; fallback when an exam lacks its own table
+const CONV_FALLBACK={20:88,21:91,22:93,23:96,24:98,25:101,26:103,27:106,28:108,29:111,30:113,31:115,32:118,33:120,34:123,35:125,36:127,37:130,38:132,39:135,40:138,41:141,42:144,43:147,44:150};
+const AMIRNET_SIM="https://amirnet-practice.nite.org.il/amirnet.html";
+
+/* ---------- state ---------- */
+const S={plan:{},srs:{},intro:{day:0,n:0},stats:{sc:{n:0,c:0},rs:{n:0,c:0},rc:{n:0,c:0}},days:{},results:[],errors:[],seen:{},gen:[],lessons:{},essays:[],daily:{},settings:{start:null,test:null,daily:30,pace:"amirnet",target:134},updatedAt:0};
+const LS="amirnet-app-v1";
+const C={vocab:[],sc:[],rs:[],rc:[],keys:[],gc:[],wf:[],ct:[],lc:[],wr:[],lessons:[]}; // content
+let VBY={}; // vocab by word
+const today=()=>{const d=new Date();return Math.floor((d.getTime()-d.getTimezoneOffset()*6e4)/864e5)};
+const dayStr=n=>new Date(n*864e5).toISOString().slice(0,10);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const $=s=>document.querySelector(s);
+
+function loadLocal(){try{const x=JSON.parse(localStorage.getItem(LS)||"null");if(x)merge(x)}catch(e){}}
+function merge(x){for(const k of Object.keys(S)) if(x[k]!==undefined) S[k]=x[k]; S.settings=Object.assign({start:null,test:null,daily:30,pace:"amirnet",target:134},S.settings||{}); S.lessons=S.lessons||{}; S.essays=S.essays||[]; S.daily=S.daily||{};}
+function trim(){const dk=Object.keys(S.daily||{}).map(Number).sort((a,b)=>a-b);while(dk.length>30)delete S.daily[dk.shift()];S.results=S.results.slice(-300);S.errors=S.errors.slice(-400);S.gen=S.gen.slice(-150);S.essays=S.essays.slice(-20);}
+let pushTimer=null;
+function save(){S.updatedAt=Date.now();trim();try{localStorage.setItem(LS,JSON.stringify(S))}catch(e){} clearTimeout(pushTimer);pushTimer=setTimeout(pushRemote,1500);}
+let remote=null,pushing=false,pushAgain=false;
+function setSync(t){$("#sync").textContent=t}
+async function pushRemote(){
+  if(!remote)return; if(pushing){pushAgain=true;return}
+  pushing=true;setSync("שומר…");
+  try{await remote.set(JSON.parse(JSON.stringify(S)));setSync("מסונכרן לחשבון")}
+  catch(e){ if(e&&e.code==="invalid_argument"){remote=null;setSync("שמור במכשיר")} else setSync("לא נשמר בענן") }
+  pushing=false; if(pushAgain){pushAgain=false;pushRemote()}
+}
+/* ---------- Firebase accounts (levy-platform.com build only; inert inside claude.ai) ---------- */
+let FB=null; const OWNER_KEY="amirnet-owner";
+const FB_ERR={"auth/invalid-email":"כתובת האימייל לא תקינה.","auth/missing-password":"צריך להזין סיסמה.","auth/weak-password":"הסיסמה צריכה להכיל לפחות 6 תווים.","auth/email-already-in-use":"כבר יש חשבון עם האימייל הזה. אפשר להתחבר.","auth/invalid-credential":"האימייל או הסיסמה שגויים.","auth/wrong-password":"האימייל או הסיסמה שגויים.","auth/user-not-found":"לא נמצא חשבון עם האימייל הזה.","auth/too-many-requests":"יותר מדי ניסיונות. כדאי לנסות שוב בעוד כמה דקות.","auth/network-request-failed":"אין חיבור לאינטרנט. כדאי לנסות שוב."};
+function resetState(){const fresh={plan:{},srs:{},intro:{day:0,n:0},stats:{sc:{n:0,c:0},rs:{n:0,c:0},rc:{n:0,c:0}},days:{},results:[],errors:[],seen:{},gen:[],lessons:{},essays:[],daily:{},settings:{},updatedAt:0};merge(fresh);try{localStorage.setItem(LS,JSON.stringify(S))}catch(e){}}
+function initFirebase(){
+  if(window.claude||!window.firebase||!window.FIREBASE_CONFIG)return;
+  try{
+    firebase.initializeApp(window.FIREBASE_CONFIG);
+    const auth=firebase.auth(), db=firebase.firestore();
+    if(window.FIREBASE_EMULATOR){auth.useEmulator("http://127.0.0.1:9099");db.useEmulator("127.0.0.1",8080)}
+    FB={auth,db,user:null,msg:"",busy:false,mode:"in"};
+    auth.onAuthStateChanged(async u=>{
+      FB.user=u;
+      if(!u){remote=null;setSync("שמור במכשיר");if(!XM)render();return}
+      let owner=null;try{owner=localStorage.getItem(OWNER_KEY)}catch(e){}
+      if(owner&&owner!==u.uid) resetState(); // another account used this browser before
+      try{localStorage.setItem(OWNER_KEY,u.uid)}catch(e){}
+      const ref=db.doc("users/"+u.uid+"/data/state");
+      remote={set:o=>ref.set(o)};
+      try{
+        const snap=await ref.get();
+        if(snap.exists){const r=snap.data(); if((r.updatedAt||0)>S.updatedAt){merge(JSON.parse(JSON.stringify(r)));try{localStorage.setItem(LS,JSON.stringify(S))}catch(e){}} else if(S.updatedAt>(r.updatedAt||0)) pushRemote(); setSync("מסונכרן לחשבון")}
+        else if(S.updatedAt) pushRemote(); else setSync("מסונכרן לחשבון");
+      }catch(e){remote=null;setSync("לא נשמר בענן")}
+      if(!XM)render();
+    });
+  }catch(e){FB=null}
+}
+function accountHtml(){
+  if(FB.user) return `<p class="small">מחובר בתור <b class="en">${esc(FB.user.email||"")}</b>. ההתקדמות נשמרת בחשבון ומסונכרנת בכל מכשיר שבו תתחבר.</p><div class="row"><button class="btn sm ghost" id="fbOut">התנתק</button></div>`;
+  const up=FB.mode==="up";
+  return `<p class="small">${up?"יצירת חשבון חינם. ההתקדמות תישמר בענן ותהיה זמינה בטלפון ובמחשב.":"התחבר כדי שההתקדמות תישמר ותסונכרן בין המכשירים. בלי חשבון היא נשמרת רק בדפדפן הזה."}</p>
+  <form id="fbForm" class="stack" style="gap:10px;max-width:360px" novalidate>
+    <label class="f">אימייל<input type="email" id="fbEmail" autocomplete="email" dir="ltr" required></label>
+    <label class="f">סיסמה${up?" (לפחות 6 תווים)":""}<input type="password" id="fbPw" autocomplete="${up?"new-password":"current-password"}" dir="ltr" required></label>
+    <div class="row"><button class="btn" type="submit" ${FB.busy?"disabled":""}>${up?"צור חשבון":"התחבר"}</button><button class="btn ghost sm" type="button" id="fbMode">${up?"יש לי כבר חשבון":"אין לי חשבון"}</button>${up?"":`<button class="btn ghost sm" type="button" id="fbReset">שכחתי סיסמה</button>`}</div>
+    <span class="small ${FB.msgOk?"ok-t":"no-t"}" id="fbMsg">${esc(FB.msg||"")}</span>
+  </form>`;
+}
+function bindAccount(app){
+  const out=app.querySelector("#fbOut"); if(out) out.onclick=async()=>{await FB.auth.signOut();resetState();try{localStorage.removeItem(OWNER_KEY)}catch(e){}render()};
+  const f=app.querySelector("#fbForm"); if(!f) return;
+  const say=(t,ok)=>{FB.msg=t;FB.msgOk=!!ok;const m=app.querySelector("#fbMsg");if(m){m.textContent=t;m.className="small "+(ok?"ok-t":"no-t")}};
+  app.querySelector("#fbMode").onclick=()=>{FB.mode=FB.mode==="up"?"in":"up";FB.msg="";render()};
+  const rs=app.querySelector("#fbReset"); if(rs) rs.onclick=async()=>{const em=app.querySelector("#fbEmail").value.trim();if(!em){say("כתוב את האימייל שלך ואז לחץ שוב על \"שכחתי סיסמה\".");return}try{await FB.auth.sendPasswordResetEmail(em);say("נשלח אליך מייל לאיפוס הסיסמה.",true)}catch(e){say(FB_ERR[e.code]||"לא הצלחנו לשלוח מייל איפוס.")}};
+  f.onsubmit=async e=>{e.preventDefault();const em=app.querySelector("#fbEmail").value.trim(),pw=app.querySelector("#fbPw").value;FB.busy=true;say("…",true);
+    try{ if(FB.mode==="up") await FB.auth.createUserWithEmailAndPassword(em,pw); else await FB.auth.signInWithEmailAndPassword(em,pw); FB.msg=""; }
+    catch(err){say(FB_ERR[err.code]||"משהו השתבש. כדאי לנסות שוב.")}
+    FB.busy=false;};
+}
+async function initRemote(){
+  if(!window.claude||!window.claude.use)return;
+  try{
+    const [db,user]=await Promise.all([claude.use("db"),claude.use("user")]);
+    if(!db||!user)return; const id=await user.id(); if(!id)return;
+    remote=db.doc("data/users/"+id+"/state");
+    const snap=await remote.get();
+    if(snap.exists){const r=snap.data(); if((r.updatedAt||0)>S.updatedAt){merge(JSON.parse(JSON.stringify(r)));try{localStorage.setItem(LS,JSON.stringify(S))}catch(e){} render()} else if(S.updatedAt>(r.updatedAt||0)) pushRemote(); else setSync("מסונכרן לחשבון")}
+    else if(S.updatedAt) pushRemote(); else setSync("מסונכרן לחשבון");
+  }catch(e){remote=null}
+}
+let sampleFn=null;
+async function initSample(){ if(!window.claude||!window.claude.use)return; try{sampleFn=await claude.use("sample")}catch(e){sampleFn=null} if(sampleFn&&(view==="practice"||view==="sim"))render(); }
+function toast(t){const el=$("#toast");el.textContent=t;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,2400)}
+
+/* ---------- content loading ---------- */
+async function getJSON(f){try{const r=await fetch(f);if(!r.ok)throw 0;return await r.json()}catch(e){return null}}
+async function loadContent(){
+  const [v,sc,rr,k,x,ls]=await Promise.all([getJSON("vocab.json"),getJSON("sc.json"),getJSON("rsrc.json"),getJSON("keys.json"),getJSON("extra.json"),getJSON("lessons.json")]);
+  C.vocab=Array.isArray(v)?v:[]; C.sc=Array.isArray(sc)?sc:[]; C.rs=(rr&&rr.rs)||[]; C.rc=(rr&&rr.rc)||[]; C.keys=Array.isArray(k)?k:[];
+  if(x){C.gc=x.gc||[];C.wf=x.wf||[];C.ct=x.cont||[];C.lc=x.lc||[];C.wr=x.wr||[];}
+  C.lessons=Array.isArray(ls)?ls:[];
+  const up=await getJSON("updates.json"); UPD=Array.isArray(up)?up:[];
+  VBY={}; C.vocab.forEach(w=>VBY[w.w.toLowerCase()]=w);
+}
+const allSC=()=>C.sc.concat(S.gen.filter(g=>g.t==="sc"));
+const allRS=()=>C.rs.concat(S.gen.filter(g=>g.t==="rs"));
+
+/* ---------- stats helpers ---------- */
+function logActivity(type,correct){
+  const st=S.stats[type]||(S.stats[type]={n:0,c:0}); st.n++; if(correct)st.c++;
+  const d=today(); const a=S.days[d]||(S.days[d]={q:0,c:0,w:0}); a.q++; if(correct)a.c++;
+  const keys=Object.keys(S.days).map(Number).sort((a,b)=>a-b); while(keys.length>120) delete S.days[keys.shift()];
+}
+function logWords(n){const d=today();const a=S.days[d]||(S.days[d]={q:0,c:0,w:0});a.w+=n}
+function addError(e){S.errors.push(Object.assign({t:Date.now()},e));save()}
+function scaleFor(raw,conv){const c=conv&&Object.keys(conv).length?conv:CONV_FALLBACK; if(c[raw]!=null)return c[raw]; if(raw>=20)return CONV_FALLBACK[raw]; return Math.round(50+(88-50)*raw/20)}
+function levelOf(s){ if(s>=134)return["פטור","ok-t"]; if(s>=120)return["מתקדמים ב'",""]; if(s>=104)return["מתקדמים א'",""]; if(s>=88)return["בסיסי","warn-t"]; return["טרום בסיסי","warn-t"] }
+function srsCounts(){let known=0,learning=0,due=0;const t=today();for(const w in S.srs){const s=S.srs[w];if(s.b>=4)known++;else learning++;if(s.due<=t)due++}return{known,learning,due}}
+
+/* ---------- router ---------- */
+let view="home"; let timerId=null;
+function stopTimer(){if(timerId){clearInterval(timerId);timerId=null}}
+function go(v){ if(v===view){render();return} view=v; stopTimer(); try{history.replaceState(null,"","#"+v)}catch(e){} render(); window.scrollTo(0,0); }
+function renderNav(){$("#nav").innerHTML=VIEWS.map(([k,t])=>`<button type="button" data-go="${k}" ${k===view?'aria-current="page"':''}>${t}</button>`).join("")}
+document.addEventListener("click",e=>{const g=e.target.closest("[data-go]");if(g){e.preventDefault();go(g.dataset.go)}});
+function render(){renderNav();if(XM){renderExam();return}const app=$("#app");({home:vHome,learn:vLearn,plan:vPlan,words:vWords,practice:vPractice,sim:vSim,past:vPast,log:vLog}[view]||vHome)(app)}
+
+/* ---------- progress analytics ---------- */
+function streak(){
+  let n=0,d=today(); const act=x=>x&&((x.q||0)+(x.w||0))>0;
+  if(!act(S.days[d])) d--; // today not started yet doesn't break the streak
+  while(act(S.days[d])){n++;d--}
+  return n;
+}
+function rawForTarget(t){for(let r=0;r<=44;r++) if(scaleFor(r,null)>=t) return r; return 44}
+// best available estimate of the real score, with its source
+function readiness(){
+  const past=S.results.filter(r=>r.kind==="past").slice(-3);
+  if(past.length) return {score:Math.round(past.reduce((s,r)=>s+r.score,0)/past.length),src:`ממוצע ${past.length} מבחני העבר האחרונים`,sure:"גבוהה"};
+  const sims=S.results.filter(r=>r.kind==="sim").slice(-3);
+  if(sims.length) return {score:Math.round(sims.reduce((s,r)=>s+r.score,0)/sims.length),src:`ממוצע ${sims.length} הסימולציות האחרונות`,sure:"בינונית"};
+  const t=["sc","rs","rc"].map(k=>S.stats[k]||{n:0,c:0}); const n=t.reduce((s,x)=>s+x.n,0);
+  if(n>=20){const acc=t.reduce((s,x)=>s+x.c,0)/n; return {score:Math.round(50+100*acc*0.85),src:`לפי ${n} שאלות תרגול`,sure:"נמוכה"}}
+  return null;
+}
+function weakestType(){
+  const k=["sc","rs","rc"].map(t=>{const s=S.stats[t]||{n:0,c:0};return{t,acc:s.n?s.c/s.n:0,n:s.n}});
+  const fresh=k.filter(x=>x.n<8); if(fresh.length) return fresh[0].t;
+  return k.sort((a,b)=>a.acc-b.acc)[0].t;
+}
+function dailySteps(){
+  const t=today(), a=S.days[t]||{q:0,c:0,w:0}, sc=srsCounts();
+  const newLeft=Math.max(0,S.settings.daily-(S.intro.day===t?S.intro.n:0));
+  const wk=planWeek(), weak=weakestType(), rp=retryPool().length;
+  const steps=[];
+  steps.push({id:"words",t:"מילים: חזרה וכרטיסיות חדשות",d:sc.due+newLeft?`${sc.due} לחזרה, ${newLeft} חדשות`:"הושלם להיום",done:sc.due+newLeft===0,go:()=>{W.mode="cards";buildQueue();go("words")}});
+  if(rp>=3) steps.push({id:"retry",t:"תיקון טעויות",d:`${Math.min(20,rp)} שאלות שטעית בהן`,done:(S.daily&&S.daily[t]&&S.daily[t].retry)||false,go:()=>{go("log");setTimeout(()=>$("#retry")&&$("#retry").click(),0)}});
+  steps.push({id:"prac",t:`תרגול ממוקד: ${TYPE_HE[weak]}`,d:"הסוג שבו הדיוק שלך הכי נמוך",done:a.q>=12,go:()=>{P.cfg=Object.assign(P.cfg,{type:weak,mode:"learn",n:weak==="rc"?5:8,d:0,timed:wk>=2});P.run=null;P.review=null;startPractice();go("practice")}});
+  if(wk>=2) steps.push({id:"exam",t:wk>=4?"מבחן עבר או סימולציה מלאה":"פרק בפורמט מבחן",d:wk>=4?"לפי שבוע התוכנית":"פרק רשמי עם שעון",done:S.results.some(r=>today()===Math.floor((r.t-new Date(r.t).getTimezoneOffset()*6e4)/864e5)),go:()=>go(wk>=4?"past":"sim")});
+  const nextLesson=C.lessons.find(l=>!S.lessons[l.id]);
+  if(nextLesson&&wk<3) steps.push({id:"lesson",t:`שיעור: ${nextLesson.title}`,d:nextLesson.summary||"",done:false,go:()=>{LN.cur=nextLesson.id;go("learn")}});
+  return steps;
+}
+
+/* =========================================================
+   HOME
+   ========================================================= */
+function planWeek(){ if(!S.settings.start)return 0; const d=today()-Math.floor(new Date(S.settings.start).getTime()/864e5); return Math.max(0,Math.min(5,Math.floor(d/7))) }
+function vHome(app){
+  const sc=srsCounts(); const t=today();
+  const target=S.settings.target||134;
+  const unseen=C.vocab.filter(v=>!S.srs[v.w.toLowerCase()]).length;
+  const dLeft=S.settings.test?Math.max(1,Math.ceil((new Date(S.settings.test).getTime()-Date.now())/864e5)-3):null;
+  const rec=dLeft?Math.min(150,Math.max(20,Math.ceil(unseen/dLeft))):null;
+  const scores=S.results.filter(r=>r.score);
+  const daysLeft=S.settings.test?Math.ceil((new Date(S.settings.test).getTime()-Date.now())/864e5):null;
+  const fresh=!S.settings.start&&!S.results.length&&!Object.keys(S.srs).length;
+  const R=readiness(), st=streak(), steps=dailySteps(), doneN=steps.filter(s=>s.done).length;
+  const wk=planWeek();
+  const known=sc.known, core=Math.min(1500,C.vocab.length), coreKnown=C.vocab.slice(0,core).filter(v=>{const s=S.srs[v.w.toLowerCase()];return s&&s.b>=3}).length;
+  app.innerHTML=`
+  ${fresh?`<section class="card stack" style="border:2px solid var(--ink)">
+    <h2>ברוך הבא. 3 צעדים ומתחילים</h2>
+    <ol style="margin:0;padding-inline-start:1.2em;display:flex;flex-direction:column;gap:6px">
+      ${FB&&!FB.user?`<li><a href="#account">צור חשבון חינם</a> כדי שההתקדמות תישמר ותסונכרן בין הטלפון למחשב.</li>`:""}
+      <li>קבע את תאריך המבחן (אם עוד לא נרשמת, קבע תאריך משוער) ואת הציון שאתה צריך.</li>
+      <li>לחץ "מתחילים היום". האתר יבנה לך כל יום אימון אישי.</li>
+      <li>עשה סימולציה ראשונה כדי לדעת מאיפה אתה מתחיל.</li>
+    </ol></section>`:""}
+  <section class="stack">
+    <span class="muted small">${S.settings.start?`שבוע ${wk+1} מתוך 6 · ${esc(PLAN[wk].t.split("·")[1]||"")}`:"עוד לא התחלת את התוכנית"}</span>
+    <h1>${daysLeft!=null?(daysLeft>0?`עוד <span class="num">${daysLeft}</span> ימים למבחן`:"יום המבחן הגיע. בהצלחה!"):"מכינים את עצמנו לפטור"}</h1>
+    <div class="row">
+      <label class="f">תאריך התחלה<input type="date" id="st" value="${esc(S.settings.start||"")}"></label>
+      <label class="f">תאריך המבחן<input type="date" id="tt" value="${esc(S.settings.test||"")}"></label>
+      <label class="f">ציון יעד<select id="tg">${[[134,"134 (פטור, למשל בטכניון)"],[120,"120 (מתקדמים ב')"],[104,"104 (מתקדמים א')"],[0,"אחר…"]].map(([v,l])=>`<option value="${v}" ${(target===v||(v===0&&![134,120,104].includes(target)))?"selected":""}>${l}</option>`).join("")}</select></label>
+      ${![134,120,104].includes(target)?`<label class="f">יעד אחר<input type="number" id="tgx" min="60" max="150" value="${target}" style="width:6em"></label>`:""}
+      <label class="f">מילים חדשות ביום<input type="number" id="dl" min="5" max="150" value="${S.settings.daily}" style="width:7em"></label>
+    </div>
+    ${rec&&rec!==S.settings.daily?`<div class="row small"><span class="muted">כדי לעבור על כל ${unseen} המילים שנשארו עד 3 ימים לפני המבחן צריך ${rec} מילים ביום.</span><button class="btn sm ghost" id="useRec">לקבוע ${rec} ביום</button></div>`:""}
+    ${!S.settings.start?`<button class="btn" id="startNow" style="align-self:flex-start">מתחילים היום</button>`:""}
+  </section>
+
+  <section class="card stack" style="border:2px solid var(--ink)">
+    <div class="row" style="justify-content:space-between"><h2>האימון של היום</h2><span class="num muted">${doneN}/${steps.length}</span></div>
+    <p class="small muted">האימון נבנה מחדש כל יום לפי מה שיש לך לחזור עליו, הטעויות שלך והסוג החלש שלך.</p>
+    ${steps.map((s,i)=>`<div class="row" style="justify-content:space-between;border-top:1px solid var(--rule);padding-top:10px"><div class="stack" style="gap:2px;min-width:0;flex:1"><b class="${s.done?"ok-t":""}">${s.done?"✓ ":""}${esc(s.t)}</b><span class="small muted">${esc(s.d)}</span></div><button class="btn sm ${s.done?"ghost":""}" data-step="${i}">${s.done?"עוד":"התחל"}</button></div>`).join("")}
+  </section>
+
+  <section class="grid">
+    <div class="card tile"><b>${R?R.score:"—"}</b><span>${R?`אומדן ציון (${esc(R.src)}, ודאות ${R.sure})`:"עוד אין מספיק נתונים לאומדן ציון"}</span>
+      ${R?`<div class="meter"><i style="width:${Math.max(0,Math.min(100,R.score-50))}%;${R.score>=target?"background:var(--good)":""}"></i></div><span class="small ${R.score>=target?"ok-t":"muted"}">${R.score>=target?"אתה בטווח היעד. עכשיו המטרה היא יציבות.":`חסרות כ-${target-R.score} נקודות ליעד ${target}`}</span>`:""}</div>
+    <div class="card tile"><b>${st}</b><span>ימי אימון ברצף${st>=3?" · מעולה, לא לשבור את הרצף":""}</span></div>
+    <div class="card tile"><b>${known}<span class="small muted"> / ${C.vocab.length}</span></b><span>מילים ששולטים בהן. ב-${core} המילים החשובות: ${Math.round(100*coreKnown/core)}%</span><div class="meter"><i style="width:${100*coreKnown/core}%"></i></div></div>
+    <div class="card tile"><b>${S.errors.length}</b><span>טעויות ביומן</span><button class="btn sm ghost" data-go="log">לניתוח</button></div>
+  </section>
+
+  <section class="grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">
+    <div class="card"><h3>דיוק לפי סוג שאלה</h3>
+      ${["sc","rs","rc","gc","wf","ct","lc"].filter(k=>k in S.stats||["sc","rs","rc"].includes(k)).map(k=>{const s=S.stats[k];const p=s&&s.n?100*s.c/s.n:0;return `<div class="stack" style="gap:4px"><div class="row" style="justify-content:space-between"><span>${TYPE_HE[k]}</span><span class="num">${s&&s.n?Math.round(p)+"%":"—"} <span class="muted small">(${s?s.n:0})</span></span></div><div class="meter"><i style="width:${p}%"></i></div></div>`}).join("")}
+      <p class="small muted">ליעד ${target} צריך במבחן עבר בערך ${rawForTarget(target)} נכונות מתוך 44 (${Math.round(100*rawForTarget(target)/44)}%).</p>
+    </div>
+    <div class="card"><h3>מה חדש באמירנט</h3>${updatesHtml()}</div>
+  </section>
+  <section class="card"><h3>מגמת ציונים</h3>${trendSvg(scores)}</section>
+
+  <section class="card stack" id="account">
+    <h3>ההתקדמות שלך</h3>
+    ${FB?accountHtml():`<p class="small">${remote?"ההתקדמות נשמרת בחשבון Claude שלך ומסונכרנת בין המכשירים שבהם אתה פותח את האתר.":"ההתקדמות נשמרת בדפדפן הזה. כדי לסנכרן בין מכשירים צריך להיות מחובר ל-Claude עם הרשאת שימוש באתר."} כדאי לשמור גיבוי מדי פעם.</p>`}
+    <div class="row"><button class="btn sm ghost" id="bk">העתק גיבוי</button><button class="btn sm ghost" id="rs">שחזור מגיבוי</button></div>
+    <div id="bkArea"></div>
+  </section>`;
+  const set=(k,v)=>{S.settings[k]=v;save();render()};
+  $("#st").onchange=e=>set("start",e.target.value||null);
+  $("#tt").onchange=e=>set("test",e.target.value||null);
+  $("#tg").onchange=e=>{const v=+e.target.value;set("target",v||target)};
+  const tx=$("#tgx"); if(tx) tx.onchange=e=>set("target",Math.max(60,Math.min(150,parseInt(e.target.value,10)||134)));
+  $("#dl").onchange=e=>set("daily",Math.max(5,Math.min(150,parseInt(e.target.value,10)||30)));
+  const ur=$("#useRec"); if(ur) ur.onclick=()=>set("daily",rec);
+  const sn=$("#startNow"); if(sn) sn.onclick=()=>set("start",dayStr(today()));
+  app.querySelectorAll("[data-step]").forEach(b=>b.onclick=()=>steps[+b.dataset.step].go());
+  if(FB) bindAccount(app);
+  $("#bk").onclick=()=>{const txt=JSON.stringify(S);const area=$("#bkArea");area.innerHTML=`<textarea id="bkT" readonly style="min-height:90px;font:.75rem var(--mono);direction:ltr"></textarea><p class="small muted">הטקסט הועתק. אפשר להדביק אותו בפתק או במייל לעצמך.</p>`;const ta=$("#bkT");ta.value=txt;try{navigator.clipboard.writeText(txt).catch(()=>{ta.select()})}catch(e){ta.select()}};
+  $("#rs").onclick=()=>{const area=$("#bkArea");area.innerHTML=`<textarea id="rsT" placeholder="הדבק כאן את טקסט הגיבוי" style="min-height:90px;font:.75rem var(--mono);direction:ltr"></textarea><div class="row"><button class="btn sm" id="rsGo">שחזר</button><span class="small muted" id="rsMsg">השחזור מחליף את ההתקדמות הנוכחית.</span></div>`;
+    $("#rsGo").onclick=()=>{try{const x=JSON.parse($("#rsT").value);if(!x||typeof x!=="object"||!x.srs)throw 0;merge(x);save();toast("ההתקדמות שוחזרה");render()}catch(e){$("#rsMsg").textContent="הטקסט לא נראה כמו גיבוי של האתר. כדאי להעתיק אותו שוב במלואו."}}};
+}
+let UPD=[];
+function updatesHtml(){
+  if(!UPD.length) return `<p class="small muted">אין עדכונים.</p>`;
+  const meta=UPD.find(u=>u.checked); const items=UPD.filter(u=>u.title).slice(0,4);
+  return `${meta?`<p class="small muted">נבדק לאחרונה מול אתר מאל"ו: ${esc(meta.checked)}</p>`:""}${items.map(u=>`<div class="stack" style="gap:2px;border-top:1px solid var(--rule);padding-top:8px"><span class="small muted num">${esc(u.date||"")}</span><b>${esc(u.title)}</b><span class="small">${esc(u.text||"")}</span>${u.src?`<a class="small" href="${esc(u.src)}" target="_blank" rel="noopener">למקור ↗</a>`:""}</div>`).join("")}`;
+}
+function trendSvg(scores){
+  if(scores.length<1)return `<div class="empty">אחרי מבחן העבר או הסימולציה הראשונים יופיע כאן גרף הציונים, עם קו יעד ב-134.</div>`;
+  const pts=scores.slice(-20),W=640,H=180,pl=34,pr=10,pt=10,pb=22;
+  const x=i=>pl+(pts.length===1?(W-pl-pr)/2:i*(W-pl-pr)/(pts.length-1)), y=s=>pt+(150-s)*(H-pt-pb)/100;
+  const line=pts.map((p,i)=>`${i?"L":"M"}${x(i).toFixed(1)},${y(p.score).toFixed(1)}`).join("");
+  const grid=[50,88,104,120,134,150].map(v=>`<line x1="${pl}" x2="${W-pr}" y1="${y(v)}" y2="${y(v)}" stroke="var(--rule)" ${v===134?'stroke="var(--good)" stroke-dasharray="5 4"':''}/><text x="${pl-6}" y="${y(v)+4}" text-anchor="end">${v}</text>`).join("");
+  const dots=pts.map((p,i)=>`<circle cx="${x(i)}" cy="${y(p.score)}" r="${i===pts.length-1?5:3.5}" fill="${p.kind==="past"?"var(--accent)":"var(--ink)"}"/>`).join("");
+  return `<div class="scroll" style="direction:ltr"><svg viewBox="0 0 ${W} ${H}" width="100%" style="min-width:360px" role="img" aria-label="גרף ציונים">${grid}<path d="${line}" fill="none" stroke="var(--accent)" stroke-width="2"/>${dots}</svg></div><p class="small muted">כחול: מבחני עבר. שחור: סימולציות באתר. הקו הירוק המקווקו: 134 (פטור).</p>`;
+}
+
+/* =========================================================
+   PLAN
+   ========================================================= */
+const PLAN=[
+ {t:"שבוע 1 · אבחון ובסיס",d:"להבין איפה אתה עומד ולהקים את מנוע המילים",k:[
+  ["שיעורים 1–3 בלשונית למידה: הכרת המבחן, זמן וניחוש, השלמת משפטים","","learn"],
+  ["סימולציית אמירנט 1 של מאל\"ו בממשק האמיתי","להכיר את הממשק ואת לחץ הזמן","ext"],
+  ["אבחון: חורף 2021, שני פרקי האנגלית עם שעון","להזין תשובות בדף התשובות ולקבל ציון","past"],
+  ["כל יום: מילים חדשות וחזרה (כ-25 דקות)","הרגל קבוע עד יום המבחן","words"],
+  ["תרגול השלמת משפטים בלי שעון, 32 שאלות","לכל טעות לבחור קטגוריה","practice"],
+  ["סימולציה ראשונה באתר","להכיר את המבנה האדפטיבי","sim"]]},
+ {t:"שבוע 2 · טכניקה לפי סוג",d:"לבנות שיטה קבועה לכל סוג שאלה",k:[
+  ["שיעורים 4–7: מילות קישור, ניסוח מחדש, הבנת הנקרא, דקדוק לקריאה","","learn"],
+  ["ניסוח מחדש בלי שעון, 30 שאלות","לזהות את המלכודת בכל תשובה שגויה","practice"],
+  ["הבנת הנקרא: 3 קטעים","בכל תשובה לסמן את המשפט שמבסס אותה","practice"],
+  ["מבחני עבר: אביב 2022 וקיץ 2022","","past"],
+  ["יומן טעויות: לזהות את הקטגוריה השכיחה ביותר","","log"],
+  ["כל יום: מילים","","words"]]},
+ {t:"שבוע 3 · עבודה עם שעון",d:"פרקים שלמים בזמן אמת",k:[
+  ["שיעורים 8–12: בניית מילים, מילים מבלבלות, הסוגים החדשים, יום המבחן","","learn"],
+  ["מבחני עבר עם שעון: סתיו 2022, חורף 2022, אביב 2023","20 דקות לפרק","past"],
+  ["תרגול הסוגים החדשים: דקדוק בהקשר, יצירת מילה, האזנה","פרק אחד מכל סוג בפורמט מבחן","practice"],
+  ["תרגול מהירות בקצב אמירנט: השלמה, 3 פעמים בשבוע","דקה לשאלה","practice"],
+  ["2 סימולציות באתר","","sim"],
+  ["כל יום: מילים","","words"]]},
+ {t:"שבוע 4 · עבודה עם שעון ומבחנים",d:"להפוך דיוק להרגל תחת לחץ",k:[
+  ["מבחני עבר: קיץ 2023 עד חורף 2024 (5 מבחנים)","","past"],
+  ["בדיקת אמצע: יעד 33 נכונות ומעלה","","past"],
+  ["חזרה על כל הטעויות מסוג 'מלכודת'","","log"],
+  ["כל יום: מילים","","words"]]},
+ {t:"שבוע 5 · סימולציות נקיות",d:"מבחנים שלא ראית, בתנאים מלאים",k:[
+  ["אביב 2025, קיץ 2025, סתיו 2025","שני פרקים ברצף","past"],
+  ["2 סימולציות באתר","","sim"],
+  ["מטלת כתיבה אחת עם משוב","","practice"],
+  ["ניתוח טעויות אחרי כל מבחן","","log"],
+  ["כל יום: מילים","","words"]]},
+ {t:"שבוע 6 · ממשק אמיתי וחידוד",d:"להגיע ליום המבחן חד ורגוע",k:[
+  ["סימולציות אמירנט 2 ו-3 של מאל\"ו","השנייה 3–4 ימים לפני המבחן","ext"],
+  ["חורף 2025 ואביב 2026","","past"],
+  ["קיץ וסתיו 2026: גיבוי למועד נוסף","","past"],
+  ["יומיים אחרונים: רק מילים ויומן טעויות","","words"]]},
+];
+function vPlan(app){
+  const wk=planWeek();
+  app.innerHTML=`<div class="head"><h2>התוכנית: 6 שבועות</h2><span class="muted small">כ-90 דקות ביום · יעד 134</span></div>
+  ${!S.settings.start?`<div class="card"><p>כשקובעים תאריך התחלה, האתר מדגיש את השבוע הנוכחי ומציג את המשימות שלו בדף הבית.</p><button class="btn" id="startNow" style="align-self:flex-start">מתחילים היום</button></div>`:""}
+  ${PLAN.map((w,i)=>{const n=w.k.filter((_,j)=>S.plan[`t${i}_${j}`]).length;return `<article class="week ${S.settings.start&&i===wk?"now":""}"><header><div><h3>${esc(w.t)}</h3><p class="muted small">${esc(w.d)}</p></div><span class="num muted">${n}/${w.k.length}</span></header>${
+    w.k.map(([a,b,g],j)=>`<div class="task"><input type="checkbox" id="t${i}_${j}" ${S.plan[`t${i}_${j}`]?"checked":""} aria-label="${esc(a)}"><div><div class="tt">${esc(a)}</div>${b?`<div class="small muted">${esc(b)}</div>`:""}</div>${g==="ext"?`<a class="btn sm ghost go" href="${AMIRNET_SIM}" target="_blank" rel="noopener">פתח ↗</a>`:g?`<button class="btn sm ghost go" data-go="${g}">פתח</button>`:""}</div>`).join("")}</article>`}).join("")}`;
+  app.querySelectorAll(".task input").forEach(c=>c.onchange=()=>{S.plan[c.id]=c.checked;save();render()});
+  const sn=$("#startNow"); if(sn) sn.onclick=()=>{S.settings.start=dayStr(today());save();render()};
+}
+
+/* =========================================================
+   WORDS (Leitner SRS)
+   ========================================================= */
+let W={mode:"cards",queue:[],cur:null,shown:false,quiz:null,q:"",filter:"all",done:0};
+function buildQueue(){
+  const t=today(); if(S.intro.day!==t){S.intro={day:t,n:0}}
+  const due=Object.keys(S.srs).filter(w=>S.srs[w].due<=t&&VBY[w]).sort((a,b)=>S.srs[a].b-S.srs[b].b);
+  const left=Math.max(0,S.settings.daily-S.intro.n);
+  const fresh=C.vocab.filter(v=>!S.srs[v.w.toLowerCase()]).slice(0,left).map(v=>v.w.toLowerCase());
+  W.queue=shuffle(due).concat(fresh); W.cur=W.queue.shift()||null; W.shown=false; W.done=0;
+}
+function grade(word,knew){
+  const t=today(); let s=S.srs[word];
+  if(!s){s={b:0,due:t};S.intro.n++;}
+  if(knew){s.b=Math.min(6,s.b+1);s.due=t+BOX_DAYS[s.b];}
+  else{s.b=0;s.due=t;W.queue.splice(Math.min(W.queue.length,4),0,word);}
+  S.srs[word]=s; logWords(1); save();
+}
+function vWords(app){
+  const sc=srsCounts();
+  app.innerHTML=`<div class="head"><h2>מילים</h2><div class="seg">${[["cards","כרטיסיות"],["cloze","השלמה בהקשר"],["quiz","בוחן תרגום"],["list","רשימת המילים"]].map(([k,t])=>`<button class="chip" data-m="${k}" aria-pressed="${W.mode===k}">${t}</button>`).join("")}</div></div>
+  <p class="muted small">${C.vocab.length} מילים, ממוינות לפי חשיבות. הרשימה בנויה מהמילים שחוזרות במבחני העבר של מאל"ו. ${sc.known} נלמדו · ${sc.learning} בלמידה · ${sc.due} לחזרה היום.</p>
+  <div id="wbody"></div>`;
+  app.querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>{W.mode=b.dataset.m;if(W.mode==="cards")buildQueue();if(W.mode==="quiz")W.quiz=null;if(W.mode==="cloze")W.cz=null;render()});
+  const body=$("#wbody");
+  if(!C.vocab.length){body.innerHTML=`<div class="empty">רשימת המילים לא נטענה.</div>`;return}
+  if(W.mode==="cards"){ if(!W.cur&&!W.done)buildQueue(); cardsView(body) }
+  else if(W.mode==="quiz") quizView(body); else if(W.mode==="cloze") clozeView(body); else listView(body);
+}
+function boxes(b){return `<div class="boxes" aria-label="קופסה ${b} מתוך 6">${[1,2,3,4,5,6].map(i=>`<i class="${i<=b?"on":""}"></i>`).join("")}</div>`}
+function cardsView(body){
+  if(!W.cur){body.innerHTML=`<div class="flash"><h2>סיימת את הכרטיסיות להיום</h2><p class="muted">${W.done?`עברת על ${W.done} כרטיסיות. `:""}מחר יחכו כרטיסיות חדשות לחזרה.</p><div class="row" style="justify-content:center"><button class="btn" id="more">עוד 10 מילים חדשות</button><button class="btn ghost" data-go="practice">לתרגול שאלות</button></div></div>`;
+    $("#more").onclick=()=>{S.settings.daily+=10;save();buildQueue();render()};return}
+  const v=VBY[W.cur]; const s=S.srs[W.cur];
+  body.innerHTML=`<div class="flash">
+    <span class="muted small">${s?"חזרה":"מילה חדשה"} · נותרו ${W.queue.length+1}</span>
+    ${boxes(s?s.b:0)}
+    <div class="row" style="justify-content:center;gap:10px"><div class="w">${esc(v.w)}</div>${"speechSynthesis" in window?`<button class="btn sm ghost" id="say" aria-label="השמע הגייה">🔊</button>`:""}</div><span class="muted small en">${esc(v.pos||"")}</span>
+    ${W.shown&&v.fam?`<span class="small muted en">${esc(v.fam)}</span>`:""}
+    ${W.shown?`<div class="he">${esc(v.he)}</div><div class="ex">${esc(v.ex||"")}</div>`:""}
+  </div>
+  <div class="row" style="justify-content:center">${W.shown?`<button class="btn ghost" id="no">לא ידעתי</button><button class="btn" id="yes">ידעתי</button>`:`<button class="btn" id="show">הצג תרגום <span class="muted small">(רווח)</span></button>${s?"":`<button class="btn ghost" id="known" title="המילה תחזור רק בעוד כמה שבועות">מכיר כבר</button>`}`}</div>
+  ${s?"":`<p class="small muted" style="text-align:center">מכיר את המילה בוודאות? "מכיר כבר" מדלג עליה ומשאיר זמן למילים שאתה לא מכיר.</p>`}`;
+  const next=knew=>{grade(W.cur,knew);W.done++;W.cur=W.queue.shift()||null;W.shown=false;render()};
+  const sy=$("#say"); if(sy) sy.onclick=()=>speak(v.w);
+  const kn=$("#known"); if(kn) kn.onclick=()=>{const t=today();S.srs[W.cur]={b:5,due:t+BOX_DAYS[5]};S.intro.n++;logWords(1);save();W.done++;W.cur=W.queue.shift()||null;W.shown=false;render()};
+  if(W.shown){$("#no").onclick=()=>next(false);$("#yes").onclick=()=>next(true)} else $("#show").onclick=()=>{W.shown=true;render()};
+}
+document.addEventListener("keydown",e=>{
+  if(view!=="words"||W.mode!=="cards"||!W.cur||/INPUT|TEXTAREA|SELECT/.test(e.target.tagName))return;
+  if(e.code==="Space"){e.preventDefault(); if(!W.shown){W.shown=true;render()} else $("#yes")?.click()}
+  else if(W.shown&&(e.key==="1"||e.key==="ArrowRight"))$("#no")?.click();
+  else if(W.shown&&(e.key==="2"||e.key==="ArrowLeft"))$("#yes")?.click();
+});
+function quizView(body){
+  if(!W.quiz){
+    const learned=C.vocab.filter(v=>S.srs[v.w.toLowerCase()]);
+    const pool=learned.length>=12?learned:C.vocab.slice(0,Math.max(40,learned.length));
+    W.quiz={items:shuffle(pool).slice(0,10).map(v=>{const d=shuffle(C.vocab.filter(x=>x.w!==v.w&&x.pos===v.pos)).slice(0,3);while(d.length<3)d.push(C.vocab[Math.floor(Math.random()*C.vocab.length)]);const o=shuffle([v,...d]);return{v,o,a:o.indexOf(v),pick:null}}),i:0,score:0};
+  }
+  const Q=W.quiz;
+  if(Q.i>=Q.items.length){body.innerHTML=`<div class="flash"><h2>${Q.score}/10</h2><p class="muted">מילים שטעית בהן חזרו לקופסה 1 ויופיעו שוב היום.</p><button class="btn" id="again">בוחן חדש</button></div>`;$("#again").onclick=()=>{W.quiz=null;render()};return}
+  const it=Q.items[Q.i];
+  body.innerHTML=`<div class="q"><div class="q-meta"><span>שאלה ${Q.i+1}/10</span><span class="num">${Q.score} ✓</span></div>
+  <div class="stem" style="font-size:1.8rem;text-align:center">${esc(it.v.w)}</div>
+  <div class="opts" style="direction:rtl">${it.o.map((o,i)=>`<button class="opt ${it.pick!=null?(i===it.a?"ok":i===it.pick?"no":""):""}" data-i="${i}" ${it.pick!=null?"disabled":""} style="font-family:var(--body);text-align:right"><span class="bub">${i+1}</span><span>${esc(o.he)}</span></button>`).join("")}</div>
+  ${it.pick!=null?`<div class="explain"><span class="en">${esc(it.v.ex||"")}</span></div><button class="btn" id="nx" style="align-self:flex-start">הבא</button>`:""}</div>`;
+  body.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{it.pick=+b.dataset.i;const ok=it.pick===it.a;if(ok)Q.score++;const k=it.v.w.toLowerCase();if(!ok){S.srs[k]={b:0,due:today()};save()}render()});
+  const nx=$("#nx"); if(nx) nx.onclick=()=>{Q.i++;render()};
+}
+// vocabulary in context: the card's own example sentence with the word blanked, 4 same-POS options (exam format)
+function clozeView(body){
+  if(!W.cz){
+    const learned=C.vocab.filter(v=>S.srs[v.w.toLowerCase()]);
+    const base=(learned.length>=15?learned:C.vocab.slice(0,300)).filter(v=>v.ex&&!/\s/.test(v.w)&&new RegExp("\\b"+v.w+"\\b","i").test(v.ex));
+    const items=shuffle(base).slice(0,10).map(v=>{
+      const pool=C.vocab.filter(x=>x.w!==v.w&&x.pos===v.pos&&!/\s/.test(x.w)&&Math.abs((x.lvl||2)-(v.lvl||2))<=1);
+      const o=shuffle([v,...shuffle(pool).slice(0,3)]).sort((a,b)=>a.w.localeCompare(b.w));
+      const q=v.ex.replace(new RegExp("\\b"+v.w+"\\b","i"),"__________");
+      return{v,q,o,a:o.indexOf(v),pick:null};
+    });
+    W.cz={items,i:0,score:0};
+  }
+  const Z=W.cz;
+  if(!Z.items.length){body.innerHTML=`<div class="empty">אין מספיק מילים לתרגול הזה.</div>`;return}
+  if(Z.i>=Z.items.length){body.innerHTML=`<div class="flash"><h2>${Z.score}/${Z.items.length}</h2><p class="muted">מילים שטעית בהן חזרו לכרטיסיות של היום.</p><button class="btn" id="again">סבב חדש</button></div>`;$("#again").onclick=()=>{W.cz=null;render()};return}
+  const it=Z.items[Z.i];
+  body.innerHTML=`<div class="q"><div class="q-meta"><span>השלמה בהקשר · ${Z.i+1}/${Z.items.length}</span><span class="num">${Z.score} ✓</span></div>
+  <div class="stem">${stemHtml(it.q)}</div>
+  <div class="opts">${it.o.map((o,k)=>`<button class="opt ${it.pick!=null?(k===it.a?"ok":k===it.pick?"no":""):""}" data-k="${k}" ${it.pick!=null?"disabled":""}><span class="bub">${k+1}</span><span>${esc(o.w)}</span></button>`).join("")}</div>
+  ${it.pick!=null?`<div class="explain">${it.o.map(o=>`<span><b class="en">${esc(o.w)}</b> = ${esc(o.he)}</span>`).join("")}</div><button class="btn" id="nx" style="align-self:flex-start">הבא</button>`:""}</div>`;
+  body.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{it.pick=+b.dataset.k;const ok=it.pick===it.a;if(ok)Z.score++;else{S.srs[it.v.w.toLowerCase()]={b:0,due:today()};}logWords(1);save();render()});
+  const nx=$("#nx"); if(nx){nx.onclick=()=>{Z.i++;render()};nx.focus({preventScroll:true})}
+}
+function listView(body){
+  const q=W.q.trim().toLowerCase(); const t=today();
+  const st=v=>{const s=S.srs[v.w.toLowerCase()];return !s?"new":s.b>=4?"known":"learning"};
+  const rows=C.vocab.filter(v=>(!q||v.w.toLowerCase().includes(q)||String(v.he).includes(q))&&(W.filter==="all"||st(v)===W.filter));
+  body.innerHTML=`<div class="row"><input type="search" id="wq" placeholder="חיפוש באנגלית או בעברית" value="${esc(W.q)}" style="flex:1;min-width:200px">
+  <div class="seg">${[["all","הכול"],["new","חדשות"],["learning","בלמידה"],["known","נלמדו"]].map(([k,tx])=>`<button class="chip" data-f="${k}" aria-pressed="${W.filter===k}">${tx}</button>`).join("")}</div></div>
+  <p class="small muted">${rows.length} מילים</p>
+  <div class="scroll"><table><tr><th>מילה</th><th>תרגום</th><th>דוגמה</th><th>מצב</th></tr>
+  ${rows.slice(0,300).map(v=>{const s=S.srs[v.w.toLowerCase()];return `<tr><td class="en"><b>${esc(v.w)}</b> <span class="muted small">${esc(v.pos||"")}</span></td><td>${esc(v.he)}</td><td class="en small">${esc(v.ex||"")}</td><td>${s?boxes(s.b):`<button class="btn sm ghost" data-add="${esc(v.w.toLowerCase())}">ללמוד</button>`}</td></tr>`}).join("")}</table></div>
+  ${rows.length>300?`<p class="small muted">מוצגות 300 הראשונות. אפשר לצמצם בעזרת החיפוש.</p>`:""}`;
+  const inp=$("#wq"); inp.oninput=()=>{W.q=inp.value;listView(body);const n=$("#wq");n.focus();n.setSelectionRange(n.value.length,n.value.length)};
+  body.querySelectorAll("[data-f]").forEach(b=>b.onclick=()=>{W.filter=b.dataset.f;listView(body)});
+  body.querySelectorAll("[data-add]").forEach(b=>b.onclick=()=>{S.srs[b.dataset.add]={b:0,due:t};save();toast("נוספה לכרטיסיות של היום");listView(body)});
+}
+
+/* =========================================================
+   QUESTION RENDERING (shared)
+   ========================================================= */
+function stemHtml(q){return esc(q).replace(/_{2,}/g,'<span class="blank"></span>')}
+function wordsInOptions(it){const out=[];(it.o||[]).forEach(o=>String(o).toLowerCase().split(/[^a-z-]+/).forEach(w=>{if(VBY[w]&&!out.includes(w))out.push(w)}));return out}
+function catChips(key,cur){return `<div class="cat"><span class="small muted">למה טעיתי?</span>${CATS.map(([k,t])=>`<button class="chip" data-cat="${k}" data-key="${esc(key)}" aria-pressed="${cur===k}">${t}</button>`).join("")}</div>`}
+async function aiExplain(target,item,type,pick,passage){
+  if(!sampleFn){return}
+  target.innerHTML=`<span class="muted">Claude חושב…</span>`;
+  const opts=item.o.map((o,i)=>`(${i+1}) ${o}`).join("\n");
+  const prompt=`אתה מורה לאנגלית שמכין תלמידים למבחן אמירנט (מבחן מיון באנגלית בישראל). הסבר בעברית, בקצרה (עד 6 שורות), למה התשובה הנכונה נכונה ולמה התשובה שהתלמיד בחר שגויה. תרגם לעברית את המילים הקשות בשאלה ובתשובות. בסוף, תן טיפ אחד של שורה לזיהוי שאלה כזו בפעם הבאה. אל תשתמש בכותרות או בעיצוב Markdown.
+
+סוג שאלה: ${TYPE_HE[type]}
+${passage?`קטע:\n${passage}\n`:""}שאלה: ${item.q}
+תשובות:
+${opts}
+התשובה הנכונה: (${item.a+1})
+התלמיד בחר: ${pick!=null?`(${pick+1})`:"לא ענה"}`;
+  try{const{text}=await sampleFn(prompt,{onText:({text})=>{target.textContent=text}});target.textContent=text}
+  catch(e){ if(e&&e.code==="not_granted"||e&&e.code==="sampling_disabled"){sampleFn=null;target.textContent="ההסבר המורחב לא זמין בחשבון הזה."} else if(e&&e.code==="rate_limited") target.textContent="יותר מדי בקשות כרגע. נסה שוב בעוד כמה דקות."; else target.textContent=(e&&e.text)||"ההסבר לא הגיע. אפשר לנסות שוב."}
+}
+
+/* =========================================================
+   PRACTICE
+   ========================================================= */
+let P={cfg:{type:"sc",d:0,n:8,timed:false,mode:"learn",chn:1},run:null,review:null,gen:{busy:false,msg:""}};
+const SET_TYPES=["rc","lc"];
+const LEARN_TYPES=["sc","rs","rc","gc","wf","ct","lc","wr"];
+function poolSize(t){return t==="sc"?allSC().length:t==="rs"?allRS().length:t==="rc"?C.rc.length*5:t==="lc"?C.lc.reduce((s,x)=>s+x.clips.reduce((a,c)=>a+c.qs.length,0),0):(C[t]||[]).length}
+// learn-mode item list: [{it, p?, clip?}]
+function pickItems(type,d,n){
+  const flat=[];
+  if(type==="rc"){nearest(C.rc,d,Math.max(1,Math.round(n/5))).forEach(p=>p.qs.forEach((q,i)=>flat.push({it:Object.assign({id:p.id+"_"+i,kind:"mc"},q),p})));return flat}
+  if(type==="lc"){nearest(C.lc,0,Math.max(1,Math.round(n/5))).forEach(s=>s.clips.forEach((c,ci)=>c.qs.forEach((q,qi)=>flat.push({it:Object.assign({id:s.id+"_"+ci+"_"+qi,kind:"mc"},q),clip:c,setId:s.id}))));return flat}
+  if(type==="ct") return nearest(C.ct,0,n).map(x=>({it:Object.assign({},x,{kind:"mc"}),clip:{context:CT_CONTEXT,script:x.script}}));
+  if(type==="wf") return nearest(C.wf,d,n).map(x=>({it:Object.assign({},x,{kind:"wf"})}));
+  if(type==="gc") return nearest(C.gc,d,n).map(x=>({it:Object.assign({},x,{kind:"mc"})}));
+  const pool=type==="sc"?allSC():allRS();
+  return nearest(pool,d,n).map(x=>({it:Object.assign(type==="sc"?alphaSort(x):Object.assign({},x),{kind:"mc"})}));
+}
+function startPractice(){
+  const {type,d,n,timed,mode,chn}=P.cfg;
+  if(mode==="exam"||type==="wr"){ // official chapter format in the exam interface
+    const plan=Array(type==="wr"?1:chn).fill(type); const used=new Set();
+    if(poolSize(type)<1){toast("אין עדיין שאלות מהסוג הזה");return}
+    startExam({plan,mode:"practice",replay:true,
+      build:()=>{const c=pickChapter(type,d||0,null,used);c.items.forEach(x=>used.add(x.id));if(c.passage)used.add(c.passage.id);if(c.setId)used.add(c.setId);return c},
+      onDone:chs=>{gradeChapters(chs,"practice");save();P.review={chs};view="practice";render();window.scrollTo(0,0)}});
+    return;
+  }
+  const flat=pickItems(type,d,n);
+  if(!flat.length){toast("אין שאלות שמתאימות לבחירה הזו");return}
+  const per={sc:60,rs:120,rc:180,gc:60,wf:45,ct:60,lc:84}[type];
+  P.run={type,items:flat,i:0,pick:{},score:0,cat:{},t0:Date.now(),left:timed?per*flat.length:null};
+  render();
+}
+function vPractice(app){
+  if(P.run) return practiceRun(app);
+  if(P.review){
+    const chs=P.review.chs; const g=chs.flatMap(c=>c.items.map((x,i)=>isCorrect(x,c.pick[i]))).filter(v=>v!==null);
+    app.innerHTML=`<div class="head"><h2>תוצאות הפרק</h2>${g.length?`<span class="num">${g.filter(Boolean).length}/${g.length}</span>`:""}</div>
+    ${reviewHtml(chs)}<div class="row"><button class="btn" id="again">תרגול נוסף</button><button class="btn ghost" data-go="log">ליומן הטעויות</button></div>`;
+    bindReview(app,chs); $("#again").onclick=()=>{P.review=null;render()}; return;
+  }
+  const c=P.cfg; const isSet=SET_TYPES.includes(c.type); const hasD=["sc","rs","rc","gc","wf"].includes(c.type);
+  const exam=c.mode==="exam"||c.type==="wr";
+  app.innerHTML=`<div class="head"><h2>תרגול לפי סוג שאלה</h2><span class="muted small">שאלות מקוריות בסגנון המבחן, עם הסבר לכל תשובה</span></div>
+  <div class="card stack">
+    <div class="stack" style="gap:6px"><span class="f">סוג (פרקים 1–6 קובעים ציון)</span><div class="seg">${["sc","rs","rc"].map(t=>`<button class="chip" data-t="${t}" aria-pressed="${c.type===t}">${TYPE_HE[t]} <span class="num muted">${poolSize(t)}</span></button>`).join("")}</div></div>
+    <div class="stack" style="gap:6px"><span class="f">הסוגים החדשים (פרקים ניסיוניים, ומ-2027 חלק מהמבחן)</span><div class="seg">${["gc","wf","ct","lc","wr"].map(t=>`<button class="chip" data-t="${t}" aria-pressed="${c.type===t}" ${poolSize(t)?"":"disabled"}>${TYPE_HE[t]} <span class="num muted">${poolSize(t)}</span></button>`).join("")}</div></div>
+    ${c.type!=="wr"?`<div class="stack" style="gap:6px"><span class="f">מצב</span><div class="seg"><button class="chip" data-mo="learn" aria-pressed="${c.mode==="learn"}">למידה: משוב והסבר אחרי כל שאלה</button><button class="chip" data-mo="exam" aria-pressed="${c.mode==="exam"}">פורמט מבחן: פרק רשמי בממשק המבחן, משוב בסוף</button></div></div>`:""}
+    ${hasD?`<div class="stack" style="gap:6px"><span class="f">רמת קושי</span><div class="seg">${[[0,"מעורב"],[1,"קל"],[2,"בינוני"],[3,"קשה"]].map(([k,t])=>`<button class="chip" data-d="${k}" aria-pressed="${c.d===k}">${t}</button>`).join("")}</div></div>`:""}
+    ${exam?(c.type==="wr"?`<p class="small muted">מטלת כתיבה אחת, 12 דקות, עם מונה מילים. בסוף מקבלים תשובה לדוגמה וטיפים${sampleFn?", ואפשר לבקש משוב אישי מ-Claude":""}.</p>`:`<div class="stack" style="gap:6px"><span class="f">כמה פרקים ברצף</span><div class="seg">${[1,2,3].map(k=>`<button class="chip" data-chn="${k}" aria-pressed="${c.chn===k}">${k}</button>`).join("")}</div><span class="small muted">פרק רשמי: ${CH_SPEC[c.type][0]} שאלות, ${Math.round(CH_SPEC[c.type][1]/60)} דקות.</span></div>`)
+    :`<div class="stack" style="gap:6px"><span class="f">${isSet?"כמה סטים":"מספר שאלות"}</span><div class="seg">${(isSet?[[5,"סט אחד"],[10,"2 סטים"],[15,"3 סטים"]]:[[4,"4"],[8,"8"],[16,"16"],[30,"30"]]).map(([k,t])=>`<button class="chip" data-n="${k}" aria-pressed="${c.n===k}">${t}</button>`).join("")}</div></div>
+    <div class="stack" style="gap:6px"><span class="f">שעון</span><div class="seg"><button class="chip" data-tm="0" aria-pressed="${!c.timed}">בלי שעון: לומדים טכניקה</button><button class="chip" data-tm="1" aria-pressed="${c.timed}">בקצב המבחן</button></div></div>`}
+    <button class="btn" id="go" style="align-self:flex-start">התחל</button>
+  </div>
+  ${sampleFn&&(c.type==="sc"||c.type==="rs")?`<div class="card"><h3>רוצה עוד שאלות?</h3><p class="muted small">Claude יכתוב 5 שאלות ${TYPE_HE[c.type]} חדשות ברמה ${["מעורבת","קלה","בינונית","קשה"][c.d]}, והן יישמרו במאגר שלך. השימוש נספר במכסת השימוש שלך ב-Claude.</p><div class="row"><button class="btn ghost" id="gen" ${P.gen.busy?"disabled":""}>${P.gen.busy?"כותב שאלות…":"צור 5 שאלות"}</button><span class="small muted">${esc(P.gen.msg)}</span></div></div>`:""}
+  <div class="card"><p class="small">לשיטה המלאה של כל סוג שאלה יש שיעור בלשונית <button class="btn sm ghost" data-go="learn">למידה</button></p></div>`;
+  app.querySelectorAll("[data-t]").forEach(b=>b.onclick=()=>{c.type=b.dataset.t;c.n=SET_TYPES.includes(c.type)?5:8;render()});
+  app.querySelectorAll("[data-d]").forEach(b=>b.onclick=()=>{c.d=+b.dataset.d;render()});
+  app.querySelectorAll("[data-n]").forEach(b=>b.onclick=()=>{c.n=+b.dataset.n;render()});
+  app.querySelectorAll("[data-chn]").forEach(b=>b.onclick=()=>{c.chn=+b.dataset.chn;render()});
+  app.querySelectorAll("[data-mo]").forEach(b=>b.onclick=()=>{c.mode=b.dataset.mo;render()});
+  app.querySelectorAll("[data-tm]").forEach(b=>b.onclick=()=>{c.timed=b.dataset.tm==="1";render()});
+  $("#go").onclick=startPractice;
+  const g=$("#gen"); if(g) g.onclick=genQuestions;
+}
+async function genQuestions(){
+  if(!sampleFn||P.gen.busy)return; P.gen={busy:true,msg:""}; render();
+  const t=P.cfg.type, d=P.cfg.d||2;
+  const lvl=["","מילים אקדמיות נפוצות","רמה בינונית","מילים מתקדמות ונדירות"][d];
+  const spec=t==="sc"
+    ?`5 שאלות מסוג Sentence Completion: משפט אקדמי באנגלית (15-30 מילים) עם חסר אחד שמסומן "____", ו-4 אפשרויות שהן מילה אחת מאותו חלק דיבר. רק אפשרות אחת מתאימה. רמת אוצר המילים: ${lvl}.`
+    :`5 שאלות מסוג Restatement: משפט אקדמי מורכב באנגלית (20-40 מילים) ו-4 ניסוחים מחדש. רק ניסוח אחד שומר על המשמעות המלאה. המסיחים משתמשים במלכודות מוכרות: שינוי שלילה, שינוי כמת, היפוך סיבה ותוצאה, שינוי זמן, תוספת מידע. רמה: ${lvl}.`;
+  const prompt=`כתוב שאלות מקוריות לתרגול למבחן אמירנט (מבחן מיון באנגלית בישראל, בסגנון פרק האנגלית בפסיכומטרי). ${spec}
+מקם את התשובה הנכונה במיקומים שונים. לכל שאלה כתוב הסבר קצר בעברית (1-2 משפטים) שכולל תרגום של המילים המרכזיות.
+החזר רק מערך JSON בפורמט: [{"q":"...","o":["a","b","c","d"],"a":0,"ex":"..."}] כאשר a הוא אינדקס התשובה הנכונה (0-3).`;
+  try{
+    const arr=await sampleFn.json(prompt,{cache:false});
+    const ok=(Array.isArray(arr)?arr:[]).filter(x=>x&&typeof x.q==="string"&&Array.isArray(x.o)&&x.o.length===4&&Number.isInteger(x.a)&&x.a>=0&&x.a<4&&(t!=="sc"||/_{2,}/.test(x.q)));
+    const stamp=Date.now().toString(36);
+    ok.forEach((x,i)=>S.gen.push({id:`g${stamp}${i}`,t,d,q:x.q,o:x.o.map(String),a:x.a,ex:String(x.ex||""),gen:1}));
+    save(); P.gen={busy:false,msg:ok.length?`נוספו ${ok.length} שאלות למאגר.`:"השאלות שהתקבלו לא תקינות. אפשר לנסות שוב."};
+  }catch(e){
+    if(e&&(e.code==="not_granted"||e.code==="sampling_disabled")) sampleFn=null;
+    P.gen={busy:false,msg:e&&e.code==="rate_limited"?"יותר מדי בקשות כרגע. אפשר לנסות שוב בעוד כמה דקות.":"השאלות לא נוצרו. אפשר לנסות שוב."};
+  }
+  if(view==="practice") render();
+}
+function practiceRun(app){
+  const R=P.run; const cur=R.items[R.i];
+  if(!cur){ // summary
+    stopTimer(); ttsStop();
+    const n=Object.keys(R.pick).length; const wrong=R.items.filter((x,i)=>R.pick[i]!==undefined&&!isCorrect(x.it,R.pick[i])).length;
+    app.innerHTML=`<div class="head"><h2>סיכום התרגול</h2><span class="num">${R.score}/${R.items.length}</span></div>
+    <div class="grid"><div class="card tile"><b>${R.items.length?Math.round(100*R.score/R.items.length):0}%</b><span>דיוק</span></div><div class="card tile"><b>${Math.round((Date.now()-R.t0)/60000)}′</b><span>זמן</span></div><div class="card tile"><b>${wrong}</b><span>טעויות שנכנסו ליומן</span></div></div>
+    <div class="row"><button class="btn" id="again">תרגול נוסף</button><button class="btn ghost" data-go="log">ליומן הטעויות</button><button class="btn ghost" data-go="words">לכרטיסיות</button></div>`;
+    $("#again").onclick=()=>{P.run=null;render()}; return;
+  }
+  const it=cur.it, i=R.i, pick=R.pick[i], answered=pick!==undefined, ok=answered?isCorrect(it,pick):null;
+  const passage=cur.p?`<div class="passage"><h3>${esc(cur.p.title||"")}</h3>${cur.p.paras.map((t,k)=>`<p><b>(${k+1})</b>${esc(t)}</p>`).join("")}</div>`:"";
+  const audio=cur.clip?`<div class="card"><span class="small muted en">${esc(cur.clip.context||"")}</span><div class="row"><button class="btn accent" id="play">▶ השמע</button><button class="btn ghost sm" id="stopA">עצור</button><span class="small muted">${"speechSynthesis" in window?"אפשר להשמיע שוב כמה שרוצים":"הדפדפן הזה לא תומך בהשמעה. התמליל יופיע אחרי שתענה."}</span></div>${answered?`<div class="explain"><span class="small muted">תמליל</span><span class="en" style="white-space:pre-wrap">${esc(cur.clip.script)}</span></div>`:""}</div>`:"";
+  const words=answered&&R.type==="sc"?wordsInOptions(it).filter(w=>!S.srs[w]||S.srs[w].b<4):[];
+  let body;
+  if(it.kind==="wf"){
+    const parts=String(it.q).split(/_{2,}/);
+    body=`<div class="stem">${esc(parts[0])}<input id="wfIn" class="en" style="width:10em;border:0;border-bottom:2px solid var(--ink);background:transparent;font:inherit;padding:0 4px" value="${esc(answered?pick:"")}" ${answered?"disabled":""} autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="המילה החסרה">${esc(parts.slice(1).join(""))}</div>
+    ${answered?`<p>${ok?`<b class="ok-t">נכון</b>`:`<b class="no-t">לא נכון</b> · התשובה: <b class="en">${esc((it.ans||[]).join(" / "))}</b>`}</p>`:`<button class="btn" id="wfChk" style="align-self:flex-start">בדוק</button>`}`;
+  } else {
+    body=`<div class="stem">${stemHtml(it.q)}</div>
+    <div class="opts">${it.o.map((o,k)=>`<button class="opt ${answered?(k===it.a?"ok":k===pick?"no":""):""}" data-k="${k}" ${answered?"disabled":""}><span class="bub">${k+1}</span><span>${esc(o)}</span></button>`).join("")}</div>`;
+  }
+  app.innerHTML=`<div class="row" style="justify-content:space-between"><button class="btn sm ghost" id="quit">סיום</button><span class="num">${i+1}/${R.items.length} · ${R.score} ✓</span>${R.left!=null?`<span class="timer ${R.left<30?"low":""}" id="tm">${fmt(R.left)}</span>`:""}</div>
+  ${passage}${audio}
+  <div class="q">
+    <div class="q-meta"><span>${TYPE_HE[cur.type||R.type]}${cur.retry?" · חזרה על טעות":""}${it.d?` · רמה ${it.d}`:""}${it.gen?" · נוצרה ע\"י Claude":""}</span></div>
+    ${(cur.type||R.type)==="rs"?`<p class="small muted">בחר את הניסוח שמשמר את המשמעות המלאה של המשפט:</p>`:R.type==="wf"?`<p class="small muted">הקלד את הצורה הנכונה של המילה שבסוגריים:</p>`:""}
+    ${body}
+    ${answered?`<div class="explain">${it.kind==="mc"?`<b class="${ok?"ok-t":"no-t"}">${ok?"נכון":pick===-1?"נגמר הזמן":"לא נכון"}</b>`:""}<span>${esc(it.ex||"")}</span>
+      ${sampleFn&&it.kind==="mc"?`<div><button class="btn sm ghost" id="ai">הסבר מורחב מ-Claude</button></div><div class="ai" id="aiout"></div>`:""}</div>
+      ${!ok?catChips(it.id,R.cat[i]):""}
+      ${words.length?`<div class="cat"><span class="small muted">להוסיף לכרטיסיות:</span>${words.map(w=>`<button class="chip" data-addw="${esc(w)}">${esc(w)}</button>`).join("")}</div>`:""}
+      <button class="btn" id="next" style="align-self:flex-start">${i+1<R.items.length?"לשאלה הבאה":"לסיכום"}</button>`:""}
+  </div>`;
+  $("#quit").onclick=()=>{ttsStop();R.items=R.items.slice(0,Object.keys(R.pick).length);R.i=R.items.length;render()};
+  app.querySelectorAll(".opt").forEach(b=>b.onclick=()=>answer(+b.dataset.k));
+  const wc=$("#wfChk"), wi=$("#wfIn"); if(wc){wc.onclick=()=>{const v=wi.value.trim();if(v)answer(v)}; wi.onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();wc.click()}}; wi.focus({preventScroll:true})}
+  const pl=$("#play"); if(pl) pl.onclick=()=>speak(cur.clip.script); const sa=$("#stopA"); if(sa) sa.onclick=ttsStop;
+  const nx=$("#next"); if(nx){nx.onclick=()=>{ttsStop();R.i++;render();window.scrollTo(0,0)};nx.focus({preventScroll:true})}
+  const ai=$("#ai"); if(ai) ai.onclick=()=>{ai.disabled=true;aiExplain($("#aiout"),it,R.type,pick,cur.p?cur.p.paras.join("\n\n"):cur.clip?cur.clip.script:"")};
+  app.querySelectorAll("[data-cat]").forEach(b=>b.onclick=()=>{R.cat[i]=b.dataset.cat;const e=S.errors.slice().reverse().find(x=>x.ref===it.id);if(e){e.cat=R.cat[i];save()}render()});
+  app.querySelectorAll("[data-addw]").forEach(b=>b.onclick=()=>{const w=b.dataset.addw;S.srs[w]={b:0,due:today()};save();b.disabled=true;b.textContent="✓ "+w});
+  if(R.left!=null&&!timerId){timerId=setInterval(()=>{if(view!=="practice"||!P.run){stopTimer();return} R.left--;const el=$("#tm");if(el){el.textContent=fmt(Math.max(0,R.left));el.classList.toggle("low",R.left<30)} if(R.left<=0){stopTimer();for(let k=R.i;k<R.items.length;k++){if(R.pick[k]===undefined){R.pick[k]=-1;logActivity(R.type,false)}}R.i=R.items.length;save();render()}},1000)}
+}
+function answer(k){
+  const R=P.run, cur=R.items[R.i], it=cur.it; if(R.pick[R.i]!==undefined)return;
+  R.pick[R.i]=k; const ok=isCorrect(it,k); if(ok)R.score++;
+  logActivity(cur.type||R.type,ok); markSeen(cur.p?cur.p.id:cur.setId||it.id);
+  if(ok&&cur.retry){const ix=S.errors.findIndex(e=>e.ref===it.id);if(ix>=0)S.errors.splice(ix,1)}
+  if(!ok&&(cur.type||R.type)==="sc"&&it.kind==="mc"){const w=String(it.o[it.a]).toLowerCase();if(VBY[w]&&(!S.srs[w]||S.srs[w].b>1)){S.srs[w]={b:0,due:today()};toast(`המילה ${w} נוספה לכרטיסיות שלך`)}}
+  if(!ok&&!cur.retry) S.errors.push({t:Date.now(),src:"practice",type:cur.type||R.type,ref:it.id,q:String(it.q).slice(0,700),pick:it.kind==="mc"?k:-1,a:it.kind==="mc"?it.a:-1,o:it.kind==="mc"?it.o:null,typed:it.kind==="wf"?k:undefined,acc:it.kind==="wf"?it.ans:undefined,ex:it.ex||"",cat:null});
+  save(); render();
+}
+const fmt=s=>`${Math.floor(s/60)}:${String(s%60).padStart(2,"0")}`;
+
+/* =========================================================
+   ITEM POOLS (shared by practice, exam mode and simulation)
+   ========================================================= */
+const seenOf=id=>S.seen[id]||0;
+const markSeen=id=>{S.seen[id]=(S.seen[id]||0)+1};
+function alphaSort(x){ // the real test lists sentence-completion options alphabetically
+  const idx=x.o.map((o,i)=>i).sort((i,j)=>String(x.o[i]).toLowerCase().localeCompare(String(x.o[j]).toLowerCase()));
+  return Object.assign({},x,{o:idx.map(i=>x.o[i]),a:idx.indexOf(x.a)});
+}
+function nearest(pool,d,n,used){
+  const p=pool.filter(x=>!used||!used.has(x.id));
+  return shuffle(p).sort((a,b)=>(d?Math.abs((a.d||2)-d)-Math.abs((b.d||2)-d):0)||seenOf(a.id)-seenOf(b.id)).slice(0,n);
+}
+const CT_CONTEXT="You will hear the beginning of a short talk.";
+// returns {items, passage?, clips?, d}
+function pickChapter(type,d,n,used){
+  n=n||CH_SPEC[type][0];
+  if(type==="sc"){const it=nearest(allSC(),d,n,used).sort((a,b)=>(a.d||2)-(b.d||2));return{items:it.map(x=>Object.assign(alphaSort(x),{kind:"mc"})),d}}
+  if(type==="rs"){const it=nearest(allRS(),d,n,used).sort((a,b)=>(a.d||2)-(b.d||2));return{items:it.map(x=>Object.assign({},x,{kind:"mc"})),d}}
+  if(type==="gc"){return{items:nearest(C.gc,d,n,used).map(x=>Object.assign({},x,{kind:"mc"})),d}}
+  if(type==="wf"){return{items:nearest(C.wf,d,n,used).map(x=>Object.assign({},x,{kind:"wf"})),d}}
+  if(type==="ct"){return{items:nearest(C.ct,0,n,used).map(x=>Object.assign({},x,{kind:"mc",context:CT_CONTEXT})),d:2}}
+  if(type==="rc"){const p=nearest(C.rc,d,1,used)[0]; if(!p)return{items:[]}; return{passage:p,d:p.d,items:p.qs.slice(0,5).map((q,i)=>Object.assign({id:p.id+"_"+i,kind:"mc"},q))}}
+  if(type==="lc"){const s=nearest(C.lc,0,1,used)[0]; if(!s)return{items:[]}; const items=[]; s.clips.forEach((c,ci)=>c.qs.forEach((q,qi)=>items.push(Object.assign({id:s.id+"_"+ci+"_"+qi,kind:"mc",clip:ci},q)))); return{setId:s.id,clips:s.clips,items,d:2}}
+  if(type==="wr"){const w=nearest(C.wr,0,1,used)[0]; if(!w)return{items:[]}; return{items:[Object.assign({},w,{kind:"wr"})],d:2}}
+  return{items:[]};
+}
+const normWord=s=>String(s||"").toLowerCase().replace(/[^a-z]/g,"");
+function isCorrect(it,ans){
+  if(it.kind==="mc")return ans===it.a;
+  if(it.kind==="wf")return (it.ans||[]).some(a=>normWord(a)===normWord(ans));
+  return null;
+}
+const countWords=t=>(String(t||"").trim().match(/[A-Za-z0-9'’-]+/g)||[]).length;
+
+/* ---------- text to speech (listening items) ---------- */
+let TTS={on:false,timer:null};
+function ttsVoices(){try{return speechSynthesis.getVoices().filter(v=>/^en/i.test(v.lang))}catch(e){return[]}}
+function ttsStop(){try{speechSynthesis.cancel()}catch(e){} clearInterval(TTS.timer); TTS.on=false;}
+function speak(script,onProg,onEnd){
+  if(!("speechSynthesis" in window)){onEnd&&onEnd(false);return}
+  ttsStop();
+  const lines=String(script).split(/\n+/).map(l=>l.trim()).filter(Boolean);
+  const voices=ttsVoices(); const pref=voices.filter(v=>/en-US/i.test(v.lang)); const pool=pref.length?pref:voices;
+  const spk={}; let vi=0;
+  const parts=lines.map(l=>{const m=l.match(/^([A-Z][A-Za-z .]{0,20}):\s*(.*)$/);if(m){if(!(m[1] in spk))spk[m[1]]=vi++;return{t:m[2],s:spk[m[1]]}}return{t:l,s:0}});
+  const total=Math.max(1,countWords(script)/2.4); const t0=Date.now(); TTS.on=true;
+  TTS.timer=setInterval(()=>{onProg&&onProg(Math.min(1,(Date.now()-t0)/1000/total))},250);
+  parts.forEach((p,i)=>{const u=new SpeechSynthesisUtterance(p.t);u.lang="en-US";u.rate=.95;
+    if(pool.length)u.voice=pool[p.s%pool.length]; if(!pool.length||pool.length<2)u.pitch=p.s%2?0.8:1.1;
+    if(i===parts.length-1)u.onend=()=>{clearInterval(TTS.timer);TTS.on=false;onProg&&onProg(1);onEnd&&onEnd(true)};
+    speechSynthesis.speak(u)});
+}
+function speakSelection(){const t=String(window.getSelection?getSelection():"").trim(); if(t) speak(t)}
+
+/* =========================================================
+   EXAM MODE — a faithful copy of the computerized test flow
+   ========================================================= */
+let XM=null; let xmTimer=null;
+// opts: {plan:[types], build(idx,chs)->chapter, mode:"sim"|"practice", replay:bool, onDone(chs)}
+function startExam(opts){
+  XM=Object.assign({chs:[],idx:0,showInstr:true,clockHidden:false,modal:null,pane:"t"},opts);
+  XM.chs.push(makeChapter(0)); document.body.style.overflow="hidden"; render();
+}
+function makeChapter(idx){
+  const type=XM.plan[idx]; const ch=XM.build(idx,XM.chs);
+  return Object.assign({type,sec:CH_SPEC[type][1],left:CH_SPEC[type][1],pick:{},flag:{},cur:0,played:{}},ch);
+}
+function xmAnswered(ch,i){const v=ch.pick[i];return ch.items[i].kind==="mc"?v!==undefined:String(v||"").trim().length>0}
+function renderExam(){
+  let root=$("#xm"); if(!root){root=document.createElement("div");root.id="xm";root.className="xm";root.setAttribute("role","dialog");root.setAttribute("aria-label","Practice test");document.body.appendChild(root)}
+  const ch=XM.chs[XM.idx], it=ch.items[ch.cur], last=XM.idx===XM.plan.length-1;
+  const all=ch.items.every((_,i)=>xmAnswered(ch,i));
+  const crumbs=XM.plan.map((t,i)=>`<span class="${i===XM.idx?"on":i<XM.idx?"done":""}">${i===XM.idx?`<b>${i+1}</b> `:""}${TYPE_EN[t]}</span>`).join("");
+  root.innerHTML=`<div class="xm-crumbs">${crumbs}</div>
+  <div class="xm-bar">
+    <span class="xm-logo">Practice <i>test</i></span>
+    <button class="xm-pill" id="xmInstr">${XM.showInstr?"Hide Instructions":"Show Instructions"}</button>
+    <div class="xm-nums">${ch.items.map((_,i)=>`<button class="${xmAnswered(ch,i)?"ans":""} ${i===ch.cur&&!XM.showInstr?"cur":""} ${ch.flag[i]?"flag":""}" data-xq="${i}" aria-label="Question ${i+1}">${i+1}</button>`).join("")}</div>
+    <button class="xm-flag" id="xmFlag" aria-pressed="${!!ch.flag[ch.cur]}">📌 Flag Question</button>
+    <button class="xm-clock ${ch.left<60?"low":""}" id="xmClock" title="Click to hide or show the clock"><b></b><span id="xmTime">${XM.clockHidden?"":fmt(Math.max(0,ch.left))}</span></button>
+    <button class="xm-next" id="xmNext" ${all?"":"disabled"} title="${all?"":"Answer all questions in this section first"}">${last?"Finish Test":"Next Section"} &gt;</button>
+  </div>
+  <div class="xm-body">${XM.showInstr?`<div class="xm-instr"><p>${INSTR[ch.type]}</p><p style="color:var(--muted);font-size:.95rem">Time spent reading the instructions is part of the time allotted to this section.</p><button class="xm-pill" id="xmGo">Hide Instructions</button></div>`:xmItemHtml(ch,it)}</div>
+  <div class="xm-tts"><button id="xmSay" title="Select text, then press to hear it">▶</button><button id="xmStop" title="Stop">■</button></div>
+  ${XM.modal?`<div class="xm-modal"><div><p>${XM.modal==="next"?(last?"Finish the test? You will not be able to change your answers.":"Move to the next section? You will not be able to return to this section."):"Leave the test? Your answers in this test will not be saved."}</p><div style="display:flex;gap:10px;justify-content:flex-end"><button class="xm-pill" id="xmNo">Cancel</button><button class="xm-next" id="xmYes" style="margin:0">${XM.modal==="quit"?"Leave":"Continue"}</button></div></div></div>`:""}`;
+  const q=s=>root.querySelector(s);
+  q("#xmInstr").onclick=()=>{XM.showInstr=!XM.showInstr;renderExam()};
+  const g=q("#xmGo"); if(g) g.onclick=()=>{XM.showInstr=false;renderExam()};
+  root.querySelectorAll("[data-xq]").forEach(b=>b.onclick=()=>{ch.cur=+b.dataset.xq;XM.showInstr=false;renderExam()});
+  q("#xmFlag").onclick=()=>{ch.flag[ch.cur]=!ch.flag[ch.cur];renderExam()};
+  q("#xmClock").onclick=()=>{XM.clockHidden=!XM.clockHidden;renderExam()};
+  q("#xmNext").onclick=()=>{XM.modal="next";renderExam()};
+  q("#xmSay").onclick=speakSelection; q("#xmStop").onclick=ttsStop;
+  if(XM.modal){q("#xmNo").onclick=()=>{XM.modal=null;renderExam()};q("#xmYes").onclick=()=>{const m=XM.modal;XM.modal=null;m==="quit"?quitExam():nextSection()}}
+  root.querySelectorAll(".xm-opt").forEach(b=>b.onclick=()=>{ch.pick[ch.cur]=+b.dataset.k;renderExam()});
+  root.querySelectorAll("[data-pane]").forEach(b=>b.onclick=()=>{XM.pane=b.dataset.pane;renderExam()});
+  const pv=q("#xmPrev"),nx=q("#xmNxt"); if(pv)pv.onclick=()=>{ch.cur--;renderExam()}; if(nx)nx.onclick=()=>{ch.cur++;renderExam()};
+  const wf=q("#xmWf"); if(wf){wf.oninput=()=>{const v=wf.value.replace(/[^A-Za-z]/g,"");if(v!==wf.value)wf.value=v;ch.pick[ch.cur]=v;const b=root.querySelector(`[data-xq="${ch.cur}"]`);if(b)b.classList.toggle("ans",!!v);q("#xmNext").disabled=!ch.items.every((_,i)=>xmAnswered(ch,i))}}
+  const ta=q("#xmTa"); if(ta){ta.oninput=()=>{ch.pick[ch.cur]=ta.value;const n=countWords(ta.value);const c=q("#xmCnt");c.textContent=`${n} words`;c.style.background=n>=it.min&&n<=it.max?"var(--good)":"var(--bad)";q("#xmNext").disabled=!n;const b=root.querySelector(`[data-xq="0"]`);if(b)b.classList.toggle("ans",!!n)};}
+  const pl=q("#xmPlay"); if(pl) pl.onclick=()=>{const key=it.clip!=null?"c"+it.clip:"i"+ch.cur; const script=it.clip!=null?ch.clips[it.clip].script:it.script; if(!XM.replay&&ch.played[key])return; ch.played[key]=1; pl.disabled=true; speak(script,p=>{const bar=q("#xmProg");if(bar)bar.style.width=(p*100)+"%"},()=>{const b2=q("#xmPlay");if(b2&&XM.replay)b2.disabled=false})};
+  const qt=q("#xmQuit"); if(qt) qt.onclick=()=>{XM.modal="quit";renderExam()};
+  if(!xmTimer) xmTimer=setInterval(()=>{ if(!XM){clearInterval(xmTimer);xmTimer=null;return} const c=XM.chs[XM.idx]; c.left--; const el=$("#xmTime"); if(el&&!XM.clockHidden) el.textContent=fmt(Math.max(0,c.left)); const ck=$("#xmClock"); if(ck) ck.classList.toggle("low",c.left<60); if(c.left<=0){XM.modal=null;nextSection()} },1000);
+}
+function xmItemHtml(ch,it){
+  const n=ch.cur, total=ch.items.length;
+  const arrows=`<div class="xm-arrows"><button id="xmPrev" ${n?"":"disabled"}>&lt; Previous</button><button id="xmQuit" style="border-color:var(--rule);color:var(--muted)">Exit</button><button id="xmNxt" ${n<total-1?"":"disabled"}>Next &gt;</button></div>`;
+  const opts=it.kind==="mc"?`<div class="xm-opts">${it.o.map((o,k)=>`<button class="xm-opt ${ch.pick[n]===k?"sel":""}" data-k="${k}"><span><i></i></span><span>${esc(o)}</span></button>`).join("")}</div>`:"";
+  let stem="";
+  if(it.kind==="wf"){const parts=String(it.q).split(/_{2,}/);stem=`<div class="xm-stem">${esc(parts[0])}<input class="xm-wf" id="xmWf" autocomplete="off" autocapitalize="off" spellcheck="false" value="${esc(ch.pick[n]||"")}" aria-label="Missing word">${esc(parts.slice(1).join(""))}</div>`}
+  else if(it.kind==="wr"){const w=countWords(ch.pick[n]);stem=`<div class="xm-stem">${esc(it.prompt)}</div><p style="color:var(--muted)">Write ${it.min}–${it.max} words.</p><div style="display:flex;justify-content:flex-end;margin-bottom:8px"><span class="xm-count" id="xmCnt" style="background:${w>=it.min&&w<=it.max?"var(--good)":"var(--bad)"}">${w} words</span></div><textarea class="xm-ta" id="xmTa" spellcheck="false" aria-label="Your response">${esc(ch.pick[n]||"")}</textarea>`}
+  else stem=`<div class="xm-stem">${esc(it.q).replace(/_{2,}/g,"__________")}</div>`;
+  const qcol=`<div class="xm-q"><h3>Question ${n+1}</h3>${stem}${opts}${arrows}</div>`;
+  const tabs=`<div class="xm-tabs"><button class="${XM.pane==="t"?"on":""}" data-pane="t">${ch.passage?"Text":"Recording"}</button><button class="${XM.pane!=="t"?"on":""}" data-pane="q">Question ${n+1}</button></div>`;
+  if(ch.passage) return `${tabs}<div class="xm-split show-${XM.pane==="t"?"t":"q"}"><div class="xm-left"><h4>${esc(ch.passage.title||"")}</h4>${ch.passage.paras.map((p,k)=>`<p><b style="color:var(--muted)">(${k+1})</b> ${esc(p)}</p>`).join("")}</div>${qcol}</div>`;
+  if(it.script!=null||it.clip!=null){
+    const ctx=it.clip!=null?ch.clips[it.clip].context:it.context; const key=it.clip!=null?"c"+it.clip:"i"+n; const used=!XM.replay&&ch.played[key];
+    const canTTS="speechSynthesis" in window;
+    return `${tabs}<div class="xm-split show-${XM.pane==="t"?"t":"q"}"><div class="xm-left xm-audio"><h4>${it.clip!=null?`Recording ${it.clip+1}`:"Recording"}</h4><p>${esc(ctx||"")}</p>
+      <div style="display:flex;align-items:center;gap:14px"><button class="xm-play" id="xmPlay" ${used||!canTTS?"disabled":""} aria-label="Play recording">▶</button><span style="color:var(--muted);font-size:.9rem">${!canTTS?"Audio is not supported in this browser.":used?"Played":XM.replay?"Press to play (replay allowed in practice)":"The recording plays once"}</span></div>
+      <div class="xm-prog"><i id="xmProg" style="width:${used?100:0}%"></i></div></div>${qcol}</div>`;
+  }
+  return `<div class="xm-one">${qcol}</div>`;
+}
+function nextSection(){
+  ttsStop(); const ch=XM.chs[XM.idx];
+  if(XM.idx<XM.plan.length-1){XM.idx++;XM.chs.push(makeChapter(XM.idx));XM.showInstr=true;XM.pane="t";renderExam();const b=$("#xm .xm-body");if(b)b.scrollTop=0;return}
+  const chs=XM.chs, done=XM.onDone; closeExam(); done(chs);
+}
+function quitExam(){closeExam();render()}
+function closeExam(){ttsStop();clearInterval(xmTimer);xmTimer=null;XM=null;const r=$("#xm");if(r)r.remove();document.body.style.overflow="";}
+
+/* ---------- grading + review shared by exam-format practice and simulation ---------- */
+function gradeChapters(chs,src,scoredIdx){
+  const out=[];
+  chs.forEach((c,ci)=>c.items.forEach((x,i)=>{
+    const ans=c.pick[i]; const ok=isCorrect(x,ans);
+    if(ok!==null){ if(!scoredIdx||scoredIdx.includes(ci)) logActivity(c.type,ok); }
+    markSeen(c.passage?c.passage.id:c.setId||x.id);
+    if(ok===false) S.errors.push({t:Date.now(),src,type:c.type,ref:x.id,q:String(x.q||"").slice(0,700),pick:x.kind==="mc"?(ans??-1):-1,a:x.kind==="mc"?x.a:-1,o:x.kind==="mc"?x.o:null,typed:x.kind==="wf"?String(ans||""):undefined,acc:x.kind==="wf"?x.ans:undefined,ex:x.ex||"",cat:null});
+    if(x.kind==="wr"&&String(ans||"").trim()) S.essays.push({t:Date.now(),id:x.id,prompt:x.prompt,text:String(ans),words:countWords(ans)});
+    out.push({ci,i,ok});
+  }));
+  return out;
+}
+function reviewHtml(chs){
+  return chs.map((c,ci)=>c.items.map((x,i)=>{
+    const p=c.pick[i]; const ok=isCorrect(x,p);
+    const head=`<summary>${ok===null?"✎":`<b class="${ok?"ok-t":"no-t"}">${ok?"✓":"✗"}</b>`} פרק ${ci+1} · שאלה ${i+1} · ${TYPE_HE[c.type]}</summary>`;
+    const audio=(x.script!=null||x.clip!=null)?`<div class="explain"><span class="small muted">תמליל ההקלטה</span><span class="en" style="white-space:pre-wrap">${esc(x.clip!=null?c.clips[x.clip].script:x.script)}</span></div>`:"";
+    if(x.kind==="wr") return `<details class="card" open>${head}<p class="en">${esc(x.prompt)}</p><div class="explain"><span class="small muted">התשובה שלך (${countWords(p)} מילים, נדרש ${x.min}–${x.max})</span><span class="en" style="white-space:pre-wrap">${esc(p||"—")}</span></div>
+      ${(x.tips||[]).length?`<div><b>טיפים למשימה הזו</b><ul>${x.tips.map(t=>`<li>${esc(t)}</li>`).join("")}</ul></div>`:""}
+      <div class="explain"><span class="small muted">תשובה לדוגמה</span><span class="en" style="white-space:pre-wrap">${esc(x.model||"")}</span></div>
+      ${sampleFn&&String(p||"").trim()?`<div><button class="btn sm ghost" data-essay="${ci}_${i}">משוב על החיבור מ-Claude</button><div class="ai" id="ess_${ci}_${i}"></div></div>`:""}</details>`;
+    if(x.kind==="wf") return `<details class="card" ${ok?"":"open"}>${head}<div class="stem">${esc(x.q)}</div><p>כתבת: <b class="en">${esc(p||"—")}</b> · נכון: <b class="en">${esc((x.ans||[]).join(" / "))}</b></p><div class="explain">${esc(x.ex||"")}</div></details>`;
+    return `<details class="card" ${ok?"":"open"}>${head}${c.passage&&i===0?`<p class="small muted">קטע: ${esc(c.passage.title||"")}</p>`:""}<div class="stem">${stemHtml(x.q)}</div><div class="opts">${x.o.map((o,k)=>`<div class="opt ${k===x.a?"ok":k===p?"no":""}"><span class="bub">${k+1}</span><span>${esc(o)}</span></div>`).join("")}</div><div class="explain">${esc(x.ex||"")}</div>${audio}</details>`;
+  }).join("")).join("");
+}
+function bindReview(root,chs){
+  root.querySelectorAll("[data-essay]").forEach(b=>b.onclick=()=>{const[ci,i]=b.dataset.essay.split("_").map(Number);const c=chs[ci],x=c.items[i];b.disabled=true;essayFeedback($("#ess_"+ci+"_"+i),x,c.pick[i])});
+}
+async function essayFeedback(target,x,text){
+  if(!sampleFn)return; target.textContent="Claude קורא את החיבור…";
+  const prompt=`אתה בודק מטלות כתיבה באנגלית למבחן אמירנט (מבחן מיון באנגלית בישראל). תן משוב בעברית לתלמיד על התשובה שלו. מבנה המשוב: ציון משוער 1-6 עם נימוק במשפט אחד; 3 דברים טובים; 3 שיפורים חשובים (מבנה, טיעון, אוצר מילים, דקדוק); תיקון של עד 5 משפטים שגויים (המשפט המקורי ← גרסה מתוקנת באנגלית). בלי כותרות Markdown.
+
+המשימה: ${x.prompt}
+טווח מילים נדרש: ${x.min}-${x.max}. התלמיד כתב ${countWords(text)} מילים.
+התשובה של התלמיד:
+${String(text).slice(0,4000)}`;
+  try{const{text:t}=await sampleFn(prompt,{cache:false,onText:({text})=>{target.textContent=text}});target.textContent=t}
+  catch(e){ if(e&&(e.code==="not_granted"||e.code==="sampling_disabled")){sampleFn=null;target.textContent="המשוב לא זמין בחשבון הזה."} else target.textContent=(e&&e.text)||"המשוב לא הגיע. אפשר לנסות שוב."}
+}
+
+/* =========================================================
+   SIMULATION (full Amirnet structure, adaptive)
+   ========================================================= */
+let SM=null; let SIMCFG={exp:true};
+function simPlan(){
+  const base=["sc","sc","rc","rs","rs","sc"]; if(!SIMCFG.exp) return base;
+  const have=["gc","wf","ct","lc"].filter(t=>(C[t]||[]).length);
+  if(C.wr.length&&(Math.random()<.25||have.length<2)) return base.concat(["wr"]);
+  if(have.length<2) return base;
+  return base.concat(shuffle(have).slice(0,2));
+}
+function simLevel(chs){
+  const scored=chs.filter((c,i)=>i<6); if(!scored.length)return 2;
+  const last=scored[scored.length-1]; const p=last.items.filter((x,i)=>isCorrect(x,last.pick[i])).length/last.items.length;
+  return Math.max(1,Math.min(3,(last.d||2)+(p>=0.75?1:p<0.5?-1:0)));
+}
+function simScoreOf(chs){
+  const all=[]; chs.slice(0,6).forEach(c=>c.items.forEach((x,i)=>all.push({ok:isCorrect(x,c.pick[i]),d:x.d||c.d||2})));
+  const p=all.filter(x=>x.ok).length/all.length; const avgD=all.reduce((s,x)=>s+x.d,0)/all.length;
+  let base=50+100*(p*0.78+(avgD-1)*0.11);
+  const exp=chs.slice(6).flatMap(c=>c.items.map((x,i)=>isCorrect(x,c.pick[i]))).filter(v=>v!==null);
+  const bonus=exp.length?2*exp.filter(Boolean).length/exp.length:0;
+  return {p,avgD,bonus:Math.round(bonus*10)/10,score:Math.round(Math.max(50,Math.min(150,base+bonus))),correct:all.filter(x=>x.ok).length,total:all.length};
+}
+function vSim(app){
+  if(SM&&SM.done) return simResults(app);
+  const enough=allSC().length>=12&&allRS().length>=6&&C.rc.length>=1;
+  app.innerHTML=`<div class="head"><h2>סימולציה מלאה במבנה אמירנט</h2><span class="muted small">6 פרקים לציון + פרקים ניסיוניים · עד כ-50 דקות</span></div>
+  <div class="card stack">
+    <p>הסימולציה בנויה כמו המבחן הממוחשב: ממשק באנגלית, סרגל פרקים, מספרי שאלות שנצבעים בכתום אחרי שעונים, כפתור <span class="en">Flag Question</span> לנעיצת שאלה, שעון שאפשר להסתיר בלחיצה, כפתור <span class="en">Show Instructions</span>, ובקריאה הקטע משמאל והשאלות מימין. אפשר גם לסמן טקסט וללחוץ ▶ כדי לשמוע אותו.</p>
+    <ul style="margin:0;padding-inline-start:1.2em;display:flex;flex-direction:column;gap:4px">
+      <li>הסדר: השלמת משפטים, השלמת משפטים, קטע קריאה, ניסוח מחדש, ניסוח מחדש, השלמת משפטים. לכל פרק הזמן הרשמי שלו.</li>
+      <li>אדפטיבי: הפרק הראשון בינוני. 75% ומעלה מעלה את הקושי של הפרק הבא, ופחות מ-50% מוריד אותו.</li>
+      <li><span class="en">Next Section</span> נפתח רק אחרי שעונים על כל השאלות, ואי אפשר לחזור לפרק שנסגר. כשהזמן נגמר, הפרק נסגר לבד.</li>
+      <li>בסוף מגיעים שני פרקים ניסיוניים מהסוגים החדשים (דקדוק בהקשר, יצירת מילה, השלמת קטע שמע, הרצאה/שיחה), או מטלת כתיבה אחת. כמו במבחן, הם יכולים להוסיף עד 2 נקודות ולא להוריד. בהקלטות כאן ההשמעה חד-פעמית, כדי לתרגל ריכוז בתנאי מבחן.</li>
+    </ul>
+    <label class="row" style="gap:8px"><input type="checkbox" id="exp" ${SIMCFG.exp?"checked":""}> לכלול פרקים ניסיוניים</label>
+    <p class="small muted">הציון כאן הוא אומדן גס, לפי אחוז ההצלחה ורמת הקושי שקיבלת. האומדן המדויק ביותר מגיע ממבחני העבר.</p>
+    <button class="btn" id="go" style="align-self:flex-start" ${enough?"":"disabled"}>התחל סימולציה</button></div>
+  <div class="card"><h3>סימולציות רשמיות</h3><p>למאל"ו יש 3 סימולציות בממשק המקורי. מומלץ לעשות אחת בשבוע הראשון ואת השתיים האחרות בשבוע האחרון.</p><a class="btn ghost" href="${AMIRNET_SIM}" target="_blank" rel="noopener" style="align-self:flex-start">לסימולציה של מאל"ו ↗</a></div>
+  ${simHistory()}`;
+  $("#exp").onchange=e=>{SIMCFG.exp=e.target.checked};
+  const g=$("#go"); if(g) g.onclick=()=>{
+    const plan=simPlan(); const used=new Set();
+    startExam({plan,mode:"sim",replay:false,
+      build:(idx,chs)=>{const t=plan[idx];const d=idx<6?simLevel(chs):2;const c=pickChapter(t,d,null,used);c.items.forEach(x=>used.add(x.id));if(c.passage)used.add(c.passage.id);if(c.setId)used.add(c.setId);return c},
+      onDone:chs=>{const r=simScoreOf(chs);gradeChapters(chs,"sim",[0,1,2,3,4,5]);S.results.push({kind:"sim",t:Date.now(),score:r.score,p:Math.round(r.p*100),d:Math.round(r.avgD*10)/10});save();SM={done:true,chs,res:r};view="sim";render();window.scrollTo(0,0)}});
+  };
+}
+function simResults(app){
+  const r=SM.res,[lv,cls]=levelOf(r.score);
+  app.innerHTML=`<div class="head"><h2>תוצאות הסימולציה</h2><span class="pill ${cls}">${lv}</span></div>
+  <div class="grid"><div class="card tile"><b>${r.score}</b><span>אומדן ציון (גס)${r.bonus?` · כולל בונוס ${r.bonus} מהפרקים הניסיוניים`:""}</span></div><div class="card tile"><b>${r.correct}/${r.total}</b><span>נכונות בפרקים שקובעים ציון</span></div><div class="card tile"><b>${r.avgD.toFixed(1)}</b><span>רמת קושי ממוצעת שקיבלת (1–3)</span></div></div>
+  <div class="scroll"><table><tr><th>פרק</th><th>סוג</th><th>רמה</th><th>תוצאה</th></tr>${SM.chs.map((c,i)=>{const g=c.items.map((x,k)=>isCorrect(x,c.pick[k]));const sc=g.filter(v=>v!==null);return `<tr><td class="num">${i+1}${i>=6?" (ניסיוני)":""}</td><td>${TYPE_HE[c.type]}</td><td class="num">${c.d||"—"}</td><td class="num">${sc.length?`${sc.filter(Boolean).length}/${sc.length}`:"✎"}</td></tr>`}).join("")}</table></div>
+  <h3>תחקור: כל השאלות</h3>${reviewHtml(SM.chs)}
+  <div class="row"><button class="btn" id="new">סימולציה חדשה</button><button class="btn ghost" data-go="log">לסיווג הטעויות ביומן</button></div>`;
+  bindReview(app,SM.chs);
+  $("#new").onclick=()=>{SM=null;render()};
+}
+function simHistory(){const r=S.results.filter(x=>x.kind==="sim").slice(-8).reverse(); if(!r.length)return ""; return `<div class="card"><h3>סימולציות קודמות</h3><div class="scroll"><table><tr><th>תאריך</th><th>ציון</th><th>דיוק</th><th>קושי</th></tr>${r.map(x=>`<tr><td class="num">${new Date(x.t).toLocaleDateString("he-IL")}</td><td class="num">${x.score}</td><td class="num">${x.p}%</td><td class="num">${x.d}</td></tr>`).join("")}</table></div></div>`}
+
+/* =========================================================
+   LEARN (lessons)
+   ========================================================= */
+let LN={cur:null};
+const inl=s=>esc(s).replace(/\[\[(.+?)\]\]/g,'<span class="en">$1</span>');
+function blockHtml(b){
+  switch(b.t){
+    case "h": return `<h3>${inl(b.x)}</h3>`;
+    case "p": return `<p>${inl(b.x)}</p>`;
+    case "ul": return `<ul>${(b.items||[]).map(i=>`<li>${inl(i)}</li>`).join("")}</ul>`;
+    case "ol": return `<ol>${(b.items||[]).map(i=>`<li>${inl(i)}</li>`).join("")}</ol>`;
+    case "tip": return `<p class="tip">${inl(b.x)}</p>`;
+    case "warn": return `<p class="warn">${inl(b.x)}</p>`;
+    case "table": return `<div class="scroll"><table><tr>${(b.head||[]).map(h=>`<th>${inl(h)}</th>`).join("")}</tr>${(b.rows||[]).map(r=>`<tr>${r.map(c=>`<td>${/^[\x00-\x7F]+$/.test(String(c))?`<span class="en">${esc(c)}</span>`:inl(c)}</td>`).join("")}</tr>`).join("")}</table></div>`;
+    case "ex": return `<div class="exb">${b.en?`<div class="en">${esc(b.en)}</div>`:""}${b.he?`<div class="he">${inl(b.he)}</div>`:""}</div>`;
+    default: return "";
+  }
+}
+function vLearn(app){
+  if(!C.lessons.length){app.innerHTML=`<div class="empty">השיעורים לא נטענו.</div>`;return}
+  const L=LN.cur&&C.lessons.find(l=>l.id===LN.cur);
+  if(L){
+    const i=C.lessons.indexOf(L), nx=C.lessons[i+1];
+    app.innerHTML=`<div class="row" style="justify-content:space-between"><button class="btn sm ghost" id="back">→ כל השיעורים</button><span class="muted small">שיעור ${i+1} מתוך ${C.lessons.length}</span></div>
+    <article class="lesson"><h1>${inl(L.title)}</h1>${L.summary?`<p class="muted">${inl(L.summary)}</p>`:""}${L.blocks.map(blockHtml).join("")}</article>
+    <div class="row"><button class="btn" id="done">${S.lessons[L.id]?"✓ סומן כנלמד":"סיימתי את השיעור"}</button>${nx?`<button class="btn ghost" id="nx">לשיעור הבא: ${inl(nx.title)}</button>`:""}</div>`;
+    $("#back").onclick=()=>{LN.cur=null;render();window.scrollTo(0,0)};
+    $("#done").onclick=()=>{S.lessons[L.id]=Date.now();save();render()};
+    const n=$("#nx"); if(n) n.onclick=()=>{S.lessons[L.id]=S.lessons[L.id]||Date.now();save();LN.cur=nx.id;render();window.scrollTo(0,0)};
+    return;
+  }
+  const done=C.lessons.filter(l=>S.lessons[l.id]).length;
+  app.innerHTML=`<div class="head"><h2>למידה: כל מה שצריך לדעת</h2><span class="num muted">${done}/${C.lessons.length}</span></div>
+  <p>השיעורים מסודרים לפי סדר הלמידה המומלץ: קודם מכירים את המבחן, אחר כך שיטה לכל סוג שאלה, ואז הכלים שמאחורי השיטות (מילות קישור, דקדוק לקריאה, בניית מילים). בכל שיעור יש דוגמאות מקוריות עם הסבר.</p>
+  <div class="grid">${C.lessons.map((l,i)=>`<button class="card" data-l="${esc(l.id)}" style="text-align:right;cursor:pointer;${S.lessons[l.id]?"border-color:var(--good)":""}"><span class="small muted">שיעור ${i+1}${S.lessons[l.id]?" · ✓ נלמד":""}</span><b>${inl(l.title)}</b><span class="small muted">${inl(l.summary||"")}</span></button>`).join("")}</div>`;
+  app.querySelectorAll("[data-l]").forEach(b=>b.onclick=()=>{LN.cur=b.dataset.l;render();window.scrollTo(0,0)});
+}
+
+/* =========================================================
+   PAST EXAMS (official PDFs + digital answer sheet)
+   ========================================================= */
+let PX={sel:null,ans:{},sec:0,left:1200,running:false,graded:null,manual:""};
+const ORDER=["winter_2021","spring_2022","summer_2022","autumn_2022","winter_2022","spring_2023","summer_2023","autumn_2023","winter_2023","spring_2024","summer_2024","autumn_2024","winter_2024","spring_2025","summer_2025","autumn_2025","winter_2025","spring_2026","summer_2026","autumn_2026"];
+function examList(){
+  const byId=Object.fromEntries(C.keys.map(k=>[k.id,k]));
+  return ORDER.map(id=>{const [s,y]=id.split("_");return Object.assign({id,season:s,year:+y,url:`https://www.nite.org.il/wp-content/uploads/2026/10/psychometric_${id}_td.pdf`},byId[id]||{})});
+}
+const examName=e=>`${SEASON_HE[e.season]} ${e.year}`;
+function vPast(app){
+  const list=examList();
+  if(PX.sel) return pastSheet(app,list.find(e=>e.id===PX.sel));
+  const res=id=>S.results.filter(r=>r.kind==="past"&&r.id===id).slice(-1)[0];
+  app.innerHTML=`<div class="head"><h2>מבחני עבר רשמיים</h2><span class="muted small">20 מבחנים · 880 שאלות של מאל"ו</span></div>
+  <p>פותחים את ה-PDF של מאל"ו בלשונית נפרדת, פותרים את שני פרקי האנגלית עם השעון כאן, ומסמנים את התשובות בדף התשובות הדיגיטלי. האתר בודק מול המפתח הרשמי, ממיר לציון לפי טבלת ההמרה של אותו מבחן ומראה איפה טעית. המבחנים של 2025–2026 שמורים לשבועות 5–6.</p>
+  <div class="grid">${list.map(e=>{const r=res(e.id);const late=e.year>=2025;return `<button class="card" data-ex="${e.id}" style="cursor:pointer;text-align:right;${late?"border-color:var(--accent)":""}"><div class="row" style="justify-content:space-between"><b>${examName(e)}</b>${r?`<span class="pill ${levelOf(r.score)[1]}">${r.score}</span>`:late?`<span class="small" style="color:var(--accent)">לסוף</span>`:""}</div><span class="small muted">${r?`${r.raw}/44 · ${new Date(r.t).toLocaleDateString("he-IL")}`:"עוד לא נפתר"}</span></button>`}).join("")}</div>`;
+  app.querySelectorAll("[data-ex]").forEach(b=>b.onclick=()=>{PX={sel:b.dataset.ex,ans:{},sec:0,left:1200,running:false,graded:null,manual:""};render()});
+}
+function pastSheet(app,e){
+  const hasKey=Array.isArray(e.k1)&&Array.isArray(e.k2)&&e.k1.length===22&&e.k2.length===22;
+  const link=(p,t)=>`<a class="btn ghost" href="${e.url}${p?`#page=${p}`:""}" target="_blank" rel="noopener">${t} ↗</a>`;
+  const G=PX.graded;
+  app.innerHTML=`<div class="row" style="justify-content:space-between"><button class="btn sm ghost" id="back">→ כל המבחנים</button><h2>${examName(e)}</h2></div>
+  <div class="card stack">
+    <div class="row">${link(e.p1,"פתח את פרק אנגלית 1 ב-PDF")}${link(e.p2,"פרק אנגלית 2")}</div>
+    <p class="small muted">${e.p1?`פרקי האנגלית מתחילים בעמודים ${e.p1-1} ו-${e.p2-1} בחוברת (לפי המספור המודפס).`:"פרקי האנגלית נמצאים באמצע החוברת, אחרי פרקי החשיבה."} בכל פרק יש 22 שאלות: 1–8 השלמת משפטים, 9–12 ניסוח מחדש, 13–22 הבנת הנקרא.</p>
+  </div>
+  ${hasKey?`
+  <div class="card stack">
+    <div class="row" style="justify-content:space-between"><div class="seg">${[0,1].map(s=>`<button class="chip" data-sec="${s}" aria-pressed="${PX.sec===s}">פרק ${s+1}</button>`).join("")}</div>
+      ${G?"":`<div class="row"><span class="timer ${PX.left<60?"low":""}" id="tm">${fmt(PX.left)}</span><button class="btn sm ${PX.running?"ghost":""}" id="clock">${PX.running?"עצור":"הפעל שעון 20′"}</button></div>`}</div>
+    <div class="sheet">${Array.from({length:22},(_,q)=>{const key=PX.sec?e.k2:e.k1;const a=PX.ans[`${PX.sec}_${q}`];const cls=G?(a===key[q]?"right":"wrong"):"";return `<div class="srow ${cls}"><span class="n">${q+1}</span>${[1,2,3,4].map(v=>`<button class="${a===v?"on":""} ${G&&key[q]===v?"key":""}" data-q="${q}" data-v="${v}" ${G?"disabled":""} aria-label="שאלה ${q+1} תשובה ${v}">${v}</button>`).join("")}</div>`}).join("")}</div>
+    ${G?"":`<div class="row"><button class="btn" id="grade">בדוק את שני הפרקים</button><span class="small muted">${Object.keys(PX.ans).length}/44 סומנו. שאלה לא מסומנת נחשבת טעות.</span></div>`}
+  </div>
+  ${G?pastResult(e,G):""}`
+  :`<div class="card stack"><p>למבחן הזה אין מפתח דיגיטלי באתר. בודקים מול מפתח התשובות שבסוף ה-PDF ומזינים כאן כמה תשובות נכונות היו בשני הפרקים יחד.</p>
+    <div class="row"><input type="number" id="raw" min="0" max="44" value="${esc(PX.manual)}" style="width:6em"><button class="btn" id="saveRaw">שמור ציון</button></div></div>`}`;
+  $("#back").onclick=()=>{stopTimer();PX.sel=null;render()};
+  if(!hasKey){$("#saveRaw").onclick=()=>{const raw=Math.max(0,Math.min(44,parseInt($("#raw").value,10)||0));const score=scaleFor(raw,e.conv);S.results.push({kind:"past",id:e.id,t:Date.now(),raw,score});save();toast(`נשמר: ${raw}/44, ציון ${score}`);PX.sel=null;render()};return}
+  app.querySelectorAll("[data-sec]").forEach(b=>b.onclick=()=>{PX.sec=+b.dataset.sec;if(!G){PX.left=1200;PX.running=false;stopTimer()}render()});
+  app.querySelectorAll(".srow button[data-q]").forEach(b=>b.onclick=()=>{const k=`${PX.sec}_${b.dataset.q}`;const v=+b.dataset.v;PX.ans[k]=PX.ans[k]===v?undefined:v;if(PX.ans[k]===undefined)delete PX.ans[k];render()});
+  const clk=$("#clock"); if(clk) clk.onclick=()=>{PX.running=!PX.running;if(!PX.running)stopTimer();render()};
+  if(PX.running&&!timerId) timerId=setInterval(()=>{if(view!=="past"||!PX.running){stopTimer();return}PX.left--;const el=$("#tm");if(el){el.textContent=fmt(Math.max(0,PX.left));el.classList.toggle("low",PX.left<60)}if(PX.left<=0){PX.running=false;stopTimer();toast("הזמן של הפרק נגמר");if(PX.sec===0){PX.sec=1;PX.left=1200}render()}},1000);
+  const gr=$("#grade"); if(gr) gr.onclick=()=>gradePast(e);
+  app.querySelectorAll("[data-pcat]").forEach(b=>b.onclick=()=>{const er=S.errors.find(x=>x.ref===b.dataset.key);if(er){er.cat=b.dataset.pcat;save();render()}});
+}
+const qType=q=>q<8?"sc":q<12?"rs":"rc";
+function gradePast(e){
+  stopTimer(); PX.running=false;
+  const wrong=[]; let raw=0; const by={sc:{n:0,c:0},rs:{n:0,c:0},rc:{n:0,c:0}};
+  [e.k1,e.k2].forEach((key,s)=>key.forEach((k,q)=>{const a=PX.ans[`${s}_${q}`];const t=qType(q);by[t].n++;if(a===k){raw++;by[t].c++}else wrong.push({s,q,a,k,t});logActivity(t,a===k)}));
+  const score=scaleFor(raw,e.conv);
+  PX.graded={raw,score,by,wrong};
+  S.results.push({kind:"past",id:e.id,t:Date.now(),raw,score,by});
+  wrong.forEach(w=>S.errors.push({t:Date.now(),src:"past",type:w.t,ref:`${e.id}_${w.s}_${w.q}`,q:`${examName(e)} · פרק ${w.s+1} · שאלה ${w.q+1}`,pick:w.a?w.a-1:-1,a:w.k-1,cat:null}));
+  save(); render(); window.scrollTo(0,document.body.scrollHeight);
+}
+function pastResult(e,G){
+  const [lv,cls]=levelOf(G.score); const need=Math.max(0,rawForTarget(S.settings.target||134)-G.raw);
+  return `<div class="card stack"><div class="row" style="justify-content:space-between"><h3>התוצאה</h3><span class="pill ${cls}">${lv}</span></div>
+  <div class="grid"><div class="card tile"><b>${G.raw}/44</b><span>תשובות נכונות</span></div><div class="card tile"><b>${G.score}</b><span>ציון בסולם 50–150${e.conv&&Object.keys(e.conv).length?" (טבלת ההמרה של המבחן)":" (טבלה משוערת)"}</span></div><div class="card tile"><b>${need||"✓"}</b><span>${need?`תשובות נכונות נוספות שחסרות ליעד ${S.settings.target||134}`:`הגעת ליעד ${S.settings.target||134}`}</span></div></div>
+  <div class="scroll"><table><tr><th>סוג</th><th>נכונות</th><th>דיוק</th></tr>${["sc","rs","rc"].map(t=>`<tr><td>${TYPE_HE[t]}</td><td class="num">${G.by[t].c}/${G.by[t].n}</td><td class="num">${Math.round(100*G.by[t].c/G.by[t].n)}%</td></tr>`).join("")}</table></div>
+  ${G.wrong.length?`<h3>מה טעיתי? (הסיווג נשמר ביומן)</h3>${G.wrong.map(w=>{const key=`${e.id}_${w.s}_${w.q}`;const er=S.errors.find(x=>x.ref===key);return `<div class="row" style="justify-content:space-between;border-bottom:1px solid var(--rule);padding-bottom:8px"><span>פרק ${w.s+1}, שאלה ${w.q+1} <span class="muted small">(${TYPE_HE[w.t]}; סימנת ${w.a||"—"}, הנכונה ${w.k})</span></span><div class="cat">${CATS.map(([k,t])=>`<button class="chip" data-pcat="${k}" data-key="${key}" aria-pressed="${er&&er.cat===k}">${t}</button>`).join("")}</div></div>`}).join("")}`:"<p>אין טעויות!</p>"}
+  <p class="small muted">על כל טעות כדאי לחזור ב-PDF. מילים שלא הכרת מוסיפים לכרטיסיות דרך רשימת המילים.</p></div>`;
+}
+
+/* =========================================================
+   ERROR LOG
+   ========================================================= */
+let LG={type:"all",cat:"all"};
+// mistakes that can be re-asked on their own (no passage or recording needed)
+// rebuild a practice entry for a logged mistake from the current content (passage / recording included)
+function resolveErr(e){
+  const base={type:e.type,retry:true};
+  const find=(arr,id)=>(arr||[]).find(x=>x.id===id);
+  if(e.type==="sc"){const x=find(allSC(),e.ref);if(x)return Object.assign(base,{it:Object.assign(alphaSort(x),{kind:"mc"})})}
+  if(e.type==="rs"){const x=find(allRS(),e.ref);if(x)return Object.assign(base,{it:Object.assign({},x,{kind:"mc"})})}
+  if(e.type==="gc"){const x=find(C.gc,e.ref);if(x)return Object.assign(base,{it:Object.assign({},x,{kind:"mc"})})}
+  if(e.type==="wf"){const x=find(C.wf,e.ref);if(x)return Object.assign(base,{it:Object.assign({},x,{kind:"wf"})})}
+  if(e.type==="ct"){const x=find(C.ct,e.ref);if(x)return Object.assign(base,{it:Object.assign({},x,{kind:"mc"}),clip:{context:CT_CONTEXT,script:x.script}})}
+  if(e.type==="rc"){const m=String(e.ref).match(/^(.*)_(\d+)$/);const p=m&&find(C.rc,m[1]);const q=p&&p.qs[+m[2]];if(q)return Object.assign(base,{p,it:Object.assign({id:e.ref,kind:"mc"},q)})}
+  if(e.type==="lc"){const m=String(e.ref).match(/^(.*)_(\d+)_(\d+)$/);const st=m&&find(C.lc,m[1]);const c=st&&st.clips[+m[2]];const q=c&&c.qs[+m[3]];if(q)return Object.assign(base,{clip:c,setId:st.id,it:Object.assign({id:e.ref,kind:"mc"},q)})}
+  if(e.o||e.acc) return Object.assign(base,{it:{id:e.ref,kind:e.acc?"wf":"mc",q:e.q,o:e.o,a:e.a,ans:e.acc,ex:e.ex}});
+  return null;
+}
+function retryPool(){const seen=new Set();return S.errors.filter(e=>e.src!=="past"&&!seen.has(e.ref)&&seen.add(e.ref)).map(resolveErr).filter(Boolean)}
+function vLog(app){
+  const E=S.errors;
+  const byCat=Object.fromEntries(CATS.map(([k])=>[k,0])); let none=0; E.forEach(e=>e.cat?byCat[e.cat]++:none++);
+  const max=Math.max(1,...Object.values(byCat));
+  const list=E.filter(e=>(LG.type==="all"||e.type===LG.type)&&(LG.cat==="all"||(LG.cat==="none"?!e.cat:e.cat===LG.cat))).slice().reverse();
+  const top=Object.entries(byCat).sort((a,b)=>b[1]-a[1])[0];
+  const tip={word:"רוב הטעויות שלך הן מילים לא מוכרות. כדאי להעלות את מספר המילים החדשות ביום ולהוסיף לכרטיסיות כל מילה מהשאלות.",trap:"רוב הטעויות שלך הן מלכודות. בניסוח מחדש כדאי לעבור על כל תשובה ולבדוק שלילה, כמת, זמן וכיוון של סיבה ותוצאה.",careless:"רוב הטעויות שלך הן קריאה רשלנית. כדאי לקרוא את כל ארבע התשובות לפני שבוחרים, גם כשהראשונה נראית נכונה.",time:"רוב הטעויות שלך קשורות לזמן. כדאי לתרגל בקצב אמירנט ולא להתעכב על שאלה אחת יותר מ-90 שניות."};
+  app.innerHTML=`<div class="head"><h2>יומן טעויות</h2><span class="num muted">${E.length}</span></div>
+  ${E.length?`<div class="card stack"><h3>לפי סיבה</h3>${CATS.map(([k,t])=>`<div class="stack" style="gap:4px"><div class="row" style="justify-content:space-between"><span>${t}</span><span class="num">${byCat[k]}</span></div><div class="meter"><i style="width:${100*byCat[k]/max}%"></i></div></div>`).join("")}
+  ${none?`<p class="small muted">${none} טעויות עוד לא סווגו. אפשר לסווג אותן ברשימה למטה.</p>`:""}
+  ${top&&top[1]>=3?`<p class="explain">${tip[top[0]]}</p>`:""}
+  ${retryPool().length?`<button class="btn" id="retry" style="align-self:flex-start">לתרגל שוב ${Math.min(20,retryPool().length)} שאלות שטעיתי בהן</button><span class="small muted">תשובה נכונה מוחקת את הטעות מהיומן.</span>`:""}</div>
+  <div class="row"><div class="seg">${[["all","כל הסוגים"],["sc","השלמה"],["rs","ניסוח מחדש"],["rc","קריאה"]].map(([k,t])=>`<button class="chip" data-lt="${k}" aria-pressed="${LG.type===k}">${t}</button>`).join("")}</div>
+  <div class="seg">${[["all","כל הסיבות"],["none","לא סווג"],...CATS].map(([k,t])=>`<button class="chip" data-lc="${k}" aria-pressed="${LG.cat===k}">${t}</button>`).join("")}</div></div>
+  <div class="stack">${list.slice(0,80).map(e=>{const idx=E.indexOf(e);return `<details class="card"><summary class="row" style="justify-content:space-between"><span>${TYPE_HE[e.type]||""} · <span class="muted small">${new Date(e.t).toLocaleDateString("he-IL")} · ${{practice:"תרגול",sim:"סימולציה",past:"מבחן עבר"}[e.src]||""}</span></span>${e.cat?`<span class="pill">${CAT_HE[e.cat]}</span>`:`<span class="pill warn-t">לא סווג</span>`}</summary>
+    ${e.o?`<div class="stem">${stemHtml(e.q)}</div><div class="opts">${e.o.map((o,k)=>`<div class="opt ${k===e.a?"ok":k===e.pick?"no":""}"><span class="bub">${k+1}</span><span>${esc(o)}</span></div>`).join("")}</div>${e.ex?`<div class="explain">${esc(e.ex)}</div>`:""}`:(e.acc?`<div class="stem">${esc(e.q)}</div><p>כתבת: <b class="en">${esc(e.typed||"—")}</b> · נכון: <b class="en">${esc(e.acc.join(" / "))}</b></p>${e.ex?`<div class="explain">${esc(e.ex)}</div>`:""}`:`<p>${esc(e.q)} · סימנת ${e.pick>=0?e.pick+1:"—"}, התשובה הנכונה ${e.a+1}</p>`)}
+    <div class="cat">${CATS.map(([k,t])=>`<button class="chip" data-ec="${k}" data-ei="${idx}" aria-pressed="${e.cat===k}">${t}</button>`).join("")}<button class="btn sm ghost" data-del="${idx}">הבנתי, למחוק</button></div></details>`}).join("")||`<div class="empty">אין טעויות שמתאימות לסינון.</div>`}</div>`
+  :`<div class="empty">היומן ריק. כל טעות בתרגול, בסימולציה או במבחן עבר תיכנס לכאן אוטומטית, ותוכל לסווג אותה לפי הסיבה.</div>`}`;
+  app.querySelectorAll("[data-lt]").forEach(b=>b.onclick=()=>{LG.type=b.dataset.lt;render()});
+  const rt=$("#retry"); if(rt) rt.onclick=()=>{const items=shuffle(retryPool()).slice(0,20);S.daily[today()]=Object.assign(S.daily[today()]||{},{retry:true});save();P.review=null;P.run={type:items[0].type,items,i:0,pick:{},score:0,cat:{},t0:Date.now(),left:null};view="practice";render();window.scrollTo(0,0)};
+  app.querySelectorAll("[data-lc]").forEach(b=>b.onclick=()=>{LG.cat=b.dataset.lc;render()});
+  app.querySelectorAll("[data-ec]").forEach(b=>b.onclick=()=>{const e=S.errors[+b.dataset.ei];if(e){e.cat=b.dataset.ec;save();render()}});
+  app.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{S.errors.splice(+b.dataset.del,1);save();render()});
+}
+/* practice category chips handled per-view; generic handler for chips with data-cat outside practice */
+
+/* ---------- boot ---------- */
+(async function(){
+  loadLocal();
+  const h=(location.hash||"").slice(1); if(VIEWS.some(v=>v[0]===h)) view=h; if(h==="account") view="home";
+  renderNav();
+  await loadContent();
+  render();
+  initFirebase(); initRemote(); initSample();
+  if(location.hash==="#account"){setTimeout(()=>{const el=$("#fbEmail");if(el){el.scrollIntoView({block:"center"});el.focus()}},50)}
+})();
+</script>
+
+</body>
+</html>

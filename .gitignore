@@ -5,3 +5,7 @@
 dbg*.html
 *.tmp
 .playwright-mcp/
+
+# firebase local files
+_firebase/*.log
+_firebase/.firebase/
