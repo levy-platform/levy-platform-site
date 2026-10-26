@@ -246,14 +246,19 @@ table{border-collapse:collapse;width:100%;background:var(--sheet);font-size:.93r
 th,td{border-bottom:1px solid var(--rule);padding:11px 12px;text-align:right;vertical-align:top}
 tr:last-child td{border-bottom:0}
 th{background:var(--soft);font-weight:700}
-.meter{height:10px;background:var(--soft);border-radius:99px;direction:ltr;position:relative;overflow:hidden}
-.meter i{position:absolute;inset-block:0;left:0;background:var(--primary);border-radius:99px;transition:width .4s ease}
+.meter{height:10px;background:var(--soft);border-radius:99px;position:relative;overflow:hidden}
+.meter i{position:absolute;inset-block:0;inset-inline-start:0;background:var(--primary);border-radius:99px;transition:width .4s ease}
 .pill{display:inline-flex;align-items:center;padding:3px 11px;border-radius:99px;font-weight:700;font-size:.8rem;white-space:nowrap;background:var(--soft);border:0}
 .pill.ok-t{background:var(--good-bg)} .pill.no-t{background:var(--bad-bg)} .pill.warn-t{background:color-mix(in srgb,var(--amber) 16%,var(--sheet))}
 .ok-t{color:var(--good)} .no-t{color:var(--bad)} .warn-t{color:var(--warn)}
 
 /* ---------- answer sheet ---------- */
-.sheet{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:6px 14px;direction:ltr}
+.sheet{display:grid;grid-template-columns:repeat(auto-fill,minmax(146px,1fr));gap:6px 10px;direction:ltr}
+.wlist{display:flex;flex-direction:column;gap:8px}
+.wrow{display:flex;gap:12px;align-items:center;background:var(--sheet);border:2px solid var(--rule);border-radius:var(--r-sm);padding:12px 14px}
+.wmain{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.whe{font-weight:600}
+.wside{flex:none}
 .srow{display:flex;align-items:center;gap:6px;padding:4px 6px;border-radius:10px}
 .srow .n{font:700 .85rem var(--body);width:22px;text-align:right;color:var(--muted)}
 .srow button{width:32px;height:32px;border-radius:50%;border:2px solid var(--rule);background:var(--sheet);font:700 .78rem var(--body);cursor:pointer}
@@ -291,6 +296,72 @@ svg text{fill:var(--muted);font:600 11px var(--body)}
 .lesson table{font-size:.92rem}
 .lnum{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font:800 1rem var(--body);background:var(--primary-soft);color:var(--primary)}
 .lnum.done{background:var(--good-fill);color:#fff}
+
+/* ---------- shared components for inner screens ---------- */
+.page-head{display:flex;flex-direction:column;gap:4px}
+.page-head p{color:var(--muted);font-size:.95rem}
+.segbar{display:flex;background:var(--soft);border-radius:14px;padding:4px;gap:4px;border:2px solid var(--rule)}
+.segbar button{flex:1;border:0;background:transparent;border-radius:10px;padding:9px 8px;font:600 .9rem var(--body);color:var(--muted);cursor:pointer;min-height:42px;transition:background .15s,color .15s}
+.segbar button[aria-pressed="true"]{background:var(--sheet);color:var(--primary);box-shadow:0 1px 3px rgba(17,24,39,.12)}
+.field{display:flex;flex-direction:column;gap:8px}
+.field > .lbl{font:700 .88rem var(--body);color:var(--muted)}
+.picker{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.picker.sm{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+.pick{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:14px;border:2px solid var(--rule);border-bottom-width:var(--edge);border-radius:var(--r-sm);background:var(--sheet);cursor:pointer;text-align:right;font:inherit;color:inherit;min-height:110px;transition:border-color .15s,background .15s}
+.pick .ic{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;color:#fff}
+.pick .ic .ico{width:20px;height:20px}
+.pick b{font-size:.95rem;line-height:1.3}
+.pick span.n{font-size:.8rem;color:var(--muted)}
+.pick[aria-pressed="true"]{border-color:var(--primary);background:var(--primary-soft)}
+.pick:disabled{opacity:.45;cursor:not-allowed}
+.picker.sm .pick{min-height:auto;flex-direction:row;align-items:center;padding:10px 12px}
+.picker.sm .pick b{flex:1}
+.picker.sm .pick span.n{white-space:nowrap}
+@media (max-width:420px){.picker{grid-template-columns:repeat(3,minmax(0,1fr))}.pick{padding:12px 10px;min-height:104px}.pick b{font-size:.86rem}}
+.sticky-cta{position:sticky;bottom:12px;z-index:5}
+@media (max-width:760px){.sticky-cta{bottom:calc(var(--nav-h) + 12px + env(safe-area-inset-bottom,0px))}}
+.c-gc{background:#0891B2} .c-wf{background:#CA8A04} .c-ct{background:#9333EA} .c-lc{background:#DB2777} .c-wr{background:#475569}
+.hero.violet{background:linear-gradient(135deg,#8B5CF6 0%,#6D28D9 60%,#5B21B6 100%);box-shadow:0 14px 34px rgba(109,40,217,.28)}
+.hero.violet .btn{color:#5B21B6}
+.hero .chips{display:flex;gap:8px;flex-wrap:wrap;position:relative;z-index:1}
+.hero .chips span{background:rgba(255,255,255,.16);padding:5px 12px;border-radius:99px;font:600 .85rem var(--body)}
+.timeline{display:flex;flex-direction:column;gap:0}
+.tl{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--rule)}
+.tl:last-child{border-bottom:0}
+.tl .no{flex:none;width:32px;height:32px;border-radius:10px;display:grid;place-items:center;font:800 .9rem var(--body);color:#fff}
+.tl .t{flex:1;min-width:0;font-weight:600}
+.tl .m{font-size:.84rem;color:var(--muted);white-space:nowrap}
+.tl.exp .no{background:var(--soft);color:var(--muted);border:2px dashed var(--rule)}
+details.card > summary{cursor:pointer;font-weight:700;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:28px}
+details.card > summary::-webkit-details-marker{display:none}
+details.card > summary::after{content:"";width:10px;height:10px;border-inline-start:2.5px solid var(--muted);border-bottom:2.5px solid var(--muted);transform:rotate(-45deg);transition:transform .2s;flex:none;margin-inline-start:6px}
+details.card[open] > summary::after{transform:rotate(135deg)}
+details.card > summary.row{flex-wrap:nowrap}
+.exgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (min-width:700px){.exgrid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.ex{display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding:14px;text-align:right;min-height:96px}
+.ex .yr{font:800 1.3rem var(--body);letter-spacing:-.3px}
+.ex .ss{font-size:.85rem;color:var(--muted);font-weight:600}
+.ex.done{border-color:color-mix(in srgb,var(--good-fill) 55%,var(--rule))}
+.ex.late{border-style:dashed}
+.sumrow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.sum{background:var(--sheet);border:2px solid var(--rule);border-radius:var(--r-sm);padding:12px;display:flex;flex-direction:column;gap:2px}
+.sum b{font:800 1.4rem var(--body);font-variant-numeric:tabular-nums}
+.sum span{font-size:.8rem;color:var(--muted);line-height:1.3}
+.reasons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (min-width:700px){.reasons{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.reason{display:flex;align-items:center;gap:10px;padding:12px;border:2px solid var(--rule);border-radius:var(--r-sm);background:var(--sheet);cursor:pointer;font:inherit;color:inherit;text-align:right}
+.reason[aria-pressed="true"]{border-color:var(--primary);background:var(--primary-soft)}
+.reason .ic{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;color:#fff;flex:none}
+.reason .ic .ico{width:18px;height:18px}
+.reason b{display:block;font:800 1.2rem var(--body)}
+.reason span{font-size:.8rem;color:var(--muted)}
+.wk-bar{height:8px;border-radius:99px;background:var(--soft);overflow:hidden;margin-top:8px}
+.wk-bar i{display:block;height:100%;background:var(--good-fill);border-radius:99px}
+.week > summary{padding:14px 18px;cursor:pointer;list-style:none}
+.week > summary::-webkit-details-marker{display:none}
+.task .go.btn{padding:0;width:40px;min-height:40px;height:40px}
+.task .go .ico{width:18px;height:18px}
 @media (max-width:560px){ main{gap:18px;padding-top:16px} .card{padding:16px} .q{padding:18px} .stem{font-size:1.08rem} .sync{font-size:.7rem} .flash{min-height:270px} .hero{padding:18px} }
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
 
@@ -740,10 +811,12 @@ const PLAN=[
 ];
 function vPlan(app){
   const wk=planWeek();
-  app.innerHTML=`<div class="head"><h2>התוכנית: 6 שבועות</h2><span class="muted small">כ-90 דקות ביום · יעד 134</span></div>
-  ${!S.settings.start?`<div class="card"><p>כשקובעים תאריך התחלה, האתר מדגיש את השבוע הנוכחי ומציג את המשימות שלו בדף הבית.</p><button class="btn" id="startNow" style="align-self:flex-start">מתחילים היום</button></div>`:""}
-  ${PLAN.map((w,i)=>{const n=w.k.filter((_,j)=>S.plan[`t${i}_${j}`]).length;return `<article class="week ${S.settings.start&&i===wk?"now":""}"><header><div><h3>${esc(w.t)}</h3><p class="muted small">${esc(w.d)}</p></div><span class="num muted">${n}/${w.k.length}</span></header>${
-    w.k.map(([a,b,g],j)=>`<div class="task"><input type="checkbox" id="t${i}_${j}" ${S.plan[`t${i}_${j}`]?"checked":""} aria-label="${esc(a)}"><div><div class="tt">${esc(a)}</div>${b?`<div class="small muted">${esc(b)}</div>`:""}</div>${g==="ext"?`<a class="btn sm ghost go" href="${AMIRNET_SIM}" target="_blank" rel="noopener">פתח ↗</a>`:g?`<button class="btn sm ghost go" data-go="${g}">פתח</button>`:""}</div>`).join("")}</article>`}).join("")}`;
+  const tot=PLAN.reduce((x,w)=>x+w.k.length,0), doneAll=PLAN.reduce((x,w,i)=>x+w.k.filter((_,j)=>S.plan[`t${i}_${j}`]).length,0);
+  app.innerHTML=`<section class="page-head"><h1>התוכנית</h1><p>6 שבועות, כ-90 דקות ביום, עד ליעד ${S.settings.target||134}.</p></section>
+  <section class="card stack"><div class="row" style="justify-content:space-between"><b>התקדמות כוללת</b><span class="num muted">${doneAll}/${tot}</span></div><div class="progress"><i style="width:${100*doneAll/tot}%"></i></div>
+    ${!S.settings.start?`<p class="small muted">כשקובעים תאריך התחלה, השבוע הנוכחי נפתח ומודגש, והמשימות שלו מופיעות בדף הבית.</p><button class="btn wide" id="startNow">מתחילים היום</button>`:""}</section>
+  ${PLAN.map((w,i)=>{const n=w.k.filter((_,j)=>S.plan[`t${i}_${j}`]).length;const cur=S.settings.start&&i===wk;const [t1,t2]=w.t.split("·").map(x=>x.trim());return `<details class="week ${cur?"now":""}" ${cur||(!S.settings.start&&i===0)?"open":""}><summary><div class="row" style="justify-content:space-between;flex-wrap:nowrap"><div class="stack" style="gap:2px"><span class="small muted">${esc(t1)}${cur?" · השבוע":""}</span><b style="font-size:1.05rem">${esc(t2||"")}</b><span class="small muted">${esc(w.d)}</span></div><span class="pill ${n===w.k.length?"ok-t":""}">${n}/${w.k.length}</span></div><div class="wk-bar"><i style="width:${100*n/w.k.length}%"></i></div></summary>${
+    w.k.map(([a,b,g],j)=>`<div class="task"><input type="checkbox" id="t${i}_${j}" ${S.plan[`t${i}_${j}`]?"checked":""} aria-label="${esc(a)}"><div style="flex:1;min-width:0"><div class="tt">${esc(a)}</div>${b?`<div class="small muted">${esc(b)}</div>`:""}</div>${g==="ext"?`<a class="btn sm ghost go" href="${AMIRNET_SIM}" target="_blank" rel="noopener" aria-label="פתח באתר מאל&quot;ו">${ico("chev")}</a>`:g?`<button class="btn sm ghost go" data-go="${g}" aria-label="פתח">${ico("chev")}</button>`:""}</div>`).join("")}</details>`}).join("")}`;
   app.querySelectorAll(".task input").forEach(c=>c.onchange=()=>{S.plan[c.id]=c.checked;save();render()});
   const sn=$("#startNow"); if(sn) sn.onclick=()=>{S.settings.start=dayStr(today());save();render()};
 }
@@ -769,7 +842,7 @@ function grade(word,knew){
 function vWords(app){
   const sc=srsCounts();
   app.innerHTML=`<div class="head"><h2>מילים</h2></div><div class="seg tabs">${[["cards","כרטיסיות"],["cloze","השלמה בהקשר"],["quiz","בוחן תרגום"],["list","רשימת המילים"]].map(([k,t])=>`<button class="chip" data-m="${k}" aria-pressed="${W.mode===k}">${t}</button>`).join("")}</div>
-  <p class="muted small">${C.vocab.length} מילים, ממוינות לפי חשיבות. הרשימה בנויה מהמילים שחוזרות במבחני העבר של מאל"ו. ${sc.known} נלמדו · ${sc.learning} בלמידה · ${sc.due} לחזרה היום.</p>
+  <div class="badges"><span class="badge">${C.vocab.length} מילים</span><span class="badge" style="color:var(--good)">${sc.known} נלמדו</span><span class="badge" style="color:var(--primary)">${sc.learning} בלמידה</span><span class="badge" style="color:var(--orange)">${sc.due} לחזרה היום</span></div>
   <div id="wbody" class="stack"></div>`;
   app.querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>{W.mode=b.dataset.m;if(W.mode==="cards")buildQueue();if(W.mode==="quiz")W.quiz=null;if(W.mode==="cloze")W.cz=null;render()});
   const body=$("#wbody");
@@ -848,10 +921,9 @@ function listView(body){
   const st=v=>{const s=S.srs[v.w.toLowerCase()];return !s?"new":s.b>=4?"known":"learning"};
   const rows=C.vocab.filter(v=>(!q||v.w.toLowerCase().includes(q)||String(v.he).includes(q))&&(W.filter==="all"||st(v)===W.filter));
   body.innerHTML=`<div class="row"><input type="search" id="wq" placeholder="חיפוש באנגלית או בעברית" value="${esc(W.q)}" style="flex:1;min-width:200px">
-  <div class="seg">${[["all","הכול"],["new","חדשות"],["learning","בלמידה"],["known","נלמדו"]].map(([k,tx])=>`<button class="chip" data-f="${k}" aria-pressed="${W.filter===k}">${tx}</button>`).join("")}</div></div>
+  </div><div class="segbar">${[["all","הכול"],["new","חדשות"],["learning","בלמידה"],["known","נלמדו"]].map(([k,tx])=>`<button data-f="${k}" aria-pressed="${W.filter===k}">${tx}</button>`).join("")}</div>
   <p class="small muted">${rows.length} מילים</p>
-  <div class="scroll"><table><tr><th>מילה</th><th>תרגום</th><th>דוגמה</th><th>מצב</th></tr>
-  ${rows.slice(0,300).map(v=>{const s=S.srs[v.w.toLowerCase()];return `<tr><td class="en"><b>${esc(v.w)}</b> <span class="muted small">${esc(v.pos||"")}</span></td><td>${esc(v.he)}</td><td class="en small">${esc(v.ex||"")}</td><td>${s?boxes(s.b):`<button class="btn sm ghost" data-add="${esc(v.w.toLowerCase())}">ללמוד</button>`}</td></tr>`}).join("")}</table></div>
+  <div class="wlist">${rows.slice(0,300).map(v=>{const s=S.srs[v.w.toLowerCase()];return `<div class="wrow"><div class="wmain"><div class="row" style="gap:8px;direction:ltr;justify-content:flex-end"><span class="muted small en">${esc(v.pos||"")}</span><b class="en" style="font-size:1.08rem">${esc(v.w)}</b></div><div class="whe">${esc(v.he)}</div><div class="en small muted">${esc(v.ex||"")}</div></div><div class="wside">${s?boxes(s.b):`<button class="btn sm ghost" data-add="${esc(v.w.toLowerCase())}">ללמוד</button>`}</div></div>`}).join("")}</div>
   ${rows.length>300?`<p class="small muted">מוצגות 300 הראשונות. אפשר לצמצם בעזרת החיפוש.</p>`:""}`;
   const inp=$("#wq"); inp.oninput=()=>{W.q=inp.value;listView(body);const n=$("#wq");n.focus();n.setSelectionRange(n.value.length,n.value.length)};
   body.querySelectorAll("[data-f]").forEach(b=>b.onclick=()=>{W.filter=b.dataset.f;listView(body)});
@@ -924,19 +996,22 @@ function vPractice(app){
   }
   const c=P.cfg; const isSet=SET_TYPES.includes(c.type); const hasD=["sc","rs","rc","gc","wf"].includes(c.type);
   const exam=c.mode==="exam"||c.type==="wr";
-  app.innerHTML=`<div class="head"><h2>תרגול לפי סוג שאלה</h2><span class="muted small">שאלות מקוריות בסגנון המבחן, עם הסבר לכל תשובה</span></div>
-  <div class="card stack">
-    <div class="stack" style="gap:6px"><span class="f">סוג (פרקים 1–6 קובעים ציון)</span><div class="seg">${["sc","rs","rc"].map(t=>`<button class="chip" data-t="${t}" aria-pressed="${c.type===t}">${TYPE_HE[t]} <span class="num muted">${poolSize(t)}</span></button>`).join("")}</div></div>
-    <div class="stack" style="gap:6px"><span class="f">הסוגים החדשים (פרקים ניסיוניים, ומ-2027 חלק מהמבחן)</span><div class="seg">${["gc","wf","ct","lc","wr"].map(t=>`<button class="chip" data-t="${t}" aria-pressed="${c.type===t}" ${poolSize(t)?"":"disabled"}>${TYPE_HE[t]} <span class="num muted">${poolSize(t)}</span></button>`).join("")}</div></div>
-    ${c.type!=="wr"?`<div class="stack" style="gap:6px"><span class="f">מצב</span><div class="seg"><button class="chip" data-mo="learn" aria-pressed="${c.mode==="learn"}">למידה: משוב והסבר אחרי כל שאלה</button><button class="chip" data-mo="exam" aria-pressed="${c.mode==="exam"}">פורמט מבחן: פרק רשמי בממשק המבחן, משוב בסוף</button></div></div>`:""}
-    ${hasD?`<div class="stack" style="gap:6px"><span class="f">רמת קושי</span><div class="seg">${[[0,"מעורב"],[1,"קל"],[2,"בינוני"],[3,"קשה"]].map(([k,t])=>`<button class="chip" data-d="${k}" aria-pressed="${c.d===k}">${t}</button>`).join("")}</div></div>`:""}
-    ${exam?(c.type==="wr"?`<p class="small muted">מטלת כתיבה אחת, 12 דקות, עם מונה מילים. בסוף מקבלים תשובה לדוגמה וטיפים${sampleFn?", ואפשר לבקש משוב אישי מ-Claude":""}.</p>`:`<div class="stack" style="gap:6px"><span class="f">כמה פרקים ברצף</span><div class="seg">${[1,2,3].map(k=>`<button class="chip" data-chn="${k}" aria-pressed="${c.chn===k}">${k}</button>`).join("")}</div><span class="small muted">פרק רשמי: ${CH_SPEC[c.type][0]} שאלות, ${Math.round(CH_SPEC[c.type][1]/60)} דקות.</span></div>`)
-    :`<div class="stack" style="gap:6px"><span class="f">${isSet?"כמה סטים":"מספר שאלות"}</span><div class="seg">${(isSet?[[5,"סט אחד"],[10,"2 סטים"],[15,"3 סטים"]]:[[4,"4"],[8,"8"],[16,"16"],[30,"30"]]).map(([k,t])=>`<button class="chip" data-n="${k}" aria-pressed="${c.n===k}">${t}</button>`).join("")}</div></div>
-    <div class="stack" style="gap:6px"><span class="f">שעון</span><div class="seg"><button class="chip" data-tm="0" aria-pressed="${!c.timed}">בלי שעון: לומדים טכניקה</button><button class="chip" data-tm="1" aria-pressed="${c.timed}">בקצב המבחן</button></div></div>`}
-    <button class="btn" id="go" style="align-self:flex-start">התחל</button>
-  </div>
+  const TI={sc:["pen","c-sc"],rs:["swap","c-rs"],rc:["doc","c-rc"],gc:["learn","c-gc"],wf:["pen","c-wf"],ct:["speak","c-ct"],lc:["speak","c-lc"],wr:["doc","c-wr"]};
+  const pick=t=>`<button class="pick" data-t="${t}" aria-pressed="${c.type===t}" ${poolSize(t)?"":"disabled"}><span class="ic ${TI[t][1]}">${ico(TI[t][0])}</span><b>${TYPE_HE[t]}</b><span class="n">${poolSize(t)} ${t==="wr"?"משימות":"שאלות"}</span></button>`;
+  const seg=(attr,opts,cur)=>`<div class="segbar" role="group">${opts.map(([k,t])=>`<button type="button" ${attr}="${k}" aria-pressed="${cur===k}">${t}</button>`).join("")}</div>`;
+  app.innerHTML=`<section class="page-head"><h1>תרגול</h1><p>שאלות מקוריות בסגנון המבחן, עם הסבר לכל תשובה.</p></section>
+  <section class="field"><span class="lbl">פרקי המבחן (קובעים ציון)</span><div class="picker">${["sc","rs","rc"].map(pick).join("")}</div></section>
+  <section class="field"><span class="lbl">הסוגים החדשים (פרקים ניסיוניים, ומ-2027 חלק מהמבחן)</span><div class="picker sm">${["gc","wf","ct","lc","wr"].map(pick).join("")}</div></section>
+  <section class="card stack">
+    ${c.type!=="wr"?`<div class="field"><span class="lbl">מצב</span>${seg("data-mo",[["learn","למידה: משוב מיידי"],["exam","פורמט מבחן"]],c.mode)}<span class="small muted">${c.mode==="exam"?"פרק רשמי בממשק המבחן, עם שעון, ומשוב בסוף.":"אחרי כל שאלה רואים מיד אם צדקת ולמה."}</span></div>`:`<p class="small muted">מטלת כתיבה אחת, 12 דקות, עם מונה מילים. בסוף מקבלים תשובה לדוגמה וטיפים${sampleFn?", ואפשר לבקש משוב אישי מ-Claude":""}.</p>`}
+    ${hasD?`<div class="field"><span class="lbl">רמת קושי</span>${seg("data-d",[[0,"מעורב"],[1,"קל"],[2,"בינוני"],[3,"קשה"]],c.d)}</div>`:""}
+    ${exam?(c.type==="wr"?"":`<div class="field"><span class="lbl">כמה פרקים ברצף</span>${seg("data-chn",[[1,"1"],[2,"2"],[3,"3"]],c.chn)}<span class="small muted">פרק רשמי: ${CH_SPEC[c.type][0]} שאלות, ${Math.round(CH_SPEC[c.type][1]/60)} דקות.</span></div>`)
+    :`<div class="field"><span class="lbl">${isSet?"כמה סטים":"מספר שאלות"}</span>${seg("data-n",isSet?[[5,"סט אחד"],[10,"2 סטים"],[15,"3 סטים"]]:[[4,"4"],[8,"8"],[16,"16"],[30,"30"]],c.n)}</div>
+    <div class="field"><span class="lbl">שעון</span>${seg("data-tm",[["0","בלי שעון"],["1","בקצב המבחן"]],c.timed?"1":"0")}</div>`}
+  </section>
+  <div class="sticky-cta"><button class="btn wide" id="go">${ico("practice")} להתחיל: ${TYPE_HE[c.type]}</button></div>
   ${sampleFn&&(c.type==="sc"||c.type==="rs")?`<div class="card"><h3>רוצה עוד שאלות?</h3><p class="muted small">Claude יכתוב 5 שאלות ${TYPE_HE[c.type]} חדשות ברמה ${["מעורבת","קלה","בינונית","קשה"][c.d]}, והן יישמרו במאגר שלך. השימוש נספר במכסת השימוש שלך ב-Claude.</p><div class="row"><button class="btn ghost" id="gen" ${P.gen.busy?"disabled":""}>${P.gen.busy?"כותב שאלות…":"צור 5 שאלות"}</button><span class="small muted">${esc(P.gen.msg)}</span></div></div>`:""}
-  <div class="card"><p class="small">לשיטה המלאה של כל סוג שאלה יש שיעור בלשונית <button class="btn sm ghost" data-go="learn">למידה</button></p></div>`;
+  <button class="card qt" data-go="learn" style="flex-direction:row;align-items:center;min-height:auto"><span class="ic c-learn">${ico("learn")}</span><span class="stack" style="gap:2px"><b>השיטה המלאה לכל סוג שאלה</b><span>בלשונית למידה, עם דוגמאות</span></span></button>`;
   app.querySelectorAll("[data-t]").forEach(b=>b.onclick=()=>{c.type=b.dataset.t;c.n=SET_TYPES.includes(c.type)?5:8;render()});
   app.querySelectorAll("[data-d]").forEach(b=>b.onclick=()=>{c.d=+b.dataset.d;render()});
   app.querySelectorAll("[data-n]").forEach(b=>b.onclick=()=>{c.n=+b.dataset.n;render()});
@@ -1227,21 +1302,29 @@ function simScoreOf(chs){
 function vSim(app){
   if(SM&&SM.done) return simResults(app);
   const enough=allSC().length>=12&&allRS().length>=6&&C.rc.length>=1;
-  app.innerHTML=`<div class="head"><h2>סימולציה מלאה במבנה אמירנט</h2><span class="muted small">6 פרקים לציון + פרקים ניסיוניים · עד כ-50 דקות</span></div>
-  <div class="card stack">
-    <p>הסימולציה בנויה כמו המבחן הממוחשב: ממשק באנגלית, סרגל פרקים, מספרי שאלות שנצבעים בכתום אחרי שעונים, כפתור <span class="en">Flag Question</span> לנעיצת שאלה, שעון שאפשר להסתיר בלחיצה, כפתור <span class="en">Show Instructions</span>, ובקריאה הקטע משמאל והשאלות מימין. אפשר גם לסמן טקסט וללחוץ ▶ כדי לשמוע אותו.</p>
-    <ul style="margin:0;padding-inline-start:1.2em;display:flex;flex-direction:column;gap:4px">
-      <li>הסדר: השלמת משפטים, השלמת משפטים, קטע קריאה, ניסוח מחדש, ניסוח מחדש, השלמת משפטים. לכל פרק הזמן הרשמי שלו.</li>
-      <li>אדפטיבי: הפרק הראשון בינוני. 75% ומעלה מעלה את הקושי של הפרק הבא, ופחות מ-50% מוריד אותו.</li>
-      <li><span class="en">Next Section</span> נפתח רק אחרי שעונים על כל השאלות, ואי אפשר לחזור לפרק שנסגר. כשהזמן נגמר, הפרק נסגר לבד.</li>
-      <li>בסוף מגיעים שני פרקים ניסיוניים מהסוגים החדשים (דקדוק בהקשר, יצירת מילה, השלמת קטע שמע, הרצאה/שיחה), או מטלת כתיבה אחת. כמו במבחן, הם יכולים להוסיף עד 2 נקודות ולא להוריד. בהקלטות כאן ההשמעה חד-פעמית, כדי לתרגל ריכוז בתנאי מבחן.</li>
-    </ul>
-    <label class="row" style="gap:8px"><input type="checkbox" id="exp" ${SIMCFG.exp?"checked":""}> לכלול פרקים ניסיוניים</label>
-    <p class="small muted">הציון כאן הוא אומדן גס, לפי אחוז ההצלחה ורמת הקושי שקיבלת. האומדן המדויק ביותר מגיע ממבחני העבר.</p>
-    <button class="btn" id="go" style="align-self:flex-start" ${enough?"":"disabled"}>התחל סימולציה</button></div>
-  <div class="card"><h3>סימולציות רשמיות</h3><p>למאל"ו יש 3 סימולציות בממשק המקורי. מומלץ לעשות אחת בשבוע הראשון ואת השתיים האחרות בשבוע האחרון.</p><a class="btn ghost" href="${AMIRNET_SIM}" target="_blank" rel="noopener" style="align-self:flex-start">לסימולציה של מאל"ו ↗</a></div>
+  const TL=[["sc","השלמת משפטים",4,4,"c-sc"],["sc","השלמת משפטים",4,4,"c-sc"],["rc","קטע קריאה",5,15,"c-rc"],["rs","ניסוח מחדש",3,6,"c-rs"],["rs","ניסוח מחדש",3,6,"c-rs"],["sc","השלמת משפטים",4,4,"c-sc"]];
+  const last=S.results.filter(x=>x.kind==="sim").slice(-1)[0];
+  app.innerHTML=`<section class="hero violet">
+    <div class="stack" style="gap:6px;position:relative;z-index:1"><h2>סימולציה מלאה</h2><span class="muted">בדיוק כמו המבחן הממוחשב: ממשק באנגלית, שעון לכל פרק, ואדפטיבי.</span></div>
+    <div class="chips"><span>6 פרקים לציון</span><span>23 שאלות</span><span>עד ~50 דקות</span>${last?`<span>ציון אחרון: ${last.score}</span>`:""}</div>
+    <button class="btn wide" id="go" ${enough?"":"disabled"} style="position:relative;z-index:1">להתחיל סימולציה</button>
+  </section>
+  <section class="card stack">
+    <h3>מבנה המבחן</h3>
+    <div class="timeline">${TL.map(([k,t,q,m,cl],i)=>`<div class="tl"><span class="no ${cl}">${i+1}</span><span class="t">${t}</span><span class="m">${q} שאלות · ${m} דק'</span></div>`).join("")}
+      ${SIMCFG.exp?`<div class="tl exp"><span class="no">7</span><span class="t">פרקים ניסיוניים <span class="small muted">(עד +2 נק', בלי הורדה)</span></span><span class="m">3–12 דק'</span></div>`:""}</div>
+    <label class="row" style="gap:10px;font-weight:600;cursor:pointer"><input type="checkbox" id="exp" ${SIMCFG.exp?"checked":""} style="width:20px;height:20px;accent-color:var(--primary)"> לכלול פרקים ניסיוניים (דקדוק, יצירת מילה, האזנה או כתיבה)</label>
+  </section>
+  <details class="card"><summary>איך זה עובד</summary>
+    <ul style="margin:12px 0 0;padding-inline-start:1.2em;display:flex;flex-direction:column;gap:6px">
+      <li><b>אדפטיבי:</b> הפרק הראשון בינוני. 75% ומעלה מעלים את הקושי של הפרק הבא, ופחות מ-50% מורידים אותו.</li>
+      <li><b>ניווט:</b> בתוך פרק אפשר לעבור בין השאלות. <span class="en">Next Section</span> נפתח רק אחרי שעונים על הכול, ואין חזרה לפרק שנסגר.</li>
+      <li><b>הממשק:</b> מספרי שאלות שנצבעים בכתום, <span class="en">Flag Question</span>, שעון שמסתירים בלחיצה, וקטע הקריאה משמאל.</li>
+      <li><b>הציון:</b> אומדן גס לפי אחוז ההצלחה ורמת הקושי. האומדן המדויק ביותר מגיע ממבחני העבר.</li>
+    </ul></details>
+  <a class="card qt" href="${AMIRNET_SIM}" target="_blank" rel="noopener" style="flex-direction:row;align-items:center;min-height:auto;text-decoration:none;color:inherit;font-weight:400"><span class="ic c-sim">${ico("sim")}</span><span class="stack" style="gap:2px"><b>הסימולציות הרשמיות של מאל"ו ↗</b><span>3 מבחנים בממשק המקורי. מומלץ אחד בשבוע הראשון ושניים בשבוע האחרון.</span></span></a>
   ${simHistory()}`;
-  $("#exp").onchange=e=>{SIMCFG.exp=e.target.checked};
+  $("#exp").onchange=e=>{SIMCFG.exp=e.target.checked;render()};
   const g=$("#go"); if(g) g.onclick=()=>{
     const plan=simPlan(); const used=new Set();
     startExam({plan,mode:"sim",replay:false,
@@ -1249,12 +1332,22 @@ function vSim(app){
       onDone:chs=>{const r=simScoreOf(chs);gradeChapters(chs,"sim",[0,1,2,3,4,5]);S.results.push({kind:"sim",t:Date.now(),score:r.score,p:Math.round(r.p*100),d:Math.round(r.avgD*10)/10});save();SM={done:true,chs,res:r};view="sim";render();window.scrollTo(0,0)}});
   };
 }
+function scoreGauge(score,target){
+  const r=52,c=Math.PI*r,p=Math.max(0,Math.min(1,(score-50)/100)),tp=Math.max(0,Math.min(1,(target-50)/100));
+  const tx=60-r*Math.cos(Math.PI*tp), ty=62-r*Math.sin(Math.PI*tp);
+  return `<svg viewBox="0 0 120 70" width="220" height="128" role="img" aria-label="ציון ${score} מתוך 150"><path d="M8 62a52 52 0 0 1 104 0" fill="none" stroke="rgba(255,255,255,.22)" stroke-width="10" stroke-linecap="round"/><path d="M8 62a52 52 0 0 1 104 0" fill="none" stroke="${score>=target?"#5FD08F":"#fff"}" stroke-width="10" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c*(1-p)}"/><circle cx="${tx}" cy="${ty}" r="3.5" fill="#FBBF24"/><text x="60" y="58" text-anchor="middle" style="fill:#fff;font:800 26px var(--body)">${score}</text></svg>`;
+}
 function simResults(app){
-  const r=SM.res,[lv,cls]=levelOf(r.score);
-  app.innerHTML=`<div class="head"><h2>תוצאות הסימולציה</h2><span class="pill ${cls}">${lv}</span></div>
-  <div class="grid"><div class="card tile"><b>${r.score}</b><span>אומדן ציון (גס)${r.bonus?` · כולל בונוס ${r.bonus} מהפרקים הניסיוניים`:""}</span></div><div class="card tile"><b>${r.correct}/${r.total}</b><span>נכונות בפרקים שקובעים ציון</span></div><div class="card tile"><b>${r.avgD.toFixed(1)}</b><span>רמת קושי ממוצעת שקיבלת (1–3)</span></div></div>
-  <div class="scroll"><table><tr><th>פרק</th><th>סוג</th><th>רמה</th><th>תוצאה</th></tr>${SM.chs.map((c,i)=>{const g=c.items.map((x,k)=>isCorrect(x,c.pick[k]));const sc=g.filter(v=>v!==null);return `<tr><td class="num">${i+1}${i>=6?" (ניסיוני)":""}</td><td>${TYPE_HE[c.type]}</td><td class="num">${c.d||"—"}</td><td class="num">${sc.length?`${sc.filter(Boolean).length}/${sc.length}`:"✎"}</td></tr>`}).join("")}</table></div>
-  <h3>תחקור: כל השאלות</h3>${reviewHtml(SM.chs)}
+  const r=SM.res,[lv,cls]=levelOf(r.score), target=S.settings.target||134;
+  const TC={sc:"c-sc",rs:"c-rs",rc:"c-rc",gc:"c-gc",wf:"c-wf",ct:"c-ct",lc:"c-lc",wr:"c-wr"};
+  app.innerHTML=`<section class="hero" style="align-items:center;text-align:center">
+    <span class="muted small" style="position:relative;z-index:1">אומדן ציון בסימולציה</span>
+    <div style="position:relative;z-index:1">${scoreGauge(r.score,target)}</div>
+    <div class="chips" style="justify-content:center"><span>${lv}</span><span>${r.score>=target?`מעל היעד ${target}`:`חסרות ${target-r.score} נק' ליעד ${target}`}</span>${r.bonus?`<span>+${r.bonus} מהפרקים הניסיוניים</span>`:""}</div>
+  </section>
+  <section class="sumrow"><div class="sum"><b>${r.correct}/${r.total}</b><span>נכונות בפרקים לציון</span></div><div class="sum"><b>${Math.round(100*r.p)}%</b><span>דיוק</span></div><div class="sum"><b>${r.avgD.toFixed(1)}</b><span>רמת קושי ממוצעת (1–3)</span></div></section>
+  <section class="card stack"><h3>לפי פרק</h3><div class="timeline">${SM.chs.map((c,i)=>{const g=c.items.map((x,k)=>isCorrect(x,c.pick[k])).filter(v=>v!==null);const ok=g.filter(Boolean).length;return `<div class="tl ${i>=6?"exp":""}"><span class="no ${i>=6?"":TC[c.type]}">${i+1}</span><span class="t">${TYPE_HE[c.type]}<span class="small muted"> · רמה ${c.d||"—"}</span><div class="meter" style="margin-top:6px"><i style="width:${g.length?100*ok/g.length:0}%;background:${g.length&&ok/g.length>=.75?"var(--good-fill)":g.length&&ok/g.length>=.5?"var(--amber)":"var(--bad-fill)"}"></i></div></span><span class="m num">${g.length?`${ok}/${g.length}`:"✎"}</span></div>`}).join("")}</div></section>
+  <h3 class="section-title">תחקור: כל השאלות</h3>${reviewHtml(SM.chs)}
   <div class="row"><button class="btn" id="new">סימולציה חדשה</button><button class="btn ghost" data-go="log">לסיווג הטעויות ביומן</button></div>`;
   bindReview(app,SM.chs);
   $("#new").onclick=()=>{SM=null;render()};
@@ -1313,9 +1406,11 @@ function vPast(app){
   const list=examList();
   if(PX.sel) return pastSheet(app,list.find(e=>e.id===PX.sel));
   const res=id=>S.results.filter(r=>r.kind==="past"&&r.id===id).slice(-1)[0];
-  app.innerHTML=`<div class="head"><h2>מבחני עבר רשמיים</h2><span class="muted small">20 מבחנים · 880 שאלות של מאל"ו</span></div>
-  <p>פותחים את ה-PDF של מאל"ו בלשונית נפרדת, פותרים את שני פרקי האנגלית עם השעון כאן, ומסמנים את התשובות בדף התשובות הדיגיטלי. האתר בודק מול המפתח הרשמי, ממיר לציון לפי טבלת ההמרה של אותו מבחן ומראה איפה טעית. המבחנים של 2025–2026 שמורים לשבועות 5–6.</p>
-  <div class="grid">${list.map(e=>{const r=res(e.id);const late=e.year>=2025;return `<button class="card" data-ex="${e.id}" style="cursor:pointer;text-align:right;${late?"border-color:var(--accent)":""}"><div class="row" style="justify-content:space-between"><b>${examName(e)}</b>${r?`<span class="pill ${levelOf(r.score)[1]}">${r.score}</span>`:late?`<span class="small" style="color:var(--accent)">לסוף</span>`:""}</div><span class="small muted">${r?`${r.raw}/44 · ${new Date(r.t).toLocaleDateString("he-IL")}`:"עוד לא נפתר"}</span></button>`}).join("")}</div>`;
+  const solved=list.filter(e=>res(e.id)), best=solved.length?Math.max(...solved.map(e=>res(e.id).score)):null;
+  const last3=S.results.filter(r=>r.kind==="past").slice(-3), avg=last3.length?Math.round(last3.reduce((x,r)=>x+r.score,0)/last3.length):null;
+  app.innerHTML=`<section class="page-head"><h1>מבחני עבר</h1><p>20 מבחנים רשמיים של מאל"ו · 880 שאלות. פותחים את ה-PDF, מסמנים כאן, ומקבלים ציון אמיתי לפי טבלת ההמרה.</p></section>
+  <section class="sumrow"><div class="sum"><b>${solved.length}/20</b><span>מבחנים שפתרת</span></div><div class="sum"><b>${best??"—"}</b><span>הציון הגבוה</span></div><div class="sum"><b>${avg??"—"}</b><span>ממוצע 3 אחרונים</span></div></section>
+  <section class="exgrid">${list.map(e=>{const r=res(e.id);const late=e.year>=2025;return `<button class="card ex ${r?"done":""} ${late&&!r?"late":""}" data-ex="${e.id}"><span class="ss">${SEASON_HE[e.season]}</span><span class="yr num">${e.year}</span>${r?`<span class="pill ${levelOf(r.score)[1]}">${r.score} · ${r.raw}/44</span>`:late?`<span class="pill">לשבועות 5–6</span>`:`<span class="small muted">עוד לא נפתר</span>`}</button>`}).join("")}</section>`;
   app.querySelectorAll("[data-ex]").forEach(b=>b.onclick=()=>{PX={sel:b.dataset.ex,ans:{},sec:0,left:1200,running:false,graded:null,manual:""};render()});
 }
 function pastSheet(app,e){
@@ -1324,12 +1419,12 @@ function pastSheet(app,e){
   const G=PX.graded;
   app.innerHTML=`<div class="row" style="justify-content:space-between"><button class="btn sm ghost" id="back">→ כל המבחנים</button><h2>${examName(e)}</h2></div>
   <div class="card stack">
-    <div class="row">${link(e.p1,"פתח את פרק אנגלית 1 ב-PDF")}${link(e.p2,"פרק אנגלית 2")}</div>
+    <div class="row">${link(e.p1,"PDF · פרק 1")}${link(e.p2,"PDF · פרק 2")}</div>
     <p class="small muted">${e.p1?`פרקי האנגלית מתחילים בעמודים ${e.p1-1} ו-${e.p2-1} בחוברת (לפי המספור המודפס).`:"פרקי האנגלית נמצאים באמצע החוברת, אחרי פרקי החשיבה."} בכל פרק יש 22 שאלות: 1–8 השלמת משפטים, 9–12 ניסוח מחדש, 13–22 הבנת הנקרא.</p>
   </div>
   ${hasKey?`
   <div class="card stack">
-    <div class="row" style="justify-content:space-between"><div class="seg">${[0,1].map(s=>`<button class="chip" data-sec="${s}" aria-pressed="${PX.sec===s}">פרק ${s+1}</button>`).join("")}</div>
+    <div class="row" style="justify-content:space-between"><div class="segbar" style="flex:1;min-width:180px">${[0,1].map(s=>`<button data-sec="${s}" aria-pressed="${PX.sec===s}">פרק אנגלית ${s+1}</button>`).join("")}</div>
       ${G?"":`<div class="row"><span class="timer ${PX.left<60?"low":""}" id="tm">${fmt(PX.left)}</span><button class="btn sm ${PX.running?"ghost":""}" id="clock">${PX.running?"עצור":"הפעל שעון 20′"}</button></div>`}</div>
     <div class="sheet">${Array.from({length:22},(_,q)=>{const key=PX.sec?e.k2:e.k1;const a=PX.ans[`${PX.sec}_${q}`];const cls=G?(a===key[q]?"right":"wrong"):"";return `<div class="srow ${cls}"><span class="n">${q+1}</span>${[1,2,3,4].map(v=>`<button class="${a===v?"on":""} ${G&&key[q]===v?"key":""}" data-q="${q}" data-v="${v}" ${G?"disabled":""} aria-label="שאלה ${q+1} תשובה ${v}">${v}</button>`).join("")}</div>`}).join("")}</div>
     ${G?"":`<div class="row"><button class="btn" id="grade">בדוק את שני הפרקים</button><span class="small muted">${Object.keys(PX.ans).length}/44 סומנו. שאלה לא מסומנת נחשבת טעות.</span></div>`}
@@ -1393,20 +1488,21 @@ function vLog(app){
   const list=E.filter(e=>(LG.type==="all"||e.type===LG.type)&&(LG.cat==="all"||(LG.cat==="none"?!e.cat:e.cat===LG.cat))).slice().reverse();
   const top=Object.entries(byCat).sort((a,b)=>b[1]-a[1])[0];
   const tip={word:"רוב הטעויות שלך הן מילים לא מוכרות. כדאי להעלות את מספר המילים החדשות ביום ולהוסיף לכרטיסיות כל מילה מהשאלות.",trap:"רוב הטעויות שלך הן מלכודות. בניסוח מחדש כדאי לעבור על כל תשובה ולבדוק שלילה, כמת, זמן וכיוון של סיבה ותוצאה.",careless:"רוב הטעויות שלך הן קריאה רשלנית. כדאי לקרוא את כל ארבע התשובות לפני שבוחרים, גם כשהראשונה נראית נכונה.",time:"רוב הטעויות שלך קשורות לזמן. כדאי לתרגל בקצב אמירנט ולא להתעכב על שאלה אחת יותר מ-90 שניות."};
-  app.innerHTML=`<div class="head"><h2>יומן טעויות</h2><span class="num muted">${E.length}</span></div>
-  ${E.length?`<div class="card stack"><h3>לפי סיבה</h3>${CATS.map(([k,t])=>`<div class="stack" style="gap:4px"><div class="row" style="justify-content:space-between"><span>${t}</span><span class="num">${byCat[k]}</span></div><div class="meter"><i style="width:${100*byCat[k]/max}%"></i></div></div>`).join("")}
-  ${none?`<p class="small muted">${none} טעויות עוד לא סווגו. אפשר לסווג אותן ברשימה למטה.</p>`:""}
+  const RI={word:["words","c-words"],trap:["log","c-log"],careless:["doc","c-rc"],time:["sim","c-sim"]};
+  const rp=retryPool().length;
+  app.innerHTML=`<section class="page-head"><h1>יומן טעויות</h1><p>${E.length?`${E.length} טעויות. סווג כל טעות לפי הסיבה, ותרגל אותן שוב עד שהן נעלמות.`:"כאן נאספות הטעויות שלך מכל התרגולים."}</p></section>
+  ${E.length?`${rp?`<section class="hero" style="padding:18px"><div class="row" style="justify-content:space-between;flex-wrap:nowrap;position:relative;z-index:1"><div class="stack" style="gap:2px"><h2>תרגול טעויות</h2><span class="small muted">תשובה נכונה מוחקת את הטעות מהיומן</span></div><span class="badge" style="background:rgba(255,255,255,.15);border:0;color:#fff">${rp}</span></div><button class="btn wide" id="retry" style="position:relative;z-index:1">לתרגל שוב ${Math.min(20,rp)} שאלות</button></section>`:""}
+  <section class="field"><span class="lbl">למה טעיתי? (לחיצה מסננת)</span><div class="reasons">${CATS.map(([k,t])=>`<button class="reason" data-lc="${k}" aria-pressed="${LG.cat===k}"><span class="ic ${RI[k][1]}">${ico(RI[k][0])}</span><span><b class="num">${byCat[k]}</b><span>${t}</span></span></button>`).join("")}</div>
+  ${none?`<span class="small muted">${none} טעויות עוד לא סווגו. <button class="chip" data-lc="none" aria-pressed="${LG.cat==="none"}" style="min-height:32px;padding:3px 10px">להציג אותן</button>${LG.cat!=="all"?` <button class="chip" data-lc="all" style="min-height:32px;padding:3px 10px">הכול</button>`:""}</span>`:""}</section>
   ${top&&top[1]>=3?`<p class="explain">${tip[top[0]]}</p>`:""}
-  ${retryPool().length?`<button class="btn" id="retry" style="align-self:flex-start">לתרגל שוב ${Math.min(20,retryPool().length)} שאלות שטעיתי בהן</button><span class="small muted">תשובה נכונה מוחקת את הטעות מהיומן.</span>`:""}</div>
-  <div class="row"><div class="seg">${[["all","כל הסוגים"],["sc","השלמה"],["rs","ניסוח מחדש"],["rc","קריאה"]].map(([k,t])=>`<button class="chip" data-lt="${k}" aria-pressed="${LG.type===k}">${t}</button>`).join("")}</div>
-  <div class="seg">${[["all","כל הסיבות"],["none","לא סווג"],...CATS].map(([k,t])=>`<button class="chip" data-lc="${k}" aria-pressed="${LG.cat===k}">${t}</button>`).join("")}</div></div>
+  <div class="seg tabs">${[["all","כל הסוגים"],["sc","השלמה"],["rs","ניסוח מחדש"],["rc","קריאה"],["gc","דקדוק"],["wf","יצירת מילה"]].map(([k,t])=>`<button class="chip" data-lt="${k}" aria-pressed="${LG.type===k}">${t}</button>`).join("")}</div>
   <div class="stack">${list.slice(0,80).map(e=>{const idx=E.indexOf(e);return `<details class="card"><summary class="row" style="justify-content:space-between"><span>${TYPE_HE[e.type]||""} · <span class="muted small">${new Date(e.t).toLocaleDateString("he-IL")} · ${{practice:"תרגול",sim:"סימולציה",past:"מבחן עבר"}[e.src]||""}</span></span>${e.cat?`<span class="pill">${CAT_HE[e.cat]}</span>`:`<span class="pill warn-t">לא סווג</span>`}</summary>
     ${e.o?`<div class="stem">${stemHtml(e.q)}</div><div class="opts">${e.o.map((o,k)=>`<div class="opt ${k===e.a?"ok":k===e.pick?"no":""}"><span class="bub">${k+1}</span><span>${esc(o)}</span></div>`).join("")}</div>${e.ex?`<div class="explain">${esc(e.ex)}</div>`:""}`:(e.acc?`<div class="stem">${esc(e.q)}</div><p>כתבת: <b class="en">${esc(e.typed||"—")}</b> · נכון: <b class="en">${esc(e.acc.join(" / "))}</b></p>${e.ex?`<div class="explain">${esc(e.ex)}</div>`:""}`:`<p>${esc(e.q)} · סימנת ${e.pick>=0?e.pick+1:"—"}, התשובה הנכונה ${e.a+1}</p>`)}
     <div class="cat">${CATS.map(([k,t])=>`<button class="chip" data-ec="${k}" data-ei="${idx}" aria-pressed="${e.cat===k}">${t}</button>`).join("")}<button class="btn sm ghost" data-del="${idx}">הבנתי, למחוק</button></div></details>`}).join("")||`<div class="empty">אין טעויות שמתאימות לסינון.</div>`}</div>`
   :`<div class="empty">היומן ריק. כל טעות בתרגול, בסימולציה או במבחן עבר תיכנס לכאן אוטומטית, ותוכל לסווג אותה לפי הסיבה.</div>`}`;
   app.querySelectorAll("[data-lt]").forEach(b=>b.onclick=()=>{LG.type=b.dataset.lt;render()});
   const rt=$("#retry"); if(rt) rt.onclick=()=>{const items=shuffle(retryPool()).slice(0,20);S.daily[today()]=Object.assign(S.daily[today()]||{},{retry:true});save();P.review=null;P.run={type:items[0].type,items,i:0,pick:{},score:0,cat:{},t0:Date.now(),left:null};view="practice";render();window.scrollTo(0,0)};
-  app.querySelectorAll("[data-lc]").forEach(b=>b.onclick=()=>{LG.cat=b.dataset.lc;render()});
+  app.querySelectorAll("[data-lc]").forEach(b=>b.onclick=()=>{LG.cat=LG.cat===b.dataset.lc?"all":b.dataset.lc;render()});
   app.querySelectorAll("[data-ec]").forEach(b=>b.onclick=()=>{const e=S.errors[+b.dataset.ei];if(e){e.cat=b.dataset.ec;save();render()}});
   app.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{S.errors.splice(+b.dataset.del,1);save();render()});
 }
