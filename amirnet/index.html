@@ -294,6 +294,13 @@ svg text{fill:var(--muted);font:600 11px var(--body)}
 .lesson .exb .en{padding:12px 16px;white-space:pre-wrap;border-bottom:2px solid var(--rule);font-size:1rem;background:var(--soft)}
 .lesson .exb .he{padding:12px 16px}
 .lesson table{font-size:.92rem}
+.perks{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px 14px}
+.perks li{display:flex;align-items:center;gap:6px;font-size:.9rem;color:var(--muted)}
+.perks .ico{width:16px;height:16px;color:var(--good-fill);stroke-width:3}
+.linkbtn{background:none;border:0;color:var(--primary);font-weight:700;cursor:pointer;padding:8px 6px;min-height:40px;align-self:center}
+.linkbtn:hover{text-decoration:underline}
+.lesson-bar{position:sticky;bottom:12px;z-index:5;display:grid;grid-template-columns:1fr;gap:10px}
+@media (max-width:760px){.lesson-bar{bottom:calc(var(--nav-h) + 12px + env(safe-area-inset-bottom,0px))}}
 .lnum{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font:800 1rem var(--body);background:var(--primary-soft);color:var(--primary)}
 .lnum.done{background:var(--good-fill);color:#fff}
 
@@ -524,21 +531,24 @@ function initFirebase(){
   }catch(e){FB=null}
 }
 function accountHtml(){
-  if(FB.user) return `<p class="small">מחובר בתור <b class="en">${esc(FB.user.email||"")}</b>. ההתקדמות נשמרת בחשבון ומסונכרנת בכל מכשיר שבו תתחבר.</p><div class="row"><button class="btn sm ghost" id="fbOut">התנתק</button></div>`;
+  if(FB.user) return `<div class="row" style="flex-wrap:nowrap"><span class="lnum done" style="border-radius:50%;flex:none">${esc((FB.user.email||"?")[0].toUpperCase())}</span><div class="stack" style="gap:0;min-width:0;flex:1"><b class="en" style="overflow:hidden;text-overflow:ellipsis">${esc(FB.user.email||"")}</b><span class="small muted">ההתקדמות נשמרת ומסונכרנת בכל מכשיר</span></div><button class="btn sm ghost" id="fbOut">התנתקות</button></div>`;
   const up=FB.mode==="up";
-  return `<p class="small">${up?"יצירת חשבון חינם. ההתקדמות תישמר בענן ותהיה זמינה בטלפון ובמחשב.":"התחבר כדי שההתקדמות תישמר ותסונכרן בין המכשירים. בלי חשבון היא נשמרת רק בדפדפן הזה."}</p>
-  <form id="fbForm" class="stack" style="gap:10px;max-width:360px" novalidate>
-    <label class="f">אימייל<input type="email" id="fbEmail" autocomplete="email" dir="ltr" required></label>
+  return `<div class="segbar" role="tablist"><button type="button" id="fbIn" aria-pressed="${!up}">התחברות</button><button type="button" id="fbUp" aria-pressed="${up}">חשבון חדש</button></div>
+  <ul class="perks"><li>${ico("check")}ההתקדמות נשמרת בענן</li><li>${ico("check")}ממשיכים מהטלפון או מהמחשב</li><li>${ico("check")}חינם</li></ul>
+  <form id="fbForm" class="stack" style="gap:12px" novalidate>
+    <label class="f">אימייל<input type="email" id="fbEmail" autocomplete="email" dir="ltr" placeholder="name@example.com" required></label>
     <label class="f">סיסמה${up?" (לפחות 6 תווים)":""}<input type="password" id="fbPw" autocomplete="${up?"new-password":"current-password"}" dir="ltr" required></label>
-    <div class="row"><button class="btn" type="submit" ${FB.busy?"disabled":""}>${up?"צור חשבון":"התחבר"}</button><button class="btn ghost sm" type="button" id="fbMode">${up?"יש לי כבר חשבון":"אין לי חשבון"}</button>${up?"":`<button class="btn ghost sm" type="button" id="fbReset">שכחתי סיסמה</button>`}</div>
-    <span class="small ${FB.msgOk?"ok-t":"no-t"}" id="fbMsg">${esc(FB.msg||"")}</span>
+    <span class="small ${FB.msgOk?"ok-t":"no-t"}" id="fbMsg" role="alert">${esc(FB.msg||"")}</span>
+    <button class="btn wide" type="submit" ${FB.busy?"disabled":""}>${up?"יצירת חשבון":"התחברות"}</button>
+    ${up?"":`<button class="linkbtn" type="button" id="fbReset">שכחתי סיסמה</button>`}
   </form>`;
 }
 function bindAccount(app){
   const out=app.querySelector("#fbOut"); if(out) out.onclick=async()=>{await FB.auth.signOut();resetState();try{localStorage.removeItem(OWNER_KEY)}catch(e){}render()};
   const f=app.querySelector("#fbForm"); if(!f) return;
   const say=(t,ok)=>{FB.msg=t;FB.msgOk=!!ok;const m=app.querySelector("#fbMsg");if(m){m.textContent=t;m.className="small "+(ok?"ok-t":"no-t")}};
-  app.querySelector("#fbMode").onclick=()=>{FB.mode=FB.mode==="up"?"in":"up";FB.msg="";render()};
+  app.querySelector("#fbIn").onclick=()=>{FB.mode="in";FB.msg="";render()};
+  app.querySelector("#fbUp").onclick=()=>{FB.mode="up";FB.msg="";render()};
   const rs=app.querySelector("#fbReset"); if(rs) rs.onclick=async()=>{const em=app.querySelector("#fbEmail").value.trim();if(!em){say("כתוב את האימייל שלך ואז לחץ שוב על \"שכחתי סיסמה\".");return}try{await FB.auth.sendPasswordResetEmail(em);say("נשלח אליך מייל לאיפוס הסיסמה.",true)}catch(e){say(FB_ERR[e.code]||"לא הצלחנו לשלוח מייל איפוס.")}};
   f.onsubmit=async e=>{e.preventDefault();const em=app.querySelector("#fbEmail").value.trim(),pw=app.querySelector("#fbPw").value;FB.busy=true;say("…",true);
     try{ if(FB.mode==="up") await FB.auth.createUserWithEmailAndPassword(em,pw); else await FB.auth.signInWithEmailAndPassword(em,pw); FB.msg=""; }
@@ -607,7 +617,7 @@ function renderMenu(){
   $("#sheetBg").onclick=e=>{if(e.target.id==="sheetBg"||e.target.closest("[data-go]")){menuOpen=false;renderMenu();renderNav()}};
 }
 document.addEventListener("click",e=>{const g=e.target.closest("[data-go]");if(g){e.preventDefault();go(g.dataset.go)}});
-function render(){document.body.classList.toggle("focus",view==="practice"&&!!P.run);renderNav();if(XM){renderExam();return}const app=$("#app");({home:vHome,learn:vLearn,plan:vPlan,words:vWords,practice:vPractice,sim:vSim,past:vPast,log:vLog}[view]||vHome)(app)}
+function render(){document.body.classList.toggle("focus",(view==="practice"&&!!P.run)||(view==="words"&&((W.mode==="quiz"&&W.quiz&&W.quiz.i<W.quiz.items.length)||(W.mode==="cloze"&&W.cz&&W.cz.i<W.cz.items.length))));renderNav();if(XM){renderExam();return}const app=$("#app");({home:vHome,learn:vLearn,plan:vPlan,words:vWords,practice:vPractice,sim:vSim,past:vPast,log:vLog}[view]||vHome)(app)}
 
 /* ---------- progress analytics ---------- */
 function streak(){
@@ -720,9 +730,9 @@ function vHome(app){
   </details>
 
   <section class="card stack" id="account">
-    <h3>החשבון וההתקדמות</h3>
+    <h3>${FB&&!FB.user?"שמירת ההתקדמות":"החשבון שלך"}</h3>
     ${FB?accountHtml():`<p class="small">${remote?"ההתקדמות נשמרת בחשבון Claude שלך ומסונכרנת בין המכשירים.":"ההתקדמות נשמרת בדפדפן הזה."} כדאי לשמור גיבוי מדי פעם.</p>`}
-    <div class="row"><button class="btn sm ghost" id="bk">העתק גיבוי</button><button class="btn sm ghost" id="rs">שחזור מגיבוי</button></div>
+    <div class="row" style="border-top:1px solid var(--rule);padding-top:12px"><span class="small muted" style="flex:1">גיבוי ידני</span><button class="linkbtn" id="bk">העתקה</button><button class="linkbtn" id="rs">שחזור</button></div>
     <div id="bkArea"></div>
   </section>`;
   app.querySelectorAll("[data-quick]").forEach(b=>b.onclick=()=>{const k=b.dataset.quick;
@@ -841,6 +851,10 @@ function grade(word,knew){
 }
 function vWords(app){
   const sc=srsCounts();
+  const drill=(W.mode==="quiz"&&W.quiz&&W.quiz.i<W.quiz.items.length)||(W.mode==="cloze"&&W.cz&&W.cz.i<W.cz.items.length);
+  if(drill){app.innerHTML=`<div id="wbody" class="stack"></div>`;const body=$("#wbody");W.mode==="quiz"?quizView(body):clozeView(body);
+    const row=body.querySelector(".row");if(row){row.insertAdjacentHTML("afterbegin",`<button class="btn sm ghost" id="wquit" aria-label="יציאה מהתרגול" style="padding:7px 10px">${ico("x")}</button>`);row.style.gap="12px";$("#wquit").onclick=()=>{W.quiz=null;W.cz=null;W.mode="cards";buildQueue();render()}}
+    return;}
   app.innerHTML=`<div class="head"><h2>מילים</h2></div><div class="seg tabs">${[["cards","כרטיסיות"],["cloze","השלמה בהקשר"],["quiz","בוחן תרגום"],["list","רשימת המילים"]].map(([k,t])=>`<button class="chip" data-m="${k}" aria-pressed="${W.mode===k}">${t}</button>`).join("")}</div>
   <div class="badges"><span class="badge">${C.vocab.length} מילים</span><span class="badge" style="color:var(--good)">${sc.known} נלמדו</span><span class="badge" style="color:var(--primary)">${sc.learning} בלמידה</span><span class="badge" style="color:var(--orange)">${sc.due} לחזרה היום</span></div>
   <div id="wbody" class="stack"></div>`;
@@ -852,7 +866,7 @@ function vWords(app){
 }
 function boxes(b){return `<div class="boxes" aria-label="קופסה ${b} מתוך 6">${[1,2,3,4,5,6].map(i=>`<i class="${i<=b?"on":""}"></i>`).join("")}</div>`}
 function cardsView(body){
-  if(!W.cur){body.innerHTML=`<div class="flash"><h2>סיימת את הכרטיסיות להיום</h2><p class="muted">${W.done?`עברת על ${W.done} כרטיסיות. `:""}מחר יחכו כרטיסיות חדשות לחזרה.</p><div class="row" style="justify-content:center"><button class="btn" id="more">עוד 10 מילים חדשות</button><button class="btn ghost" data-go="practice">לתרגול שאלות</button></div></div>`;
+  if(!W.cur){body.innerHTML=`<div class="flash"><span class="lnum done" style="width:64px;height:64px;border-radius:50%"><svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="${ICON.check}"/></svg></span><h2>סיימת את הכרטיסיות להיום!</h2><p class="muted">${W.done?`עברת על ${W.done} כרטיסיות. `:""}מחר יחכו כרטיסיות חדשות לחזרה.</p></div><div class="card-actions"><button class="btn ghost" data-go="practice">לתרגול שאלות</button><button class="btn" id="more">עוד 10 מילים</button></div>`;
     $("#more").onclick=()=>{S.settings.daily+=10;save();buildQueue();render()};return}
   const v=VBY[W.cur]; const s=S.srs[W.cur];
   body.innerHTML=`<div class="flash">
@@ -883,14 +897,14 @@ function quizView(body){
     W.quiz={items:shuffle(pool).slice(0,10).map(v=>{const d=shuffle(C.vocab.filter(x=>x.w!==v.w&&x.pos===v.pos)).slice(0,3);while(d.length<3)d.push(C.vocab[Math.floor(Math.random()*C.vocab.length)]);const o=shuffle([v,...d]);return{v,o,a:o.indexOf(v),pick:null}}),i:0,score:0};
   }
   const Q=W.quiz;
-  if(Q.i>=Q.items.length){body.innerHTML=`<div class="flash"><h2>${Q.score}/10</h2><p class="muted">מילים שטעית בהן חזרו לקופסה 1 ויופיעו שוב היום.</p><button class="btn" id="again">בוחן חדש</button></div>`;$("#again").onclick=()=>{W.quiz=null;render()};return}
+  if(Q.i>=Q.items.length){body.innerHTML=resultCard(Q.score,Q.items.length,null,`<p class="small muted" style="text-align:center">מילים שטעית בהן חזרו לכרטיסיות של היום.</p><button class="btn wide" id="again">בוחן חדש</button>`);$("#again").onclick=()=>{W.quiz=null;render()};return}
   const it=Q.items[Q.i];
-  body.innerHTML=`<div class="q"><div class="q-meta"><span>שאלה ${Q.i+1}/10</span><span class="num">${Q.score} ✓</span></div>
+  body.innerHTML=`<div class="row" style="flex-wrap:nowrap"><div class="progress"><i style="width:${100*(Q.i+(it.pick!=null?1:0))/Q.items.length}%"></i></div><span class="num small muted">${Q.i+1}/${Q.items.length}</span></div><div class="q"><div class="q-meta"><span>מה התרגום?</span></div>
   <div class="stem" style="font-size:1.8rem;text-align:center">${esc(it.v.w)}</div>
   <div class="opts" style="direction:rtl">${it.o.map((o,i)=>`<button class="opt ${it.pick!=null?(i===it.a?"ok":i===it.pick?"no":""):""}" data-i="${i}" ${it.pick!=null?"disabled":""} style="font-family:var(--body);text-align:right"><span class="bub">${i+1}</span><span>${esc(o.he)}</span></button>`).join("")}</div>
-  ${it.pick!=null?`<div class="explain"><span class="en">${esc(it.v.ex||"")}</span></div><button class="btn" id="nx" style="align-self:flex-start">הבא</button>`:""}</div>`;
+  </div>${it.pick!=null?fbSheet(it.pick===it.a,it.pick===it.a?"נכון!":`${esc(it.v.w)} = ${esc(it.v.he)}`,`<span class="en">${esc(it.v.ex||"")}</span>`,"nx","המשך"):""}`;
   body.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{it.pick=+b.dataset.i;const ok=it.pick===it.a;if(ok)Q.score++;const k=it.v.w.toLowerCase();if(!ok){S.srs[k]={b:0,due:today()};save()}render()});
-  const nx=$("#nx"); if(nx) nx.onclick=()=>{Q.i++;render()};
+  const nx=$("#nx"); if(nx){nx.onclick=()=>{Q.i++;render();window.scrollTo(0,0)};nx.focus({preventScroll:true})}
 }
 // vocabulary in context: the card's own example sentence with the word blanked, 4 same-POS options (exam format)
 function clozeView(body){
@@ -907,14 +921,14 @@ function clozeView(body){
   }
   const Z=W.cz;
   if(!Z.items.length){body.innerHTML=`<div class="empty">אין מספיק מילים לתרגול הזה.</div>`;return}
-  if(Z.i>=Z.items.length){body.innerHTML=`<div class="flash"><h2>${Z.score}/${Z.items.length}</h2><p class="muted">מילים שטעית בהן חזרו לכרטיסיות של היום.</p><button class="btn" id="again">סבב חדש</button></div>`;$("#again").onclick=()=>{W.cz=null;render()};return}
+  if(Z.i>=Z.items.length){body.innerHTML=resultCard(Z.score,Z.items.length,null,`<p class="small muted" style="text-align:center">מילים שטעית בהן חזרו לכרטיסיות של היום.</p><button class="btn wide" id="again">סבב חדש</button>`);$("#again").onclick=()=>{W.cz=null;render()};return}
   const it=Z.items[Z.i];
-  body.innerHTML=`<div class="q"><div class="q-meta"><span>השלמה בהקשר · ${Z.i+1}/${Z.items.length}</span><span class="num">${Z.score} ✓</span></div>
+  body.innerHTML=`<div class="row" style="flex-wrap:nowrap"><div class="progress"><i style="width:${100*(Z.i+(it.pick!=null?1:0))/Z.items.length}%"></i></div><span class="num small muted">${Z.i+1}/${Z.items.length}</span></div><div class="q"><div class="q-meta"><span>איזו מילה משלימה את המשפט?</span></div>
   <div class="stem">${stemHtml(it.q)}</div>
   <div class="opts">${it.o.map((o,k)=>`<button class="opt ${it.pick!=null?(k===it.a?"ok":k===it.pick?"no":""):""}" data-k="${k}" ${it.pick!=null?"disabled":""}><span class="bub">${k+1}</span><span>${esc(o.w)}</span></button>`).join("")}</div>
-  ${it.pick!=null?`<div class="explain">${it.o.map(o=>`<span><b class="en">${esc(o.w)}</b> = ${esc(o.he)}</span>`).join("")}</div><button class="btn" id="nx" style="align-self:flex-start">הבא</button>`:""}</div>`;
+  </div>${it.pick!=null?fbSheet(it.pick===it.a,it.pick===it.a?"נכון!":"לא נכון",it.o.map(o=>`<span><b class="en">${esc(o.w)}</b> = ${esc(o.he)}</span>`).join(""),"nx","המשך"):""}`;
   body.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{it.pick=+b.dataset.k;const ok=it.pick===it.a;if(ok)Z.score++;else{S.srs[it.v.w.toLowerCase()]={b:0,due:today()};}logWords(1);save();render()});
-  const nx=$("#nx"); if(nx){nx.onclick=()=>{Z.i++;render()};nx.focus({preventScroll:true})}
+  const nx=$("#nx"); if(nx){nx.onclick=()=>{Z.i++;render();window.scrollTo(0,0)};nx.focus({preventScroll:true})}
 }
 function listView(body){
   const q=W.q.trim().toLowerCase(); const t=today();
@@ -933,6 +947,17 @@ function listView(body){
 /* =========================================================
    QUESTION RENDERING (shared)
    ========================================================= */
+// slide-up feedback panel shared by every exercise (same look as practice)
+function fbSheet(ok,title,body,btnId,btnLabel){
+  return `<div class="fb-pad"></div><div class="fb ${ok?"ok":"no"}" role="status"><div class="fb-in fb-scroll"><div class="fb-title"><span class="badge-i"><svg viewBox="0 0 24 24"><path d="${ok?ICON.check:ICON.x}"/></svg></span>${title}</div>${body?`<div class="explain">${body}</div>`:""}</div><div class="fb-in fb-foot"><button class="btn wide ${ok?"good":"bad"}" id="${btnId}">${btnLabel}</button></div></div>`;
+}
+// end-of-session card: ring, message, stats, actions
+function resultCard(score,total,stats,actions){
+  const p=total?score/total:0;
+  return `<section class="card stack" style="align-items:center;text-align:center;padding:28px 18px">${ringBig(score,total)}<h2>${p>=.8?"עבודה מצוינת!":p>=.5?"יפה, ממשיכים להתקדם":"כל טעות היא שיעור"}</h2><span class="muted">${score} מתוך ${total} נכונות</span></section>
+  ${stats?`<section class="sumrow">${stats.map(([b,t])=>`<div class="sum"><b>${b}</b><span>${t}</span></div>`).join("")}</section>`:""}
+  <div class="stack">${actions}</div>`;
+}
 function stemHtml(q){return esc(q).replace(/_{2,}/g,'<span class="blank"></span>')}
 function wordsInOptions(it){const out=[];(it.o||[]).forEach(o=>String(o).toLowerCase().split(/[^a-z-]+/).forEach(w=>{if(VBY[w]&&!out.includes(w))out.push(w)}));return out}
 function catChips(key,cur){return `<div class="cat"><span class="small muted">למה טעיתי?</span>${CATS.map(([k,t])=>`<button class="chip" data-cat="${k}" data-key="${esc(key)}" aria-pressed="${cur===k}">${t}</button>`).join("")}</div>`}
@@ -1048,9 +1073,7 @@ function practiceRun(app){
   if(!cur){ // summary
     stopTimer(); ttsStop();
     const n=Object.keys(R.pick).length; const wrong=R.items.filter((x,i)=>R.pick[i]!==undefined&&!isCorrect(x.it,R.pick[i])).length;
-    app.innerHTML=`<section class="card stack" style="align-items:center;text-align:center;padding:28px">${ringBig(R.score,R.items.length)}<h2>${R.items.length&&R.score/R.items.length>=.8?"עבודה מצוינת!":R.items.length&&R.score/R.items.length>=.5?"יפה, ממשיכים להתקדם":"כל טעות היא שיעור"}</h2><span class="muted">${R.score} מתוך ${R.items.length} נכונות</span></section>
-    <div class="grid"><div class="card tile"><b>${R.items.length?Math.round(100*R.score/R.items.length):0}%</b><span>דיוק</span></div><div class="card tile"><b>${Math.round((Date.now()-R.t0)/60000)}′</b><span>זמן</span></div><div class="card tile"><b>${wrong}</b><span>טעויות שנכנסו ליומן</span></div></div>
-    <div class="row"><button class="btn" id="again">תרגול נוסף</button><button class="btn ghost" data-go="log">ליומן הטעויות</button><button class="btn ghost" data-go="words">לכרטיסיות</button></div>`;
+    app.innerHTML=resultCard(R.score,R.items.length,[[`${Math.max(1,Math.round((Date.now()-R.t0)/60000))}′`,"זמן"],[wrong,"טעויות ליומן"],[streak(),"ימי רצף"]],`<button class="btn wide" id="again">תרגול נוסף</button><div class="row" style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><button class="btn ghost" data-go="log">ליומן הטעויות</button><button class="btn ghost" data-go="home">לדף הבית</button></div>`);
     $("#again").onclick=()=>{P.run=null;render()}; return;
   }
   const it=cur.it, i=R.i, pick=R.pick[i], answered=pick!==undefined, ok=answered?isCorrect(it,pick):null;
@@ -1377,11 +1400,11 @@ function vLearn(app){
   const L=LN.cur&&C.lessons.find(l=>l.id===LN.cur);
   if(L){
     const i=C.lessons.indexOf(L), nx=C.lessons[i+1];
-    app.innerHTML=`<div class="row" style="justify-content:space-between"><button class="btn sm ghost" id="back">→ כל השיעורים</button><span class="muted small">שיעור ${i+1} מתוך ${C.lessons.length}</span></div>
-    <article class="lesson"><h1>${inl(L.title)}</h1>${L.summary?`<p class="muted">${inl(L.summary)}</p>`:""}${L.blocks.map(blockHtml).join("")}</article>
-    <div class="row"><button class="btn" id="done">${S.lessons[L.id]?"✓ סומן כנלמד":"סיימתי את השיעור"}</button>${nx?`<button class="btn ghost" id="nx">לשיעור הבא: ${inl(nx.title)}</button>`:""}</div>`;
+    app.innerHTML=`<div class="row" style="flex-wrap:nowrap;gap:12px"><button class="btn sm ghost" id="back" aria-label="כל השיעורים" style="padding:7px 10px">${ico("x")}</button><div class="progress"><i style="width:${100*(i+1)/C.lessons.length}%"></i></div><span class="num small muted">${i+1}/${C.lessons.length}</span></div>
+    <article class="lesson"><span class="small muted" style="font-weight:700;color:var(--primary)">שיעור ${i+1}</span><h1>${inl(L.title)}</h1>${L.summary?`<p class="muted" style="font-size:1.05rem">${inl(L.summary)}</p>`:""}${L.blocks.map(blockHtml).join("")}</article>
+    <div class="lesson-bar">${nx?`<button class="btn wide" id="nx">${S.lessons[L.id]?"לשיעור הבא":"סיימתי · לשיעור הבא"}</button>`:`<button class="btn wide good" id="done">${S.lessons[L.id]?"✓ סיימת את כל השיעורים":"סיימתי את השיעור האחרון"}</button>`}</div>`;
+    const dn=$("#done"); if(dn) dn.onclick=()=>{S.lessons[L.id]=Date.now();save();toast("כל הכבוד! סיימת את כל השיעורים");LN.cur=null;render();window.scrollTo(0,0)};
     $("#back").onclick=()=>{LN.cur=null;render();window.scrollTo(0,0)};
-    $("#done").onclick=()=>{S.lessons[L.id]=Date.now();save();render()};
     const n=$("#nx"); if(n) n.onclick=()=>{S.lessons[L.id]=S.lessons[L.id]||Date.now();save();LN.cur=nx.id;render();window.scrollTo(0,0)};
     return;
   }
